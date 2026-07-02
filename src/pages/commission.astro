@@ -1,0 +1,63 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="依頼 | 輪廻タヲ">
+  <div class="pt-24 pb-16 px-5 md:px-8 min-h-screen">
+    <div class="max-w-xl mx-auto">
+
+      <div class="py-12 mb-16">
+        <h1 class="font-mincho text-text-primary text-3xl font-light tracking-[0.3em]">依頼について</h1>
+      </div>
+
+      <p class="text-text-muted text-[13px] font-light leading-[2.2] mb-16">
+        制作依頼はご相談ベースで受け付けています。<br />
+        まずどのようなご要望かをお気軽にお聞かせください。
+      </p>
+
+      <div class="mb-16">
+        <p class="text-text-faint text-[10px] tracking-[0.4em] mb-8 font-light">制作可能なもの</p>
+        <ul class="space-y-6">
+          {[
+            ['イラスト', 'キャラクターデザイン、アイコン、サムネイルなど'],
+            ['音楽', 'BGM、楽曲制作、歌もの（AI歌声含む）'],
+            ['映像 / MV', 'ミュージックビデオ、ショート動画'],
+            ['IP広告', 'CD風・雑誌表紙風の架空コンテンツ制作'],
+          ].map(([title, desc]) => (
+            <li class="border-b border-accent-line pb-6">
+              <p class="font-mincho text-text-primary text-sm font-light tracking-wider mb-1">{title}</p>
+              <p class="text-text-faint text-[12px] font-light">{desc}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="border-l border-accent-red pl-5 mb-16">
+        <p class="text-text-muted text-[13px] font-light leading-[2.2]">
+          料金はご依頼内容・用途・納期によって変わるため、現在はご相談ベースで設定しています。
+        </p>
+      </div>
+
+      <div>
+        <p class="text-text-faint text-[10px] tracking-[0.4em] mb-8 font-light">連絡方法</p>
+        <div class="flex flex-col gap-4">
+          <a
+            href="https://x.com/TaoRInne"
+            target="_blank"
+            rel="noopener"
+            class="py-4 text-center text-text-muted text-[12px] tracking-[0.3em] font-light border border-accent-line hover:border-text-faint hover:text-text-primary transition-all duration-300"
+          >
+            X（@TaoRInne）でDMを送る
+          </a>
+          <a
+            href="mailto:rinne.kairow@gmail.com"
+            class="py-4 text-center text-text-muted text-[12px] tracking-[0.3em] font-light border border-accent-line hover:border-text-faint hover:text-text-primary transition-all duration-300"
+          >
+            メールで問い合わせる
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</Layout>

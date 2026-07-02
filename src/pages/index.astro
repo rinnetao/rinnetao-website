@@ -1,0 +1,248 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const videos = [
+  { id: 'ujpMwPWFooQ', title: '魔女なの花ちゃん' },
+  { id: 'BzoCzRS3O7M', title: '狂宴' },
+  { id: 'IVguUeSzanY', title: '羅針盤' },
+  { id: '2B4xwbvZxTE', title: '深海' },
+  { id: 'w5nOl6GVUq8', title: 'PARADOX' },
+  { id: 'DstG8uTv8yY', title: 'ANGEL' },
+];
+---
+
+<Layout>
+
+  <!-- ===== HERO：スライドショーのみ ===== -->
+  <section class="md:mx-28 md:mt-2">
+    <div class="relative aspect-[4/3] md:aspect-video overflow-hidden">
+      <div id="hero-slides" class="absolute inset-0">
+        {Array.from({ length: 10 }, (_, i) => (
+          <div class:list={['hero-slide absolute inset-0 transition-opacity duration-1000', i === 0 ? 'opacity-100' : 'opacity-0']}>
+            <img
+              src={`/hero-${i + 1}.webp`}
+              alt=""
+              class="w-full h-full object-cover"
+              loading={i === 0 ? 'eager' : 'lazy'}
+            />
+          </div>
+        ))}
+      </div>
+      <button id="hero-prev" class="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-black/50 flex items-center justify-center text-white/80 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="前へ"><svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button id="hero-next" class="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-black/50 flex items-center justify-center text-white/80 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="次へ"><svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="2,2 8,8 2,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div id="hero-dots" class="absolute bottom-4 left-0 right-0 z-20 flex justify-center gap-2">
+        {Array.from({ length: 10 }, (_, i) => i).map(i => (
+          <button data-hero-dot={i}
+            class:list={['hero-dot rounded-full h-px transition-all duration-500', i === 0 ? 'w-5 bg-white/60' : 'w-2 bg-white/20']}
+            aria-label={`スライド ${i+1}`}
+          ></button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== コンテンツ ===== -->
+  <div class="bg-[#1a1814] px-4 md:px-28 py-6 space-y-3">
+
+    <!-- About -->
+    <div id="about" class="bg-[#131110] rounded-sm p-5 border border-white/[0.04] flex flex-col gap-5">
+      <div class="flex items-center gap-4">
+        <a href="https://x.com/TaoRInne" target="_blank" rel="noopener" class="hover:opacity-70 transition-opacity duration-300 shrink-0">
+          <img src="/icon.webp" alt="輪廻タヲ" class="w-12 h-12 rounded-full object-cover" />
+        </a>
+        <div>
+          <p class="text-[9px] font-light tracking-[0.5em] text-text-muted/40 uppercase mb-1 font-mincho">AI Music · Illustration · Video</p>
+          <h1 class="font-mincho text-lg font-light tracking-[0.25em] text-text-primary">
+            輪廻タヲ <span class="text-xs text-text-muted/40 tracking-widest">/ Rinne Tao</span>
+          </h1>
+        </div>
+      </div>
+      <div class="space-y-3 text-text-muted text-[12px] font-light leading-[2] font-gothic">
+        <p>AIによる創作参加に賛否両論があることはわかっている。それでも続けている。</p>
+        <p>音楽制作を15年以上やってきた。自分の耳が何かを「良い」と感じるとき、その判断には長い年月が積み上がっている。AIを使った制作でも、その感覚は変わらずに動いている。</p>
+        <p class="border-l border-[#8b1a1a]/60 pl-3 text-text-muted/80">
+          「聖性の剥落」— 完璧でも純粋でもない。ボロボロになりながら続けることに美しさを見出す。
+        </p>
+      </div>
+      <dl class="space-y-2 text-[11px] font-light border-t border-white/[0.04] pt-4">
+        {[
+          ['活動開始', '2025年10月〜'],
+          ['制作領域', 'AIイラスト / AI音楽 / AI映像'],
+        ].map(([label, value]) => (
+          <div class="flex gap-4">
+            <dt class="text-text-faint w-16 shrink-0">{label}</dt>
+            <dd class="text-text-muted">{value}</dd>
+          </div>
+        ))}
+      </dl>
+      <div class="flex flex-wrap gap-5 border-t border-white/[0.04] pt-4">
+        {[
+          { label: 'X',           href: 'https://x.com/TaoRInne',                                          domain: 'x.com' },
+          { label: 'YouTube',     href: 'https://www.youtube.com/@TaoRInne',                               domain: 'youtube.com' },
+          { label: 'Spotify',     href: 'https://open.spotify.com/intl-ja/artist/6cgNohFINOQDxktASQzmQy', domain: 'spotify.com' },
+          { label: 'Apple Music', href: 'https://music.apple.com/us/artist/rinne-tao/1863623820',          domain: 'music.apple.com' },
+          { label: 'Instagram',   href: 'https://www.instagram.com/taorinne/',                             domain: 'instagram.com' },
+          { label: 'TikTok',      href: 'https://www.tiktok.com/@rinnetao_ai',                             domain: 'tiktok.com' },
+          { label: 'note',        href: 'https://note.com/rinnetao',                                       domain: 'note.com' },
+        ].map(({ label, href, domain }) => (
+          <a href={href} target="_blank" rel="noopener"
+            class="hover:opacity-70 transition-opacity duration-300"
+            aria-label={label}>
+            <img
+              src={`https://www.google.com/s2/favicons?domain=${domain}&sz=32`}
+              alt={label}
+              class="w-5 h-5"
+            />
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <!-- Gallery -->
+    <div class="bg-[#111210] rounded-sm p-5 border border-white/[0.04]">
+      <div class="flex items-baseline justify-between mb-4">
+        <h2 class="font-mincho text-sm font-light tracking-[0.35em] text-text-primary">Gallery</h2>
+        <a href="/gallery" class="text-text-faint text-[10px] tracking-[0.2em] font-light hover:text-text-muted transition-colors duration-300">すべて →</a>
+      </div>
+      <div class="grid grid-cols-3 md:grid-cols-6 gap-1">
+        {[
+          { file: 'char_131',     label: 'Character',  cat: 'char' },
+          { file: 'angel_80',     label: 'Angel',      cat: 'angel' },
+          { file: 'chaos_65',     label: 'Chaos',      cat: 'chaos' },
+          { file: 'landscape_09', label: 'Landscape',  cat: 'landscape' },
+          { file: 'jitsusya_20',  label: 'Photo',      cat: 'jitsusya' },
+          { file: 'ipcd_16',      label: 'Commercial', cat: 'ipcd' },
+        ].map(({ file, label, cat }) => (
+          <a href={`/gallery?cat=${cat}`} class="aspect-square relative overflow-hidden bg-[#1e1c18] group cursor-pointer block">
+            <img
+              src={`/gallery/${file}.webp`}
+              alt={label}
+              loading="lazy"
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/55 flex items-center justify-center">
+              <span class="text-white text-[13px] tracking-[0.3em] font-light font-mincho drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">{label}</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <!-- Video -->
+    <div id="video" class="bg-[#0e1210] rounded-sm p-5 border border-white/[0.04]">
+      <h2 class="font-mincho text-sm font-light tracking-[0.35em] text-text-primary mb-4">Video</h2>
+      <div class="relative mb-1">
+        <button id="top-prev" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-8 h-full flex items-center justify-center text-text-faint hover:text-text-muted transition-colors bg-gradient-to-r from-[#0e1210] to-transparent text-lg" aria-label="前へ">‹</button>
+        <div class="overflow-hidden mx-8">
+          <div class="flex gap-1">
+            {videos.map((v, i) => (
+              <button data-id={v.id}
+                class:list={['top-thumb flex-shrink-0 w-[calc(33.333%-3px)] md:w-[calc(16.666%-1px)] aspect-video relative overflow-hidden',
+                  i === 0 ? 'ring-1 ring-white/30' : 'opacity-40 hover:opacity-70 transition-opacity']}
+                aria-label={v.title}>
+                <img src={`https://img.youtube.com/vi/${v.id}/mqdefault.jpg`} alt={v.title} class="w-full h-full object-cover" />
+              </button>
+            ))}
+          </div>
+        </div>
+        <button id="top-next" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-8 h-full flex items-center justify-center text-text-faint hover:text-text-muted transition-colors bg-gradient-to-l from-[#0e1210] to-transparent text-lg" aria-label="次へ">›</button>
+      </div>
+      <div class="aspect-video w-full md:max-w-[896px] mx-auto mt-3">
+        <iframe id="top-player-iframe"
+          src={`https://www.youtube.com/embed/${videos[0].id}?rel=0`}
+          title={videos[0].title}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen class="w-full h-full"></iframe>
+      </div>
+    </div>
+
+    <!-- Music -->
+    <div id="music" class="bg-[#131110] rounded-sm p-5 border border-white/[0.04]">
+      <h2 class="font-mincho text-sm font-light tracking-[0.35em] text-text-primary mb-4">Music</h2>
+      <iframe
+        src="https://open.spotify.com/embed/artist/6cgNohFINOQDxktASQzmQy?utm_source=generator&theme=0"
+        width="100%"
+        height="352"
+        frameborder="0"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy"
+        class="rounded-sm"
+      ></iframe>
+      <div class="flex items-center gap-5 mt-4 pt-4 border-t border-white/[0.04]">
+        <a href="https://open.spotify.com/intl-ja/artist/6cgNohFINOQDxktASQzmQy" target="_blank" rel="noopener" class="hover:opacity-70 transition-opacity duration-300" aria-label="Spotify">
+          <img src="https://www.google.com/s2/favicons?domain=spotify.com&sz=32" alt="Spotify" class="w-5 h-5" />
+        </a>
+        <a href="https://music.apple.com/us/artist/rinne-tao/1863623820" target="_blank" rel="noopener" class="hover:opacity-70 transition-opacity duration-300" aria-label="Apple Music">
+          <img src="https://www.google.com/s2/favicons?domain=music.apple.com&sz=32" alt="Apple Music" class="w-5 h-5" />
+        </a>
+        <p class="text-text-faint text-[10px] font-light tracking-[0.15em] font-gothic">各種ストリーミングで配信中 — <span class="text-text-muted">"RInne Tao"</span> で検索</p>
+      </div>
+    </div>
+
+    <!-- 依頼 -->
+    <div class="bg-[#130f0e] rounded-sm p-5 border border-white/[0.04]">
+      <h2 class="font-mincho text-sm font-light tracking-[0.35em] text-text-primary mb-4">依頼</h2>
+      <p class="text-text-muted text-[12px] font-light leading-[2] font-gothic mb-5">
+        イラスト・音楽・映像制作の依頼を受け付けています。<br />料金はご相談ベース。
+      </p>
+      <a href="/commission" class="inline-block text-text-faint text-[10px] tracking-[0.3em] font-light border-b border-text-faint/40 pb-px hover:text-text-muted transition-colors duration-300">
+        お問い合わせ
+      </a>
+    </div>
+
+  </div>
+
+</Layout>
+
+<script>
+  // ===== Hero スライドショー =====
+  const slides = document.querySelectorAll<HTMLElement>('.hero-slide');
+  const heroDots = document.querySelectorAll<HTMLButtonElement>('.hero-dot');
+  let heroIndex = 0;
+  let heroTimer: ReturnType<typeof setInterval>;
+
+  function goTo(index: number) {
+    if (slides.length === 0) return;
+    slides[heroIndex].classList.replace('opacity-100', 'opacity-0');
+    heroDots[heroIndex]?.classList.remove('w-6', 'bg-text-muted/70');
+    heroDots[heroIndex]?.classList.add('w-2', 'bg-text-faint/50');
+    heroIndex = (index + slides.length) % slides.length;
+    slides[heroIndex].classList.replace('opacity-0', 'opacity-100');
+    heroDots[heroIndex].classList.remove('w-2', 'bg-text-faint/50');
+    heroDots[heroIndex].classList.add('w-6', 'bg-text-muted/70');
+  }
+
+  function startTimer() {
+    heroTimer = setInterval(() => goTo(heroIndex + 1), 6000);
+  }
+
+  heroDots.forEach((dot, i) => {
+    dot.addEventListener('click', () => { clearInterval(heroTimer); goTo(i); startTimer(); });
+  });
+
+  document.getElementById('hero-prev')?.addEventListener('click', () => { clearInterval(heroTimer); goTo(heroIndex - 1); startTimer(); });
+  document.getElementById('hero-next')?.addEventListener('click', () => { clearInterval(heroTimer); goTo(heroIndex + 1); startTimer(); });
+
+  startTimer();
+
+  // ===== Video スライダー =====
+  const iframe = document.getElementById('top-player-iframe') as HTMLIFrameElement;
+  const thumbs = document.querySelectorAll<HTMLButtonElement>('.top-thumb');
+  let current = 0;
+
+  function select(index: number) {
+    const btn = thumbs[index];
+    if (!btn) return;
+    iframe.src = `https://www.youtube.com/embed/${btn.dataset.id}?rel=0&autoplay=1`;
+    thumbs.forEach((b, i) => {
+      b.classList.toggle('ring-1', i === index);
+      b.classList.toggle('ring-white/30', i === index);
+      b.classList.toggle('opacity-40', i !== index);
+    });
+    current = index;
+  }
+
+  thumbs.forEach((btn, i) => btn.addEventListener('click', () => select(i)));
+  document.getElementById('top-prev')?.addEventListener('click', () => select((current - 1 + thumbs.length) % thumbs.length));
+  document.getElementById('top-next')?.addEventListener('click', () => select((current + 1) % thumbs.length));
+</script>
