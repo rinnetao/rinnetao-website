@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
 
 const videos = [
   { id: 'ujpMwPWFooQ', title: '魔女なの花ちゃん' },
@@ -10,27 +11,46 @@ const videos = [
   { id: 'DstG8uTv8yY', title: 'ANGEL' },
 ];
 
+function formatDate(d: Date) {
+  return d.toISOString().slice(0, 10).replace(/-/g, '.');
+}
+
+const newsPosts = (await getCollection('news'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
 const news = [
-  { date: '2026.07.05', text: 'サイトを公開しました。', link: false },
+  { date: formatDate(new Date('2026-07-05')), text: 'サイトを公開しました。' },
+  ...newsPosts.map(p => ({ date: formatDate(p.data.date), text: p.data.newsText, href: `/news/${p.slug}` })),
 ];
 
-const heroImageCount = 10;
-const heroSlideTotal = heroImageCount + 1; // +1 = NEWSバナー分
+// hero-11(天ロックのお知らせ用サムネイル)はオープニング演出直後に見てもらえるよう先頭に配置。タップでニュース詳細へ
+const heroImages = [
+  { file: 'hero-11.webp', href: '/news/tenrock-2026' },
+  ...Array.from({ length: 10 }, (_, i) => ({ file: `hero-${i + 1}.webp` })),
+];
+const heroSlideTotal = heroImages.length;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: '輪廻タヲ',
+  alternateName: 'Rinne Tao',
+  url: 'https://rinnetao.com',
+  image: 'https://rinnetao.com/icon.webp',
+  jobTitle: 'AI Contents Creator',
+  sameAs: [
+    'https://x.com/TaoRInne',
+    'https://www.youtube.com/@TaoRInne',
+    'https://open.spotify.com/intl-ja/artist/6cgNohFINOQDxktASQzmQy',
+    'https://music.apple.com/us/artist/rinne-tao/1863623820',
+    'https://www.instagram.com/taorinne/',
+    'https://www.tiktok.com/@rinnetao_ai',
+    'https://note.com/rinnetao',
+  ],
+};
 ---
 
-<Layout>
-
-  <!-- ▼▼▼ 開発用テストボタン：本実装が固まったら削除する ▼▼▼ -->
-  <button id="opening-test-btn" class="fixed bottom-4 left-4 z-[300] px-3 py-2 bg-red-600 text-white text-[10px] tracking-wider rounded-sm shadow-lg" type="button">
-    開発用：オープニングを再生
-  </button>
-  <script is:inline>
-    document.getElementById('opening-test-btn')?.addEventListener('click', function () {
-      localStorage.removeItem('rt-intro-seen');
-      window.location.reload();
-    });
-  </script>
-  <!-- ▲▲▲ 開発用テストボタン ▲▲▲ -->
+<Layout jsonLd={jsonLd}>
 
   <!-- ===== オープニング（初回訪問時のみ） ===== -->
   <div id="opening" class="fixed inset-0 z-[200] bg-black flex items-center justify-center cursor-pointer">
@@ -69,24 +89,28 @@ const heroSlideTotal = heroImageCount + 1; // +1 = NEWSバナー分
   </script>
 
   <!-- ===== HERO：スライドショーのみ ===== -->
-  <section class="md:mx-28 md:mt-2">
+  <section class="pt-14 md:pt-24 md:mx-28">
     <div id="hero-swipe-area" class="relative aspect-[4/3] md:aspect-video overflow-hidden touch-pan-y">
       <div id="hero-track" class="absolute inset-0 flex">
-        <div class="hero-slide w-full h-full shrink-0">
-          <div id="hero-news-slide" role="button" tabindex="0" aria-label="お知らせを見る" class="w-full h-full flex flex-col items-center justify-center gap-4 bg-[#14110d] text-center px-8 cursor-pointer">
-            <p class="text-[10px] tracking-[0.5em] text-text-faint font-mincho uppercase">News</p>
-            <p class="font-mincho text-text-primary text-base md:text-xl font-light tracking-wider max-w-md leading-[1.8]">{news[0]?.text ?? 'お知らせ'}</p>
-            <span class="text-[10px] tracking-[0.3em] text-text-faint border-b border-text-faint/40 pb-px">すべて見る</span>
-          </div>
-        </div>
-        {Array.from({ length: heroImageCount }, (_, i) => (
+        {heroImages.map(({ file, href }, i) => (
           <div class="hero-slide w-full h-full shrink-0">
-            <img
-              src={`/hero-${i + 1}.webp`}
-              alt=""
-              class="w-full h-full object-cover"
-              loading={i === 0 ? 'eager' : 'lazy'}
-            />
+            {href ? (
+              <a href={href} class="block w-full h-full">
+                <img
+                  src={`/${file}`}
+                  alt=""
+                  class="w-full h-full object-cover"
+                  loading={i === 0 ? 'eager' : 'lazy'}
+                />
+              </a>
+            ) : (
+              <img
+                src={`/${file}`}
+                alt=""
+                class="w-full h-full object-cover"
+                loading={i === 0 ? 'eager' : 'lazy'}
+              />
+            )}
           </div>
         ))}
       </div>
@@ -103,36 +127,20 @@ const heroSlideTotal = heroImageCount + 1; // +1 = NEWSバナー分
     </div>
   </section>
 
-  <!-- ===== ニュース ポップアップ ===== -->
-  <div id="news-modal" class="fixed inset-0 z-[150] hidden items-center justify-center bg-black/90 px-6" role="dialog" aria-modal="true">
-    <div class="bg-[#131110] border border-white/10 rounded-sm max-w-md w-full max-h-[80vh] overflow-y-auto p-6 relative">
-      <button id="news-modal-close" class="absolute top-4 right-4 text-text-faint hover:text-text-primary text-2xl leading-none transition-colors" aria-label="閉じる">×</button>
-      <p class="text-text-faint text-[10px] tracking-[0.4em] mb-6 font-light">NEWS</p>
-      <ul class="space-y-6">
-        {news.map(({ date, text }) => (
-          <li class="border-b border-accent-line pb-4">
-            <p class="text-text-faint text-[10px] tracking-[0.2em] font-mono mb-1">{date}</p>
-            <p class="text-text-muted text-[13px] font-light leading-[1.8]">{text}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </div>
-
   <!-- ===== コンテンツ ===== -->
   <div class="bg-[#1a1814] px-4 md:px-28 py-6 space-y-3">
 
     <!-- NEWS -->
-    <div class="bg-[#131110] rounded-sm p-5 border border-white/[0.04]">
+    <div id="news" class="scroll-mt-[72px] md:scroll-mt-[86px] bg-[#131110] rounded-sm p-5 border border-white/[0.04]">
       <h2 class="font-mincho text-sm font-light tracking-[0.35em] text-text-primary pb-3 mb-4 border-b border-white/15">NEWS</h2>
       <ul class="space-y-3">
-        {news.map(({ date, text, link = true }) => (
+        {news.map(({ date, text, href }) => (
           <li>
-            {link ? (
-              <button type="button" class="news-link w-full text-left flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 text-text-muted hover:text-text-primary transition-colors duration-300 group">
+            {href ? (
+              <a href={href} class="w-full text-left flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 text-text-muted hover:text-text-primary transition-colors duration-300 group">
                 <span class="text-[10px] tracking-[0.15em] font-mono text-text-faint shrink-0">{date}</span>
                 <span class="text-[12px] md:text-[13px] font-light leading-[1.8] underline underline-offset-2 decoration-text-primary/60 group-hover:decoration-text-primary">{text}</span>
-              </button>
+              </a>
             ) : (
               <div class="w-full flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 text-text-muted">
                 <span class="text-[10px] tracking-[0.15em] font-mono text-text-faint shrink-0">{date}</span>
@@ -342,28 +350,6 @@ const heroSlideTotal = heroImageCount + 1; // +1 = NEWSバナー分
   document.getElementById('hero-next')?.addEventListener('click', () => { clearInterval(heroTimer); goTo(heroIndex + 1); startTimer(); });
 
   startTimer();
-
-  // ===== News ポップアップ =====
-  const newsSlide = document.getElementById('hero-news-slide');
-  const newsModal = document.getElementById('news-modal');
-  const newsModalClose = document.getElementById('news-modal-close');
-
-  function openNewsModal() {
-    newsModal?.classList.remove('hidden');
-    newsModal?.classList.add('flex');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeNewsModal() {
-    newsModal?.classList.add('hidden');
-    newsModal?.classList.remove('flex');
-    document.body.style.overflow = '';
-  }
-  newsSlide?.addEventListener('click', openNewsModal);
-  newsSlide?.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openNewsModal(); } });
-  document.querySelectorAll('.news-link').forEach(el => el.addEventListener('click', openNewsModal));
-  newsModalClose?.addEventListener('click', closeNewsModal);
-  newsModal?.addEventListener('click', e => { if (e.target === newsModal) closeNewsModal(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !newsModal?.classList.contains('hidden')) closeNewsModal(); });
 
   // ===== Hero スワイプ（指の動きに追従）=====
   const heroSwipeArea = document.getElementById('hero-swipe-area');

@@ -1,0 +1,73 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('news');
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'news'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+function formatDate(d: Date) {
+  return d.toISOString().slice(0, 10).replace(/-/g, '.');
+}
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: post.data.title,
+  description: post.data.description,
+  datePublished: post.data.date.toISOString(),
+  author: { '@type': 'Person', name: '輪廻タヲ' },
+  ...(post.data.ogImage ? { image: post.data.ogImage } : {}),
+};
+---
+
+<Layout
+  title={`${post.data.title} | 輪廻タヲ NEWS`}
+  description={post.data.description}
+  ogImage={post.data.ogImage}
+  ogType="article"
+  jsonLd={jsonLd}
+>
+  <article class="pt-24 pb-16 px-5 md:px-8 min-h-screen">
+    <div class="max-w-2xl mx-auto">
+
+      <div class="py-12 mb-8">
+        <p class="text-text-faint text-[10px] tracking-[0.2em] font-mono mb-4">{formatDate(post.data.date)}</p>
+        <h1 class="font-mincho text-text-primary text-2xl md:text-3xl font-light tracking-[0.1em] leading-relaxed">
+          {post.data.titleHtml ? <Fragment set:html={post.data.titleHtml} /> : post.data.title}
+        </h1>
+      </div>
+
+      <div class="news-content text-text-muted text-[14px] font-light leading-[2] whitespace-pre-line">
+        <Content />
+      </div>
+
+      <div class="mt-16 pt-8 border-t border-accent-line">
+        <a href="/#news" class="text-text-faint text-[10px] tracking-[0.3em] font-light hover:text-text-muted transition-colors duration-300">← トップへ戻る</a>
+      </div>
+
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .news-content :global(p) {
+    margin-bottom: 1.5rem;
+  }
+  .news-content :global(a) {
+    color: theme('colors.text.primary');
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+</style>
