@@ -1,0 +1,43 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+function formatDate(d: Date) {
+  return d.toISOString().slice(0, 10).replace(/-/g, '.');
+}
+---
+
+<Layout title="BLOG | 輪廻タヲ" description="輪廻タヲのブログ・お知らせ一覧">
+  <div class="pt-24 pb-16 px-5 md:px-8 min-h-screen">
+    <div class="max-w-3xl mx-auto">
+
+      <div class="py-12 mb-8">
+        <h1 class="font-mincho text-text-primary text-3xl font-light tracking-[0.3em]">Blog</h1>
+      </div>
+
+      {posts.length === 0 ? (
+        <p class="text-text-faint text-[13px] font-light">まだ記事がありません。</p>
+      ) : (
+        <div class="space-y-1">
+          {posts.map(post => (
+            <a
+              href={`/blog/${post.slug}`}
+              class="block border-b border-accent-line py-6 px-2 -mx-2 hover:bg-white/[0.02] transition-colors duration-300"
+            >
+              <p class="text-text-faint text-[10px] tracking-[0.2em] font-mono mb-2">
+                {formatDate(post.data.date)}
+                <span class="ml-4 text-text-faint/70 tracking-[0.15em]">{post.data.category}</span>
+              </p>
+              <p class="font-mincho text-text-primary text-base font-light tracking-wider">{post.data.title}</p>
+            </a>
+          ))}
+        </div>
+      )}
+
+    </div>
+  </div>
+</Layout>

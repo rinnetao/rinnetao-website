@@ -1,0 +1,102 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+function formatDate(d: Date) {
+  return d.toISOString().slice(0, 10).replace(/-/g, '.');
+}
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: post.data.title,
+  description: post.data.description,
+  datePublished: post.data.date.toISOString(),
+  author: { '@type': 'Person', name: '輪廻タヲ' },
+  ...(post.data.ogImage ? { image: post.data.ogImage } : {}),
+};
+---
+
+<Layout
+  title={`${post.data.title} | 輪廻タヲ BLOG`}
+  description={post.data.description}
+  ogImage={post.data.ogImage}
+  ogType="article"
+  jsonLd={jsonLd}
+>
+  <article class="pt-24 pb-16 px-5 md:px-8 min-h-screen">
+    <div class="max-w-2xl mx-auto">
+
+      <div class="py-12 mb-8">
+        <p class="text-text-faint text-[10px] tracking-[0.2em] font-mono mb-4">
+          {formatDate(post.data.date)}
+          <span class="ml-4 text-text-faint/70 tracking-[0.15em]">{post.data.category}</span>
+        </p>
+        <h1 class="font-mincho text-text-primary text-2xl md:text-3xl font-light tracking-[0.1em] leading-relaxed">
+          {post.data.title}
+        </h1>
+      </div>
+
+      <div class="blog-content text-text-muted text-[14px] font-light leading-[2]">
+        <Content />
+      </div>
+
+      <div class="mt-16 pt-8 border-t border-accent-line">
+        <a href="/blog" class="text-text-faint text-[10px] tracking-[0.3em] font-light hover:text-text-muted transition-colors duration-300">← 記事一覧へ戻る</a>
+      </div>
+
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .blog-content :global(h2) {
+    font-family: 'Cormorant Garamond', 'Shippori Mincho', serif;
+    color: theme('colors.text.primary');
+    font-size: 1.15rem;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  .blog-content :global(p) {
+    margin-bottom: 1.5rem;
+  }
+  .blog-content :global(ul),
+  .blog-content :global(ol) {
+    margin: 1.5rem 0;
+    padding-left: 1.5rem;
+  }
+  .blog-content :global(li) {
+    margin-bottom: 0.5rem;
+    list-style-position: outside;
+  }
+  .blog-content :global(a) {
+    color: theme('colors.text.primary');
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .blog-content :global(strong) {
+    color: theme('colors.text.primary');
+    font-weight: 700;
+  }
+  .blog-content :global(img) {
+    width: 100%;
+    margin: 2rem 0;
+  }
+</style>

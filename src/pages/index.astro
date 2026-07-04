@@ -9,6 +9,14 @@ const videos = [
   { id: 'w5nOl6GVUq8', title: 'PARADOX' },
   { id: 'DstG8uTv8yY', title: 'ANGEL' },
 ];
+
+// TODO: 実際のお知らせに差し替える
+const news = [
+  { date: '20XX.XX.XX', text: 'サンプルのお知らせです。内容は後ほど差し替えてください。' },
+];
+
+const heroImageCount = 10;
+const heroSlideTotal = heroImageCount + 1; // +1 = NEWSバナー分
 ---
 
 <Layout>
@@ -65,7 +73,14 @@ const videos = [
   <section class="md:mx-28 md:mt-2">
     <div id="hero-swipe-area" class="relative aspect-[4/3] md:aspect-video overflow-hidden touch-pan-y">
       <div id="hero-track" class="absolute inset-0 flex">
-        {Array.from({ length: 10 }, (_, i) => (
+        <div class="hero-slide w-full h-full shrink-0">
+          <div id="hero-news-slide" role="button" tabindex="0" aria-label="お知らせを見る" class="w-full h-full flex flex-col items-center justify-center gap-4 bg-[#14110d] text-center px-8 cursor-pointer">
+            <p class="text-[10px] tracking-[0.5em] text-text-faint font-mincho uppercase">News</p>
+            <p class="font-mincho text-text-primary text-base md:text-xl font-light tracking-wider max-w-md leading-[1.8]">{news[0]?.text ?? 'お知らせ'}</p>
+            <span class="text-[10px] tracking-[0.3em] text-text-faint border-b border-text-faint/40 pb-px">すべて見る</span>
+          </div>
+        </div>
+        {Array.from({ length: heroImageCount }, (_, i) => (
           <div class="hero-slide w-full h-full shrink-0">
             <img
               src={`/hero-${i + 1}.webp`}
@@ -79,7 +94,7 @@ const videos = [
       <button id="hero-prev" class="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-black/50 flex items-center justify-center text-white/80 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="前へ"><svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       <button id="hero-next" class="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-black/50 flex items-center justify-center text-white/80 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="次へ"><svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="2,2 8,8 2,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       <div id="hero-dots" class="absolute bottom-4 left-0 right-0 z-20 flex justify-center gap-2">
-        {Array.from({ length: 10 }, (_, i) => i).map(i => (
+        {Array.from({ length: heroSlideTotal }, (_, i) => i).map(i => (
           <button data-hero-dot={i}
             class:list={['hero-dot rounded-full h-px transition-all duration-500', i === 0 ? 'w-5 bg-white/60' : 'w-2 bg-white/20']}
             aria-label={`スライド ${i+1}`}
@@ -89,6 +104,22 @@ const videos = [
     </div>
   </section>
 
+  <!-- ===== ニュース ポップアップ ===== -->
+  <div id="news-modal" class="fixed inset-0 z-[150] hidden items-center justify-center bg-black/90 px-6" role="dialog" aria-modal="true">
+    <div class="bg-[#131110] border border-white/10 rounded-sm max-w-md w-full max-h-[80vh] overflow-y-auto p-6 relative">
+      <button id="news-modal-close" class="absolute top-4 right-4 text-text-faint hover:text-text-primary text-2xl leading-none transition-colors" aria-label="閉じる">×</button>
+      <p class="text-text-faint text-[10px] tracking-[0.4em] mb-6 font-light">NEWS</p>
+      <ul class="space-y-6">
+        {news.map(({ date, text }) => (
+          <li class="border-b border-accent-line pb-4">
+            <p class="text-text-faint text-[10px] tracking-[0.2em] font-mono mb-1">{date}</p>
+            <p class="text-text-muted text-[13px] font-light leading-[1.8]">{text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
   <!-- ===== コンテンツ ===== -->
   <div class="bg-[#1a1814] px-4 md:px-28 py-6 space-y-3">
 
@@ -96,7 +127,7 @@ const videos = [
     <div class="bg-[#131110] rounded-sm p-5 border border-white/[0.04]">
       <h2 class="font-mincho text-sm font-light tracking-[0.35em] text-text-primary pb-3 mb-4 border-b border-white/15">本サイトについて</h2>
       <p class="text-text-muted text-[12px] md:text-[14px] font-light leading-[2] font-gothic">
-        輪廻タヲの公式ウェブサイト。<br />過去の制作物やイラストギャラリー、アナウンスを公開。<br />お仕事のご依頼は、本サイトのフォームより受け付けております。
+        輪廻タヲの公式ウェブサイト。<br />過去の制作物やイラストギャラリー、アナウンスを公開。
       </p>
       <p class="text-text-muted text-[12px] md:text-[14px] font-light leading-[2] font-gothic mt-4">
         輪廻タヲは、音楽 / イラスト / 動画 / Webサイト制作に関するご依頼を募集しています。<br />作品を見て、私の技術や世界観を自分のコンテンツに使ってみたい！という方は、ぜひ、フォームよりご連絡ください。
@@ -290,6 +321,27 @@ const videos = [
   document.getElementById('hero-next')?.addEventListener('click', () => { clearInterval(heroTimer); goTo(heroIndex + 1); startTimer(); });
 
   startTimer();
+
+  // ===== News ポップアップ =====
+  const newsSlide = document.getElementById('hero-news-slide');
+  const newsModal = document.getElementById('news-modal');
+  const newsModalClose = document.getElementById('news-modal-close');
+
+  function openNewsModal() {
+    newsModal?.classList.remove('hidden');
+    newsModal?.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeNewsModal() {
+    newsModal?.classList.add('hidden');
+    newsModal?.classList.remove('flex');
+    document.body.style.overflow = '';
+  }
+  newsSlide?.addEventListener('click', openNewsModal);
+  newsSlide?.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openNewsModal(); } });
+  newsModalClose?.addEventListener('click', closeNewsModal);
+  newsModal?.addEventListener('click', e => { if (e.target === newsModal) closeNewsModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !newsModal?.classList.contains('hidden')) closeNewsModal(); });
 
   // ===== Hero スワイプ（指の動きに追従）=====
   const heroSwipeArea = document.getElementById('hero-swipe-area');
