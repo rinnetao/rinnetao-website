@@ -13,12 +13,60 @@ const videos = [
 
 <Layout>
 
+  <!-- ▼▼▼ 開発用テストボタン：本実装が固まったら削除する ▼▼▼ -->
+  <button id="opening-test-btn" class="fixed bottom-4 left-4 z-[300] px-3 py-2 bg-red-600 text-white text-[10px] tracking-wider rounded-sm shadow-lg" type="button">
+    開発用：オープニングを再生
+  </button>
+  <script is:inline>
+    document.getElementById('opening-test-btn')?.addEventListener('click', function () {
+      localStorage.removeItem('rt-intro-seen');
+      window.location.reload();
+    });
+  </script>
+  <!-- ▲▲▲ 開発用テストボタン ▲▲▲ -->
+
+  <!-- ===== オープニング（初回訪問時のみ） ===== -->
+  <div id="opening" class="fixed inset-0 z-[200] bg-black flex items-center justify-center cursor-pointer">
+    <p id="opening-text" class="absolute text-text-primary font-mincho text-sm md:text-base tracking-[0.3em] opacity-0 text-center px-6" style="transition: opacity 900ms ease;">輪廻タヲの世界へ、ようこそ。</p>
+    <img id="opening-logo" src="/opening-logo.webp" alt="輪廻タヲ" class="w-24 md:w-32 opacity-0" style="transition: opacity 900ms ease;" />
+  </div>
+  <script is:inline>
+    (function () {
+      var opening = document.getElementById('opening');
+      if (!opening) return;
+      if (localStorage.getItem('rt-intro-seen')) {
+        opening.remove();
+        return;
+      }
+      var text = document.getElementById('opening-text');
+      var logo = document.getElementById('opening-logo');
+      document.body.style.overflow = 'hidden';
+      var done = false;
+      function finish() {
+        if (done) return;
+        done = true;
+        localStorage.setItem('rt-intro-seen', '1');
+        opening.style.transition = 'opacity 800ms ease';
+        opening.style.opacity = '0';
+        setTimeout(function () {
+          opening.remove();
+          document.body.style.overflow = '';
+        }, 800);
+      }
+      opening.addEventListener('click', finish);
+      requestAnimationFrame(function () { text.style.opacity = '1'; });
+      setTimeout(function () { text.style.opacity = '0'; }, 2200);
+      setTimeout(function () { logo.style.opacity = '1'; }, 2800);
+      setTimeout(finish, 6300);
+    })();
+  </script>
+
   <!-- ===== HERO：スライドショーのみ ===== -->
   <section class="md:mx-28 md:mt-2">
-    <div class="relative aspect-[4/3] md:aspect-video overflow-hidden">
-      <div id="hero-slides" class="absolute inset-0">
+    <div id="hero-swipe-area" class="relative aspect-[4/3] md:aspect-video overflow-hidden touch-pan-y">
+      <div id="hero-track" class="absolute inset-0 flex">
         {Array.from({ length: 10 }, (_, i) => (
-          <div class:list={['hero-slide absolute inset-0 transition-opacity duration-1000', i === 0 ? 'opacity-100' : 'opacity-0']}>
+          <div class="hero-slide w-full h-full shrink-0">
             <img
               src={`/hero-${i + 1}.webp`}
               alt=""
@@ -44,37 +92,36 @@ const videos = [
   <!-- ===== コンテンツ ===== -->
   <div class="bg-[#1a1814] px-4 md:px-28 py-6 space-y-3">
 
+    <!-- 本サイトについて -->
+    <div class="bg-[#131110] rounded-sm p-5 border border-white/[0.04]">
+      <h2 class="font-mincho text-sm font-light tracking-[0.35em] text-text-primary pb-3 mb-4 border-b border-white/15">本サイトについて</h2>
+      <p class="text-text-muted text-[12px] md:text-[14px] font-light leading-[2] font-gothic">
+        輪廻タヲの公式ウェブサイト。<br />過去の制作物やイラストギャラリー、アナウンスを公開。<br />お仕事のご依頼は、本サイトのフォームより受け付けております。
+      </p>
+      <p class="text-text-muted text-[12px] md:text-[14px] font-light leading-[2] font-gothic mt-4">
+        輪廻タヲは、音楽 / イラスト / 動画 / Webサイト制作に関するご依頼を募集しています。<br />作品を見て、私の技術や世界観を自分のコンテンツに使ってみたい！という方は、ぜひ、フォームよりご連絡ください。
+      </p>
+      <a href="/commission" class="block text-center mt-4 px-5 py-3 bg-white text-[#1a1a1a] text-[11px] font-sans-jp font-bold tracking-[0.15em] hover:bg-white/85 transition-all duration-300">
+        お問合せ・お仕事のご依頼はこちら
+      </a>
+    </div>
+
     <!-- About -->
-    <div id="about" class="bg-[#131110] rounded-sm p-5 border border-white/[0.04] flex flex-col gap-5">
+    <div id="about" class="scroll-mt-[72px] md:scroll-mt-[86px] bg-[#131110] rounded-sm p-5 border border-white/[0.04] flex flex-col gap-5">
       <div class="flex items-center gap-4">
         <a href="https://x.com/TaoRInne" target="_blank" rel="noopener" class="hover:opacity-70 transition-opacity duration-300 shrink-0">
           <img src="/icon.webp" alt="輪廻タヲ" class="w-12 h-12 rounded-full object-cover" />
         </a>
         <div>
-          <p class="text-[9px] font-light tracking-[0.5em] text-text-muted/40 uppercase mb-1 font-mincho">AI Music · Illustration · Video</p>
+          <p class="text-[9px] font-light tracking-[0.5em] text-text-muted/80 uppercase mb-1 font-mincho">AI Contents Creator</p>
           <h1 class="font-mincho text-lg font-light tracking-[0.25em] text-text-primary">
-            輪廻タヲ <span class="text-xs text-text-muted/40 tracking-widest">/ Rinne Tao</span>
+            輪廻タヲ <span class="text-xs text-text-muted/80 tracking-widest">/ Rinne Tao</span>
           </h1>
         </div>
       </div>
-      <div class="space-y-3 text-text-muted text-[12px] font-light leading-[2] font-gothic">
-        <p>AIによる創作参加に賛否両論があることはわかっている。それでも続けている。</p>
-        <p>音楽制作を15年以上やってきた。自分の耳が何かを「良い」と感じるとき、その判断には長い年月が積み上がっている。AIを使った制作でも、その感覚は変わらずに動いている。</p>
-        <p class="border-l border-[#8b1a1a]/60 pl-3 text-text-muted/80">
-          「聖性の剥落」— 完璧でも純粋でもない。ボロボロになりながら続けることに美しさを見出す。
-        </p>
+      <div class="space-y-3 text-text-muted text-[12px] md:text-[14px] font-light leading-[2] font-gothic">
+        <p>2025年10月活動開始。<br />AIを制作に活用するコンテンツクリエイターです。<br /><a href="https://x.com/TaoRInne" target="_blank" rel="noopener" class="underline underline-offset-2 decoration-text-faint/40 hover:text-text-primary transition-colors duration-300">X（@TaoRInne）</a>や<a href="https://www.youtube.com/@TaoRInne" target="_blank" rel="noopener" class="underline underline-offset-2 decoration-text-faint/40 hover:text-text-primary transition-colors duration-300">YouTube</a>を中心に、イラスト・音楽・映像作品をほぼ毎日発信しています。</p>
       </div>
-      <dl class="space-y-2 text-[11px] font-light border-t border-white/[0.04] pt-4">
-        {[
-          ['活動開始', '2025年10月〜'],
-          ['制作領域', 'AIイラスト / AI音楽 / AI映像'],
-        ].map(([label, value]) => (
-          <div class="flex gap-4">
-            <dt class="text-text-faint w-16 shrink-0">{label}</dt>
-            <dd class="text-text-muted">{value}</dd>
-          </div>
-        ))}
-      </dl>
       <div class="flex flex-wrap gap-5 border-t border-white/[0.04] pt-4">
         {[
           { label: 'X',           href: 'https://x.com/TaoRInne',                                          domain: 'x.com' },
@@ -112,15 +159,21 @@ const videos = [
           { file: 'landscape_09', label: 'Landscape',  cat: 'landscape' },
           { file: 'jitsusya_20',  label: 'Photo',      cat: 'jitsusya' },
           { file: 'ipcd_16',      label: 'Commercial', cat: 'ipcd' },
-        ].map(({ file, label, cat }) => (
-          <a href={`/gallery?cat=${cat}`} class="aspect-square relative overflow-hidden bg-[#1e1c18] group cursor-pointer block">
+        ].map(({ file, label, cat }, i) => (
+          <a href={`/gallery?cat=${cat}`} class="aspect-[3/4] relative overflow-hidden bg-[#1e1c18] group cursor-pointer block">
             <img
               src={`/gallery/${file}.webp`}
               alt={label}
               loading="lazy"
               class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
-            <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/55 flex items-center justify-center">
+            <!-- 常時表示ラベル（スマホ：ホバーがないため） -->
+            <div class:list={['md:hidden absolute inset-x-0 top-1/2 -translate-y-1/2 py-1.5 flex items-center justify-center',
+              i % 2 === 0 ? 'bg-black/85' : 'bg-neutral-700/85']}>
+              <span class="text-white text-[10px] tracking-[0.15em] font-light font-mincho">{label}</span>
+            </div>
+            <!-- ホバー時オーバーレイ（PC） -->
+            <div class="hidden md:flex absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/55 items-center justify-center">
               <span class="text-white text-[13px] tracking-[0.3em] font-light font-mincho drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">{label}</span>
             </div>
           </a>
@@ -129,15 +182,15 @@ const videos = [
     </div>
 
     <!-- Video -->
-    <div id="video" class="bg-[#0e1210] rounded-sm p-5 border border-white/[0.04]">
+    <div id="video" class="scroll-mt-[72px] md:scroll-mt-[86px] bg-[#0e1210] rounded-sm p-5 border border-white/[0.04]">
       <h2 class="font-mincho text-sm font-light tracking-[0.35em] text-text-primary mb-4">Video</h2>
       <div class="relative mb-1">
         <button id="top-prev" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-8 h-full flex items-center justify-center text-text-faint hover:text-text-muted transition-colors bg-gradient-to-r from-[#0e1210] to-transparent text-lg" aria-label="前へ">‹</button>
-        <div class="overflow-hidden mx-8">
+        <div id="top-thumb-scroll" class="overflow-x-auto snap-x snap-mandatory scroll-smooth mx-8 [&::-webkit-scrollbar]:hidden" style="scrollbar-width: none; -ms-overflow-style: none;">
           <div class="flex gap-1">
             {videos.map((v, i) => (
               <button data-id={v.id}
-                class:list={['top-thumb flex-shrink-0 w-[calc(33.333%-3px)] md:w-[calc(16.666%-1px)] aspect-video relative overflow-hidden',
+                class:list={['top-thumb flex-shrink-0 snap-start w-[calc(30%-2px)] md:w-[calc(16.666%-1px)] aspect-video relative overflow-hidden',
                   i === 0 ? 'ring-1 ring-white/30' : 'opacity-40 hover:opacity-70 transition-opacity']}
                 aria-label={v.title}>
                 <img src={`https://img.youtube.com/vi/${v.id}/mqdefault.jpg`} alt={v.title} class="w-full h-full object-cover" />
@@ -146,6 +199,11 @@ const videos = [
           </div>
         </div>
         <button id="top-next" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-8 h-full flex items-center justify-center text-text-faint hover:text-text-muted transition-colors bg-gradient-to-l from-[#0e1210] to-transparent text-lg" aria-label="次へ">›</button>
+      </div>
+      <div id="top-thumb-dots" class="flex md:hidden justify-center gap-1.5 mb-2">
+        {videos.map((_, i) => (
+          <span data-dot={i} class:list={['h-1 rounded-full transition-all duration-300', i === 0 ? 'w-4 bg-text-muted/70' : 'w-1 bg-text-faint/40']}></span>
+        ))}
       </div>
       <div class="aspect-video w-full md:max-w-[896px] mx-auto mt-3">
         <iframe id="top-player-iframe"
@@ -157,7 +215,7 @@ const videos = [
     </div>
 
     <!-- Music -->
-    <div id="music" class="bg-[#131110] rounded-sm p-5 border border-white/[0.04]">
+    <div id="music" class="scroll-mt-[72px] md:scroll-mt-[86px] bg-[#131110] rounded-sm p-5 border border-white/[0.04]">
       <h2 class="font-mincho text-sm font-light tracking-[0.35em] text-text-primary mb-4">Music</h2>
       <iframe
         src="https://open.spotify.com/embed/artist/6cgNohFINOQDxktASQzmQy?utm_source=generator&theme=0"
@@ -175,18 +233,18 @@ const videos = [
         <a href="https://music.apple.com/us/artist/rinne-tao/1863623820" target="_blank" rel="noopener" class="hover:opacity-70 transition-opacity duration-300" aria-label="Apple Music">
           <img src="https://www.google.com/s2/favicons?domain=music.apple.com&sz=32" alt="Apple Music" class="w-5 h-5" />
         </a>
-        <p class="text-text-faint text-[10px] font-light tracking-[0.15em] font-gothic">各種ストリーミングで配信中 — <span class="text-text-muted">"RInne Tao"</span> で検索</p>
+        <p class="text-text-faint text-[10px] font-light tracking-[0.15em] font-gothic">各種ストリーミングで配信中 <br /> — <span class="text-text-muted">"RInne Tao"</span> で検索</p>
       </div>
     </div>
 
     <!-- 依頼 -->
     <div class="bg-[#130f0e] rounded-sm p-5 border border-white/[0.04]">
-      <h2 class="font-mincho text-sm font-light tracking-[0.35em] text-text-primary mb-4">依頼</h2>
+      <h2 class="font-mincho text-sm font-light tracking-[0.35em] text-text-primary pb-3 mb-4 border-b border-white/15">お仕事のご依頼について</h2>
       <p class="text-text-muted text-[12px] font-light leading-[2] font-gothic mb-5">
-        イラスト・音楽・映像制作の依頼を受け付けています。<br />料金はご相談ベース。
+        輪廻タヲは、音楽 / イラスト / 動画 / Webサイト制作に関するご依頼を募集しています。<br />詳細はこちら。
       </p>
-      <a href="/commission" class="inline-block text-text-faint text-[10px] tracking-[0.3em] font-light border-b border-text-faint/40 pb-px hover:text-text-muted transition-colors duration-300">
-        お問い合わせ
+      <a href="/commission" class="block text-center px-5 py-3 bg-white text-[#1a1a1a] text-[11px] font-sans-jp font-bold tracking-[0.15em] hover:bg-white/85 transition-all duration-300">
+        お問合せ・お仕事のご依頼はこちら
       </a>
     </div>
 
@@ -196,20 +254,28 @@ const videos = [
 
 <script>
   // ===== Hero スライドショー =====
-  const slides = document.querySelectorAll<HTMLElement>('.hero-slide');
+  const heroTrack = document.getElementById('hero-track') as HTMLElement;
+  const heroSlideCount = document.querySelectorAll('.hero-slide').length;
   const heroDots = document.querySelectorAll<HTMLButtonElement>('.hero-dot');
   let heroIndex = 0;
   let heroTimer: ReturnType<typeof setInterval>;
 
-  function goTo(index: number) {
-    if (slides.length === 0) return;
-    slides[heroIndex].classList.replace('opacity-100', 'opacity-0');
-    heroDots[heroIndex]?.classList.remove('w-6', 'bg-text-muted/70');
-    heroDots[heroIndex]?.classList.add('w-2', 'bg-text-faint/50');
-    heroIndex = (index + slides.length) % slides.length;
-    slides[heroIndex].classList.replace('opacity-0', 'opacity-100');
-    heroDots[heroIndex].classList.remove('w-2', 'bg-text-faint/50');
-    heroDots[heroIndex].classList.add('w-6', 'bg-text-muted/70');
+  function renderTrack(instant = false) {
+    heroTrack.style.transition = instant ? 'none' : 'transform 500ms ease-out';
+    heroTrack.style.transform = `translateX(-${heroIndex * 100}%)`;
+  }
+
+  function goTo(rawIndex: number) {
+    if (heroSlideCount === 0) return;
+    const prevIndex = heroIndex;
+    const newIndex = (rawIndex + heroSlideCount) % heroSlideCount;
+    const isWrap = (prevIndex === heroSlideCount - 1 && newIndex === 0) || (prevIndex === 0 && newIndex === heroSlideCount - 1);
+    heroDots[prevIndex]?.classList.remove('w-6', 'bg-text-muted/70');
+    heroDots[prevIndex]?.classList.add('w-2', 'bg-text-faint/50');
+    heroIndex = newIndex;
+    heroDots[heroIndex]?.classList.remove('w-2', 'bg-text-faint/50');
+    heroDots[heroIndex]?.classList.add('w-6', 'bg-text-muted/70');
+    renderTrack(isWrap);
   }
 
   function startTimer() {
@@ -225,9 +291,51 @@ const videos = [
 
   startTimer();
 
+  // ===== Hero スワイプ（指の動きに追従）=====
+  const heroSwipeArea = document.getElementById('hero-swipe-area');
+  let dragStartX = 0;
+  let dragStartY = 0;
+  let dragDeltaX = 0;
+  let isDragging = false;
+  let heroAreaWidth = 0;
+
+  heroSwipeArea?.addEventListener('touchstart', (e) => {
+    isDragging = true;
+    dragStartX = e.touches[0].clientX;
+    dragStartY = e.touches[0].clientY;
+    dragDeltaX = 0;
+    heroAreaWidth = heroSwipeArea.clientWidth;
+    clearInterval(heroTimer);
+    heroTrack.style.transition = 'none';
+  }, { passive: true });
+
+  heroSwipeArea?.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    const dx = e.touches[0].clientX - dragStartX;
+    const dy = e.touches[0].clientY - dragStartY;
+    if (Math.abs(dy) > Math.abs(dx)) return;
+    const atStart = heroIndex === 0 && dx > 0;
+    const atEnd = heroIndex === heroSlideCount - 1 && dx < 0;
+    dragDeltaX = (atStart || atEnd) ? dx / 3 : dx;
+    heroTrack.style.transform = `translateX(calc(-${heroIndex * 100}% + ${dragDeltaX}px))`;
+  }, { passive: true });
+
+  heroSwipeArea?.addEventListener('touchend', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    const threshold = heroAreaWidth * 0.15;
+    if (Math.abs(dragDeltaX) > threshold) {
+      goTo(heroIndex + (dragDeltaX < 0 ? 1 : -1));
+    } else {
+      renderTrack();
+    }
+    startTimer();
+  }, { passive: true });
+
   // ===== Video スライダー =====
   const iframe = document.getElementById('top-player-iframe') as HTMLIFrameElement;
   const thumbs = document.querySelectorAll<HTMLButtonElement>('.top-thumb');
+  const thumbDots = document.querySelectorAll<HTMLSpanElement>('#top-thumb-dots [data-dot]');
   let current = 0;
 
   function select(index: number) {
@@ -239,7 +347,14 @@ const videos = [
       b.classList.toggle('ring-white/30', i === index);
       b.classList.toggle('opacity-40', i !== index);
     });
+    thumbDots.forEach((d, i) => {
+      d.classList.toggle('w-4', i === index);
+      d.classList.toggle('bg-text-muted/70', i === index);
+      d.classList.toggle('w-1', i !== index);
+      d.classList.toggle('bg-text-faint/40', i !== index);
+    });
     current = index;
+    btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
   }
 
   thumbs.forEach((btn, i) => btn.addEventListener('click', () => select(i)));

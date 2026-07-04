@@ -24,7 +24,7 @@ const currentPath = Astro.url.pathname;
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Shippori+Mincho:wght@300;400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Shippori+Mincho:wght@300;400&family=Zen+Kaku+Gothic+New:wght@700&display=swap"
       rel="stylesheet"
     />
   </head>
@@ -33,15 +33,15 @@ const currentPath = Astro.url.pathname;
     <!-- ナビゲーション -->
     <nav class="fixed top-0 left-0 right-0 z-50 bg-[#0a0d0b]/80 backdrop-blur-sm">
       <div class="max-w-5xl mx-auto px-5 md:px-8 py-4 md:py-5 flex items-center justify-between">
-        <a href="/" class="text-[11px] font-light tracking-[0.25em] text-text-muted hover:text-text-primary transition-colors duration-300">TOP PAGE</a>
+        <a href="/" class="text-[11px] font-light tracking-[0.25em] text-text-muted hover:text-text-primary transition-colors duration-300">RINNE TAO'S WEB</a>
 
         <!-- デスクトップメニュー -->
         <ul class="hidden md:flex items-center gap-7 text-[11px] font-light tracking-[0.25em] text-text-muted">
+          <li><a href="/#about" class="hover:text-text-primary transition-colors duration-300">ABOUT</a></li>
           <li><a href="/gallery" class:list={['hover:text-text-primary transition-colors duration-300', currentPath.startsWith('/gallery') && 'text-text-primary']}>GALLERY</a></li>
           <li><a href="/#video" class="hover:text-text-primary transition-colors duration-300">VIDEO</a></li>
           <li><a href="/#music" class="hover:text-text-primary transition-colors duration-300">MUSIC</a></li>
-          <li><a href="/#about" class="hover:text-text-primary transition-colors duration-300">ABOUT</a></li>
-          <li><a href="/commission" class="inline-block px-4 py-[5px] bg-white text-[#1a1a1a] text-[11px] font-light tracking-[0.15em] hover:bg-white/85 transition-all duration-300">お仕事のご依頼はこちら</a></li>
+          <li><a href="/commission" class="inline-block px-4 py-[5px] bg-white text-[#1a1a1a] text-[11px] font-sans-jp font-bold tracking-[0.15em] hover:bg-white/85 transition-all duration-300">お仕事のご依頼はこちら</a></li>
         </ul>
 
         <!-- ハンバーガーボタン（モバイルのみ） -->
@@ -50,19 +50,19 @@ const currentPath = Astro.url.pathname;
           <span class="menu-bar block w-5 h-px bg-text-muted/70 transition-all duration-300"></span>
         </button>
       </div>
-
-      <!-- モバイルメニュー：全画面オーバーレイ -->
-      <div id="mobile-menu" class="hidden md:hidden fixed inset-0 bg-[#0d110e]/97 z-40 flex flex-col items-center justify-center gap-10">
-        <button id="menu-close" class="absolute top-4 right-5 text-text-muted text-2xl font-light">×</button>
-        <ul class="flex flex-col items-center gap-10 text-[13px] font-light tracking-[0.4em] text-text-muted">
-          <li><a href="/gallery" class="hover:text-text-primary transition-colors duration-300">GALLERY</a></li>
-          <li><a href="/#video" class="hover:text-text-primary transition-colors duration-300">VIDEO</a></li>
-          <li><a href="/#music" class="hover:text-text-primary transition-colors duration-300">MUSIC</a></li>
-          <li><a href="/about" class="hover:text-text-primary transition-colors duration-300">ABOUT</a></li>
-          <li><a href="/commission" class="px-6 py-3 bg-white text-[#1a1a1a] text-[13px] font-light tracking-[0.15em] hover:bg-white/90 transition-all duration-300">お仕事のご依頼はこちら</a></li>
-        </ul>
-      </div>
     </nav>
+
+    <!-- モバイルメニュー：全画面オーバーレイ -->
+    <div id="mobile-menu" class="hidden md:hidden fixed inset-0 bg-[#0d110e]/[.97] z-[60] flex flex-col items-center justify-center gap-10">
+      <button id="menu-close" class="absolute top-4 right-5 text-text-muted text-2xl font-light">×</button>
+      <ul class="flex flex-col items-center gap-10 text-[13px] font-light tracking-[0.4em] text-text-muted">
+        <li><a href="/#about" class="hover:text-text-primary transition-colors duration-300">ABOUT</a></li>
+        <li><a href="/gallery" class="hover:text-text-primary transition-colors duration-300">GALLERY</a></li>
+        <li><a href="/#video" class="hover:text-text-primary transition-colors duration-300">VIDEO</a></li>
+        <li><a href="/#music" class="hover:text-text-primary transition-colors duration-300">MUSIC</a></li>
+        <li><a href="/commission" class="px-6 py-3 bg-white text-[#1a1a1a] text-[13px] font-sans-jp font-bold tracking-[0.15em] hover:bg-white/90 transition-all duration-300">お仕事のご依頼はこちら</a></li>
+      </ul>
+    </div>
 
     <script>
       const btn = document.getElementById('menu-btn');
@@ -77,14 +77,8 @@ const currentPath = Astro.url.pathname;
 
     <!-- フッター -->
     <footer class="border-t border-accent-line py-10 mt-16 md:mt-32">
-      <div class="max-w-5xl mx-auto px-5 md:px-8 flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6">
-        <p class="font-mincho text-text-faint text-xs font-light tracking-widest">輪廻タヲ / Rinne Tao</p>
-        <div class="flex gap-7 text-text-faint text-[11px] tracking-widest font-light">
-          <a href="https://x.com/TaoRInne" target="_blank" rel="noopener" class="hover:text-text-muted transition-colors duration-300">X</a>
-          <a href="#" class="hover:text-text-muted transition-colors duration-300">YouTube</a>
-          <a href="#" class="hover:text-text-muted transition-colors duration-300">Spotify</a>
-        </div>
-        <p class="text-text-faint text-[10px] font-light">© 2025 輪廻タヲ</p>
+      <div class="max-w-5xl mx-auto px-5 md:px-8 flex items-center justify-center">
+        <p class="text-text-faint text-[10px] font-light">© 2026 Rinne Tao. All Rights Reserved.</p>
       </div>
     </footer>
   </body>
@@ -100,6 +94,7 @@ const currentPath = Astro.url.pathname;
   }
   body {
     -webkit-font-smoothing: antialiased;
+    touch-action: manipulation;
   }
   /* 英語：Cormorant Garamond — 極細・高コントラスト、ファッション誌的 */
   /* 日本語：Shippori Mincho — 木版印刷的な風格のある明朝体 */
@@ -108,5 +103,8 @@ const currentPath = Astro.url.pathname;
   }
   .font-gothic {
     font-family: 'Shippori Mincho', 'Cormorant Garamond', serif;
+  }
+  .font-sans-jp {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
   }
 </style>
