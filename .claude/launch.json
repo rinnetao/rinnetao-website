@@ -4,7 +4,7 @@
     {
       "name": "astro-dev",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev", "--prefix", "/Users/kenjitakaokaimac/Dropbox/claude code/輪廻タヲ/website"],
+      "runtimeArgs": ["run", "dev", "--prefix", "/Users/kenjitakaoka/Library/CloudStorage/Dropbox/claude code/輪廻タヲ/website"],
       "port": 4321,
       "autoPort": false
     }
