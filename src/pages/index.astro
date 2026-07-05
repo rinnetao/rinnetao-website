@@ -23,6 +23,15 @@ const news = [
   ...newsPosts.map(p => ({ date: formatDate(p.data.date), text: p.data.newsText, href: `/news/${p.slug}` })),
 ];
 
+const galleryCats = [
+  { file: 'char_131',     label: 'Character',  cat: 'char' },
+  { file: 'angel_80',     label: 'Angel',      cat: 'angel' },
+  { file: 'chaos_65',     label: 'Chaos',      cat: 'chaos' },
+  { file: 'landscape_09', label: 'Landscape',  cat: 'landscape' },
+  { file: 'jitsusya_20',  label: 'Photo',      cat: 'jitsusya' },
+  { file: 'ipcd_16',      label: 'Commercial', cat: 'ipcd' },
+];
+
 // hero-11(天ロックのお知らせ用サムネイル)はオープニング演出直後に見てもらえるよう先頭に配置。タップでニュース詳細へ
 const heroImages = [
   { file: 'hero-11.webp', href: '/news/tenrock-2026' },
@@ -152,20 +161,6 @@ const jsonLd = {
       </ul>
     </div>
 
-    <!-- 本サイトについて -->
-    <div class="bg-[#131110] rounded-sm p-5 border border-white/[0.04]">
-      <h2 class="font-mincho text-sm font-light tracking-[0.35em] text-text-primary pb-3 mb-4 border-b border-white/15">本サイトについて</h2>
-      <p class="text-text-muted text-[12px] md:text-[14px] font-light leading-[2] font-gothic">
-        輪廻タヲの公式ウェブサイト。<br />過去の制作物やイラストギャラリー、アナウンスを公開。
-      </p>
-      <p class="text-text-muted text-[12px] md:text-[14px] font-light leading-[2] font-gothic mt-4">
-        輪廻タヲは、音楽 / イラスト / 動画 / Webサイト制作に関するご依頼を募集しています。<br />作品を見て、私の技術や世界観を自分のコンテンツに使ってみたい！という方は、ぜひ、フォームよりご連絡ください。
-      </p>
-      <a href="/commission" class="block text-center mt-4 px-5 py-3 bg-white text-[#1a1a1a] text-[11px] font-sans-jp font-bold tracking-[0.15em] hover:bg-white/85 transition-all duration-300">
-        お問合せ・お仕事のご依頼はこちら
-      </a>
-    </div>
-
     <!-- About -->
     <div id="about" class="scroll-mt-[72px] md:scroll-mt-[86px] bg-[#131110] rounded-sm p-5 border border-white/[0.04] flex flex-col gap-5">
       <div class="flex items-center gap-4">
@@ -203,6 +198,14 @@ const jsonLd = {
           </a>
         ))}
       </div>
+      <div class="border-t border-white/[0.04] pt-4">
+        <p class="text-text-muted text-[12px] md:text-[14px] font-light leading-[2] font-gothic">
+          輪廻タヲは、音楽 / イラスト / 動画 / Webサイト制作に関するご依頼を募集しています。<br />作品を見て、私の技術や世界観を自分のコンテンツに使ってみたい！という方は、ぜひ、フォームよりご連絡ください。
+        </p>
+        <a href="/commission" class="block text-center mt-4 px-5 py-3 bg-white text-[#1a1a1a] text-[11px] font-sans-jp font-bold tracking-[0.15em] hover:bg-white/85 transition-all duration-300">
+          お問合せ・お仕事のご依頼はこちら
+        </a>
+      </div>
     </div>
 
     <!-- Gallery -->
@@ -211,29 +214,46 @@ const jsonLd = {
         <h2 class="font-mincho text-sm font-light tracking-[0.35em] text-text-primary">Gallery</h2>
         <a href="/gallery" class="text-text-faint text-[10px] tracking-[0.2em] font-light hover:text-text-muted transition-colors duration-300">すべて →</a>
       </div>
-      <div class="grid grid-cols-3 md:grid-cols-6 gap-1">
-        {[
-          { file: 'char_131',     label: 'Character',  cat: 'char' },
-          { file: 'angel_80',     label: 'Angel',      cat: 'angel' },
-          { file: 'chaos_65',     label: 'Chaos',      cat: 'chaos' },
-          { file: 'landscape_09', label: 'Landscape',  cat: 'landscape' },
-          { file: 'jitsusya_20',  label: 'Photo',      cat: 'jitsusya' },
-          { file: 'ipcd_16',      label: 'Commercial', cat: 'ipcd' },
-        ].map(({ file, label, cat }, i) => (
+      <!-- モバイル：スワイプカルーセル -->
+      <div class="md:hidden">
+        <div id="gallery-swipe" class="relative overflow-hidden">
+          <div id="gallery-track" class="flex gap-2">
+            {galleryCats.map(({ file, label, cat }) => (
+              <a href={`/gallery?cat=${cat}`} class="gallery-swipe-item shrink-0 w-[70%] aspect-[3/4] relative overflow-hidden bg-[#1e1c18] block rounded-sm">
+                <img
+                  src={`/gallery/${file}.webp`}
+                  alt=""
+                  loading="lazy"
+                  class="w-full h-full object-cover"
+                />
+                <div class="absolute inset-x-0 top-1/2 -translate-y-1/2 py-2 flex items-center justify-center bg-black/80">
+                  <span class="text-white text-[12px] tracking-[0.2em] font-light font-mincho">{label}</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+        <div id="gallery-dots" class="flex justify-center gap-1.5 mt-3">
+          {galleryCats.map((_, i) => (
+            <button data-gallery-dot={i}
+              class:list={['gallery-dot rounded-full h-1.5 transition-all duration-300', i === 0 ? 'w-4 bg-text-muted/70' : 'w-1.5 bg-text-faint/40']}
+              aria-label={`カテゴリ ${i + 1}`}
+            ></button>
+          ))}
+        </div>
+      </div>
+
+      <!-- PC：グリッド -->
+      <div class="hidden md:grid md:grid-cols-6 gap-1">
+        {galleryCats.map(({ file, label, cat }) => (
           <a href={`/gallery?cat=${cat}`} class="aspect-[3/4] relative overflow-hidden bg-[#1e1c18] group cursor-pointer block">
             <img
               src={`/gallery/${file}.webp`}
-              alt={label}
+              alt=""
               loading="lazy"
               class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
-            <!-- 常時表示ラベル（スマホ：ホバーがないため） -->
-            <div class:list={['md:hidden absolute inset-x-0 top-1/2 -translate-y-1/2 py-1.5 flex items-center justify-center',
-              i % 2 === 0 ? 'bg-black/85' : 'bg-neutral-700/85']}>
-              <span class="text-white text-[10px] tracking-[0.15em] font-light font-mincho">{label}</span>
-            </div>
-            <!-- ホバー時オーバーレイ（PC） -->
-            <div class="hidden md:flex absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/55 items-center justify-center">
+            <div class="flex absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/55 items-center justify-center">
               <span class="text-white text-[13px] tracking-[0.3em] font-light font-mincho drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">{label}</span>
             </div>
           </a>
@@ -246,11 +266,11 @@ const jsonLd = {
       <h2 class="font-mincho text-sm font-light tracking-[0.35em] text-text-primary mb-4">Video</h2>
       <div class="relative mb-1">
         <button id="top-prev" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-8 h-full flex items-center justify-center text-text-faint hover:text-text-muted transition-colors bg-gradient-to-r from-[#0e1210] to-transparent text-lg" aria-label="前へ">‹</button>
-        <div id="top-thumb-scroll" class="overflow-x-auto snap-x snap-mandatory scroll-smooth mx-8 [&::-webkit-scrollbar]:hidden" style="scrollbar-width: none; -ms-overflow-style: none;">
-          <div class="flex gap-1">
+        <div id="top-thumb-scroll" class="relative overflow-hidden mx-8">
+          <div id="top-thumb-track" class="flex gap-1">
             {videos.map((v, i) => (
               <button data-id={v.id}
-                class:list={['top-thumb flex-shrink-0 snap-start w-[calc(30%-2px)] md:w-[calc(16.666%-1px)] aspect-video relative overflow-hidden',
+                class:list={['top-thumb flex-shrink-0 w-[calc(30%-2px)] md:w-[calc(16.666%-1px)] aspect-video relative overflow-hidden',
                   i === 0 ? 'ring-1 ring-white/30' : 'opacity-40 hover:opacity-70 transition-opacity']}
                 aria-label={v.title}>
                 <img src={`https://img.youtube.com/vi/${v.id}/mqdefault.jpg`} alt={v.title} class="w-full h-full object-cover" />
@@ -374,11 +394,12 @@ const jsonLd = {
     const dx = e.touches[0].clientX - dragStartX;
     const dy = e.touches[0].clientY - dragStartY;
     if (Math.abs(dy) > Math.abs(dx)) return;
+    e.preventDefault();
     const atStart = heroIndex === 0 && dx > 0;
     const atEnd = heroIndex === heroSlideCount - 1 && dx < 0;
     dragDeltaX = (atStart || atEnd) ? dx / 3 : dx;
     heroTrack.style.transform = `translateX(calc(-${heroIndex * 100}% + ${dragDeltaX}px))`;
-  }, { passive: true });
+  }, { passive: false });
 
   heroSwipeArea?.addEventListener('touchend', () => {
     if (!isDragging) return;
@@ -392,32 +413,158 @@ const jsonLd = {
     startTimer();
   }, { passive: true });
 
-  // ===== Video スライダー =====
+  // ===== Video スライダー（Heroと同じtranslateX方式：1マスずつ移動+無限ループ）=====
   const iframe = document.getElementById('top-player-iframe') as HTMLIFrameElement;
+  const thumbViewport = document.getElementById('top-thumb-scroll') as HTMLElement;
+  const thumbTrack = document.getElementById('top-thumb-track') as HTMLElement;
   const thumbs = document.querySelectorAll<HTMLButtonElement>('.top-thumb');
   const thumbDots = document.querySelectorAll<HTMLSpanElement>('#top-thumb-dots [data-dot]');
+  const videoCount = thumbs.length;
   let current = 0;
 
-  function select(index: number) {
-    const btn = thumbs[index];
-    if (!btn) return;
+  function thumbStep() {
+    return thumbs[0].getBoundingClientRect().width + 4; // gap-1 = 4px
+  }
+  function renderThumbTrack(instant = false, dragDeltaX = 0) {
+    // PCなど全件が収まっている時はズラさない（元々全部見えているレイアウトを維持）
+    const overflowing = thumbTrack.scrollWidth > thumbViewport.clientWidth + 20;
+    const shiftIndex = overflowing ? current : 0;
+    thumbTrack.style.transition = instant ? 'none' : 'transform 400ms ease-out';
+    thumbTrack.style.transform = `translateX(${-shiftIndex * thumbStep() + dragDeltaX}px)`;
+  }
+
+  function select(index: number, instant = false) {
+    const newIndex = (index + videoCount) % videoCount;
+    const isWrap = (current === videoCount - 1 && newIndex === 0) || (current === 0 && newIndex === videoCount - 1);
+    const btn = thumbs[newIndex];
     iframe.src = `https://www.youtube.com/embed/${btn.dataset.id}?rel=0&autoplay=1`;
     thumbs.forEach((b, i) => {
-      b.classList.toggle('ring-1', i === index);
-      b.classList.toggle('ring-white/30', i === index);
-      b.classList.toggle('opacity-40', i !== index);
+      b.classList.toggle('ring-1', i === newIndex);
+      b.classList.toggle('ring-white/30', i === newIndex);
+      b.classList.toggle('opacity-40', i !== newIndex);
     });
     thumbDots.forEach((d, i) => {
-      d.classList.toggle('w-4', i === index);
-      d.classList.toggle('bg-text-muted/70', i === index);
-      d.classList.toggle('w-1', i !== index);
-      d.classList.toggle('bg-text-faint/40', i !== index);
+      d.classList.toggle('w-4', i === newIndex);
+      d.classList.toggle('bg-text-muted/70', i === newIndex);
+      d.classList.toggle('w-1', i !== newIndex);
+      d.classList.toggle('bg-text-faint/40', i !== newIndex);
     });
-    current = index;
-    btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    current = newIndex;
+    renderThumbTrack(instant || isWrap);
   }
 
   thumbs.forEach((btn, i) => btn.addEventListener('click', () => select(i)));
-  document.getElementById('top-prev')?.addEventListener('click', () => select((current - 1 + thumbs.length) % thumbs.length));
-  document.getElementById('top-next')?.addEventListener('click', () => select((current + 1) % thumbs.length));
+  document.getElementById('top-prev')?.addEventListener('click', () => select(current - 1));
+  document.getElementById('top-next')?.addEventListener('click', () => select(current + 1));
+  renderThumbTrack(true);
+
+  let thumbDragging = false;
+  let thumbStartX = 0;
+  let thumbStartY = 0;
+  let thumbDragDeltaX = 0;
+
+  thumbViewport?.addEventListener('touchstart', (e) => {
+    thumbDragging = true;
+    thumbStartX = e.touches[0].clientX;
+    thumbStartY = e.touches[0].clientY;
+    thumbDragDeltaX = 0;
+  }, { passive: true });
+
+  thumbViewport?.addEventListener('touchmove', (e) => {
+    if (!thumbDragging) return;
+    const dx = e.touches[0].clientX - thumbStartX;
+    const dy = e.touches[0].clientY - thumbStartY;
+    if (Math.abs(dy) > Math.abs(dx)) return;
+    e.preventDefault();
+    thumbDragDeltaX = dx;
+    renderThumbTrack(true, thumbDragDeltaX);
+  }, { passive: false });
+
+  thumbViewport?.addEventListener('touchend', () => {
+    if (!thumbDragging) return;
+    thumbDragging = false;
+    const threshold = thumbViewport.clientWidth * 0.1;
+    if (Math.abs(thumbDragDeltaX) > threshold) {
+      select(current + (thumbDragDeltaX < 0 ? 1 : -1));
+    } else {
+      renderThumbTrack();
+    }
+  }, { passive: true });
+
+  // ===== Gallery スワイプ（Heroと同じtranslateX方式：1マスずつ移動+無限ループ）=====
+  const galleryViewport = document.getElementById('gallery-swipe') as HTMLElement;
+  const galleryTrack = document.getElementById('gallery-track') as HTMLElement;
+  const galleryItems = document.querySelectorAll<HTMLElement>('.gallery-swipe-item');
+  const galleryDots = document.querySelectorAll<HTMLButtonElement>('.gallery-dot');
+  const galleryCount = galleryItems.length;
+  let galleryIndex = 0;
+
+  function galleryStep() {
+    return galleryItems[0].getBoundingClientRect().width + 8; // gap-2 = 8px
+  }
+  function galleryCenterOffset() {
+    return (galleryViewport.clientWidth - galleryItems[0].getBoundingClientRect().width) / 2;
+  }
+  function renderGalleryTrack(instant = false, dragDeltaX = 0) {
+    galleryTrack.style.transition = instant ? 'none' : 'transform 400ms ease-out';
+    const offset = galleryCenterOffset() - galleryIndex * galleryStep() + dragDeltaX;
+    galleryTrack.style.transform = `translateX(${offset}px)`;
+  }
+  function setActiveGalleryDot(index: number) {
+    galleryDots.forEach((d, i) => {
+      d.classList.toggle('w-4', i === index);
+      d.classList.toggle('bg-text-muted/70', i === index);
+      d.classList.toggle('w-1.5', i !== index);
+      d.classList.toggle('bg-text-faint/40', i !== index);
+    });
+  }
+  function galleryGoTo(rawIndex: number) {
+    const prevIndex = galleryIndex;
+    const newIndex = (rawIndex + galleryCount) % galleryCount;
+    const isWrap = (prevIndex === galleryCount - 1 && newIndex === 0) || (prevIndex === 0 && newIndex === galleryCount - 1);
+    galleryIndex = newIndex;
+    setActiveGalleryDot(galleryIndex);
+    renderGalleryTrack(isWrap);
+  }
+
+  galleryDots.forEach((dot, i) => dot.addEventListener('click', () => galleryGoTo(i)));
+  renderGalleryTrack(true);
+
+  let galleryDragging = false;
+  let galleryStartX = 0;
+  let galleryStartY = 0;
+  let galleryDragDeltaX = 0;
+
+  galleryViewport?.addEventListener('touchstart', (e) => {
+    galleryDragging = true;
+    galleryStartX = e.touches[0].clientX;
+    galleryStartY = e.touches[0].clientY;
+    galleryDragDeltaX = 0;
+  }, { passive: true });
+
+  galleryViewport?.addEventListener('touchmove', (e) => {
+    if (!galleryDragging) return;
+    const dx = e.touches[0].clientX - galleryStartX;
+    const dy = e.touches[0].clientY - galleryStartY;
+    if (Math.abs(dy) > Math.abs(dx)) return;
+    e.preventDefault();
+    galleryDragDeltaX = dx;
+    renderGalleryTrack(true, galleryDragDeltaX);
+  }, { passive: false });
+
+  galleryViewport?.addEventListener('touchend', () => {
+    if (!galleryDragging) return;
+    galleryDragging = false;
+    const threshold = galleryViewport.clientWidth * 0.15;
+    if (Math.abs(galleryDragDeltaX) > threshold) {
+      galleryGoTo(galleryIndex + (galleryDragDeltaX < 0 ? 1 : -1));
+    } else {
+      renderGalleryTrack();
+    }
+  }, { passive: true });
+
+  window.addEventListener('resize', () => {
+    renderThumbTrack(true);
+    renderGalleryTrack(true);
+  });
 </script>
