@@ -99,4 +99,16 @@ const jsonLd = {
     width: 100%;
     margin: 2rem 0;
   }
+  .blog-content :global(blockquote) {
+    margin: 2rem 0;
+    padding: 1rem 1.5rem;
+    border-left: 2px solid theme('colors.accent.line');
+    background: rgba(255, 255, 255, 0.02);
+  }
+  .blog-content :global(blockquote p) {
+    margin-bottom: 0.75rem;
+  }
+  .blog-content :global(blockquote p:last-child) {
+    margin-bottom: 0;
+  }
 </style>
