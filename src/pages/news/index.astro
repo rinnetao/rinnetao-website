@@ -1,0 +1,48 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+function formatDate(d: Date) {
+  return d.toISOString().slice(0, 10).replace(/-/g, '.');
+}
+
+const newsPosts = await getCollection('news');
+
+const news = [
+  { date: new Date('2026-07-05'), text: 'サイトを公開しました。' },
+  ...newsPosts.map(p => ({ date: p.data.date, text: p.data.newsText, href: `/news/${p.slug}` })),
+]
+  .sort((a, b) => b.date.valueOf() - a.date.valueOf())
+  .map(n => ({ ...n, date: formatDate(n.date) }));
+---
+
+<Layout title="NEWS | 輪廻タヲ" description="輪廻タヲのお知らせ一覧">
+  <div class="pt-24 pb-16 px-5 md:px-8 min-h-screen">
+    <div class="max-w-3xl mx-auto">
+
+      <div class="py-12 mb-8">
+        <h1 class="font-mincho text-text-primary text-3xl font-light tracking-[0.3em]">News</h1>
+      </div>
+
+      <div class="space-y-1">
+        {news.map(({ date, text, href }) => (
+          href ? (
+            <a
+              href={href}
+              class="block border-b border-accent-line py-6 px-2 -mx-2 hover:bg-white/[0.02] transition-colors duration-300"
+            >
+              <p class="text-text-faint text-[10px] tracking-[0.2em] font-mono mb-2">{date}</p>
+              <p class="font-mincho text-text-primary text-base font-light tracking-wider">{text}</p>
+            </a>
+          ) : (
+            <div class="block border-b border-accent-line py-6 px-2 -mx-2">
+              <p class="text-text-faint text-[10px] tracking-[0.2em] font-mono mb-2">{date}</p>
+              <p class="font-mincho text-text-muted text-base font-light tracking-wider">{text}</p>
+            </div>
+          )
+        ))}
+      </div>
+
+    </div>
+  </div>
+</Layout>

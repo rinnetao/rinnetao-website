@@ -15,13 +15,14 @@ function formatDate(d: Date) {
   return d.toISOString().slice(0, 10).replace(/-/g, '.');
 }
 
-const newsPosts = (await getCollection('news'))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const newsPosts = await getCollection('news');
 
 const news = [
-  { date: formatDate(new Date('2026-07-05')), text: 'サイトを公開しました。' },
-  ...newsPosts.map(p => ({ date: formatDate(p.data.date), text: p.data.newsText, href: `/news/${p.slug}` })),
-];
+  { date: new Date('2026-07-05'), text: 'サイトを公開しました。' },
+  ...newsPosts.map(p => ({ date: p.data.date, text: p.data.newsText, href: `/news/${p.slug}` })),
+]
+  .sort((a, b) => b.date.valueOf() - a.date.valueOf())
+  .map(n => ({ ...n, date: formatDate(n.date) }));
 
 const galleryCats = [
   { file: 'char_131',     label: 'Character',  cat: 'char' },
@@ -32,8 +33,9 @@ const galleryCats = [
   { file: 'ipcd_16',      label: 'Commercial', cat: 'ipcd' },
 ];
 
-// hero-11(天ロックのお知らせ用サムネイル)はオープニング演出直後に見てもらえるよう先頭に配置。タップでニュース詳細へ
+// 直近のお知らせ用サムネイルはオープニング演出直後に見てもらえるよう先頭に配置。タップでニュース詳細へ
 const heroImages = [
+  { file: 'hero-12.webp', href: '/news/parallax-agency' },
   { file: 'hero-11.webp', href: '/news/tenrock-2026' },
   ...Array.from({ length: 10 }, (_, i) => ({ file: `hero-${i + 1}.webp` })),
 ];
@@ -141,9 +143,12 @@ const jsonLd = {
 
     <!-- NEWS -->
     <div id="news" class="scroll-mt-[72px] md:scroll-mt-[86px] bg-[#131110] rounded-sm p-5 border border-white/[0.04]">
-      <h2 class="font-mincho text-sm font-light tracking-[0.35em] text-text-primary pb-3 mb-4 border-b border-white/15">NEWS</h2>
+      <div class="flex items-baseline justify-between pb-3 mb-4 border-b border-white/15">
+        <h2 class="font-mincho text-sm font-light tracking-[0.35em] text-text-primary">NEWS</h2>
+        <a href="/news" class="text-text-faint text-[10px] tracking-[0.2em] font-light hover:text-text-muted transition-colors duration-300">すべて見る →</a>
+      </div>
       <ul class="space-y-3">
-        {news.map(({ date, text, href }) => (
+        {news.slice(0, 2).map(({ date, text, href }) => (
           <li>
             {href ? (
               <a href={href} class="w-full text-left flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 text-text-muted hover:text-text-primary transition-colors duration-300 group">
