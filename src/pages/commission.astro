@@ -47,13 +47,14 @@ const items = [
   },
   {
     id: 'ip-ad',
-    title: 'IP活用広告',
-    price: '11,000円 / 本〜',
+    title: 'キャラクターIPのコラボ、広告活用',
+    price: '応相談',
     desc: [
       '輪廻タヲのIPキャラクターを使ったCM風コンテンツを制作します。',
       '商品・サービスのプロモーション映像として、SNSでの活用を想定した制作が得意です。',
       '二次利用・商用利用の条件は別途ご相談ください。',
     ],
+    link: { href: '/character', label: 'キャラクターギャラリーはこちら' },
   },
   {
     id: 'website',
@@ -107,7 +108,7 @@ const terms = [
       <!-- 料金一覧（アコーディオン） -->
       <p class="text-text-faint text-[11px] font-light mb-4">※タップすると詳細が表示されます</p>
       <div class="mb-16">
-        {items.map(({ id, title, price, catch: tagline, desc }) => (
+        {items.map(({ id, title, price, catch: tagline, desc, link }) => (
           <details id={id} class="group border-b border-accent-line">
             <summary class="flex items-baseline justify-between gap-4 py-5 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
               <span class="font-mincho text-text-primary text-base font-light tracking-wider">{title}</span>
@@ -122,6 +123,11 @@ const terms = [
               )}
               <div class="text-text-faint text-[12px] font-light leading-[2]">
                 {desc.map(line => <p>{line}</p>)}
+                {link && (
+                  <p>
+                    <a href={link.href} class="underline underline-offset-2 decoration-text-faint/40 text-text-muted hover:text-text-primary transition-colors duration-300">{link.label}</a>
+                  </p>
+                )}
               </div>
             </div>
           </details>
