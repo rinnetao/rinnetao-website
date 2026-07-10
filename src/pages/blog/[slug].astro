@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import CTA from '../../components/CTA.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -54,6 +55,8 @@ const jsonLd = {
       <div class="blog-content text-text-muted text-[14px] font-light leading-[2]">
         <Content />
       </div>
+
+      <CTA />
 
       <div class="mt-16 pt-8 border-t border-accent-line">
         <a href="/blog" class="text-text-faint text-[10px] tracking-[0.3em] font-light hover:text-text-muted transition-colors duration-300">← 記事一覧へ戻る</a>
