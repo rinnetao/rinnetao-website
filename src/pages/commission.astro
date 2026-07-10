@@ -135,7 +135,7 @@ const terms = [
       </div>
 
       <!-- 共通事項 -->
-      <details class="group border-l border-accent-red pl-5 mb-16">
+      <details id="terms" class="group border-l border-accent-red pl-5 mb-16 scroll-mt-[72px] md:scroll-mt-[86px]">
         <summary class="flex items-center justify-between gap-4 mb-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
           <span class="flex items-baseline gap-2">
             <span class="font-mincho text-text-primary text-sm font-light tracking-wider">共通事項</span>
@@ -155,7 +155,7 @@ const terms = [
       </details>
 
       <!-- 修正・リテイクについて -->
-      <details class="group border-l border-accent-red pl-5 mb-16">
+      <details id="retake" class="group border-l border-accent-red pl-5 mb-16 scroll-mt-[72px] md:scroll-mt-[86px]">
         <summary class="flex items-center justify-between gap-4 mb-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
           <span class="flex items-baseline gap-2">
             <span class="font-mincho text-text-primary text-sm font-light tracking-wider">修正・リテイクについて</span>
@@ -201,6 +201,14 @@ const terms = [
           <div>
             <label class="block text-text-faint text-[10px] tracking-[0.2em] mb-2" for="cf-message">ご依頼内容・ご要望<span class="text-accent-red">*</span></label>
             <textarea id="cf-message" name="message" rows="6" required class="w-full bg-[#131110] border border-white/[0.1] text-text-primary text-[13px] px-4 py-3 focus:outline-none focus:border-white/30 transition-colors resize-y"></textarea>
+          </div>
+
+          <div class="flex items-start gap-3 pt-2">
+            <input id="cf-agree" name="agree" type="checkbox" required class="mt-1 shrink-0 w-4 h-4 accent-white bg-[#131110] border border-white/[0.2]" />
+            <label for="cf-agree" class="text-text-muted text-[12px] font-light leading-[1.9]">
+              ご依頼の際は<a href="#terms" class="underline underline-offset-2 decoration-text-faint/40 hover:text-text-primary transition-colors duration-300">「共通事項」</a>・<a href="#retake" class="underline underline-offset-2 decoration-text-faint/40 hover:text-text-primary transition-colors duration-300">「修正・リテイクについて」</a>の項目を一読し、その内容に了承の上、ご依頼ください。<br />
+              確認しました
+            </label>
           </div>
 
           <button type="submit" class="block w-full text-center px-5 py-3 bg-white text-[#1a1a1a] text-[11px] font-sans-jp font-bold tracking-[0.15em] hover:bg-white/85 transition-all duration-300">
