@@ -120,6 +120,18 @@ const jsonLd = {
     margin: 2rem 0;
     border-collapse: collapse;
     font-size: 12px;
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.text.faint') transparent;
+  }
+  .blog-content :global(table::-webkit-scrollbar) {
+    height: 6px;
+  }
+  .blog-content :global(table::-webkit-scrollbar-thumb) {
+    background: theme('colors.text.faint');
+    border-radius: 3px;
+  }
+  .blog-content :global(table::-webkit-scrollbar-track) {
+    background: rgba(255, 255, 255, 0.04);
   }
   .blog-content :global(th),
   .blog-content :global(td) {
