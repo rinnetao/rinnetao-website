@@ -2,14 +2,14 @@
 import Layout from '../layouts/Layout.astro';
 
 const highlights = [
-  { file: 'angel_77', cat: 'angel' },
-  { file: 'char_131', cat: 'char' },
-  { file: 'char_125', cat: 'char' },
-  { file: 'angel_80', cat: 'angel' },
-  { file: 'chaos_65', cat: 'chaos' },
-  { file: 'char_130', cat: 'char' },
-  { file: 'angel_74', cat: 'angel' },
-  { file: 'chaos_63', cat: 'chaos' },
+  { file: 'guitar-bust' },
+  { file: 'piano' },
+  { file: 'fullbody-front' },
+  { file: 'crosslegged' },
+  { file: 'festival-snack' },
+  { file: 'lying-down' },
+  { file: 'guitar-peace' },
+  { file: 'sitting-profile' },
 ];
 ---
 
@@ -24,7 +24,7 @@ const highlights = [
       <!-- Hero -->
       <div class="grid md:grid-cols-2 gap-6 md:gap-10 items-center mb-16 md:mb-24">
         <div class="aspect-[3/4] overflow-hidden bg-[#1e1c18] rounded-sm">
-          <img src="/gallery/angel_77.webp" alt="輪廻タヲ" class="w-full h-full object-cover" />
+          <img src="/character/main.webp" alt="輪廻タヲ" class="w-full h-full object-cover" />
         </div>
         <div class="space-y-4">
           <p class="text-[9px] font-light tracking-[0.5em] text-text-muted/80 uppercase font-mincho">Character IP</p>
@@ -42,7 +42,10 @@ const highlights = [
       <div class="mb-16 md:mb-24 space-y-4 text-text-muted text-[13px] md:text-[14px] font-light leading-[2]">
         <h2 class="font-mincho text-sm font-light tracking-[0.35em] text-text-primary mb-4">Profile</h2>
         <p>
-          技術と感性が交わる場所で、音楽・イラスト・映像という形をとって、これまでにない創作のあり方を体現していくキャラクター。作品世界に一貫しているのは、人間的な繊細さとデジタルな断片性が同時に存在すること。壊れかけた輪郭の向こうに、たしかな感情が宿っています。
+          黒髪に編み込まれた無数の瞳のモチーフ、鋭く跳ねる赤い翼のアイメイク、円環状のボタンをあしらった純白のロングコート。身にまとうのは、生と死の境界を行き来する存在であることを示す意匠です。首元には、彼女自身のシンボルでもある☯のペンダント。
+        </p>
+        <p>
+          ギターを弾き、ピアノに向かい、時にはロックフェスの屋台で串焼きを頬張る——技術と感性が交わる場所で、音楽・イラスト・映像という形をとって、これまでにない創作のあり方を体現していくキャラクターです。
         </p>
         <p>
           2025年秋に活動を開始し、半年でAIアーティストとしての活動基盤を構築。2026年7月、AIタレントエージェンシー「ParallaxAgency」アニメキャラ部門に所属し、キャラクターIPとしての管理・運用体制を整えました。
@@ -66,18 +69,18 @@ const highlights = [
       <div class="mb-16 md:mb-24">
         <div class="flex items-baseline justify-between mb-6">
           <h2 class="font-mincho text-sm font-light tracking-[0.35em] text-text-primary">Gallery</h2>
-          <a href="/gallery?cat=char" class="text-text-faint text-[10px] tracking-[0.2em] font-light hover:text-text-muted transition-colors duration-300">すべて見る →</a>
+          <a href="/gallery?cat=char" class="text-text-faint text-[10px] tracking-[0.2em] font-light hover:text-text-muted transition-colors duration-300">その他の作品 →</a>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-1">
-          {highlights.map(({ file, cat }) => (
-            <a href={`/gallery?cat=${cat}`} class="aspect-[3/4] relative overflow-hidden bg-[#1e1c18] group block">
+          {highlights.map(({ file }) => (
+            <div class="aspect-[3/4] relative overflow-hidden bg-[#1e1c18] group">
               <img
-                src={`/gallery/${file}.webp`}
+                src={`/character/${file}.webp`}
                 alt=""
                 loading="lazy"
                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
               />
-            </a>
+            </div>
           ))}
         </div>
       </div>
