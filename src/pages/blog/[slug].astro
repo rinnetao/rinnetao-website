@@ -113,4 +113,23 @@ const jsonLd = {
   .blog-content :global(blockquote p:last-child) {
     margin-bottom: 0;
   }
+  .blog-content :global(table) {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    margin: 2rem 0;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  .blog-content :global(th),
+  .blog-content :global(td) {
+    padding: 0.6rem 1rem;
+    border: 1px solid theme('colors.accent.line');
+    text-align: left;
+  }
+  .blog-content :global(th) {
+    color: theme('colors.text.primary');
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.03);
+  }
 </style>
