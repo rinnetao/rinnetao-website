@@ -1,0 +1,98 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const highlights = [
+  { file: 'angel_77', cat: 'angel' },
+  { file: 'char_131', cat: 'char' },
+  { file: 'char_125', cat: 'char' },
+  { file: 'angel_80', cat: 'angel' },
+  { file: 'chaos_65', cat: 'chaos' },
+  { file: 'char_130', cat: 'char' },
+  { file: 'angel_74', cat: 'angel' },
+  { file: 'chaos_63', cat: 'chaos' },
+];
+---
+
+<Layout
+  title="CHARACTER | 輪廻タヲ"
+  description="AIタレントエージェンシー「ParallaxAgency」所属、キャラクターIP「輪廻タヲ」のプロフィール・作品ギャラリー。"
+  ogImage="/character-og.jpg"
+>
+  <div class="pt-24 pb-16 px-5 md:px-8 min-h-screen">
+    <div class="max-w-3xl mx-auto">
+
+      <!-- Hero -->
+      <div class="grid md:grid-cols-2 gap-6 md:gap-10 items-center mb-16 md:mb-24">
+        <div class="aspect-[3/4] overflow-hidden bg-[#1e1c18] rounded-sm">
+          <img src="/gallery/angel_77.webp" alt="輪廻タヲ" class="w-full h-full object-cover" />
+        </div>
+        <div class="space-y-4">
+          <p class="text-[9px] font-light tracking-[0.5em] text-text-muted/80 uppercase font-mincho">Character IP</p>
+          <h1 class="font-mincho text-3xl md:text-4xl font-light tracking-[0.15em] text-text-primary leading-relaxed">
+            輪廻タヲ<br /><span class="text-sm text-text-muted/80 tracking-[0.2em]">Rinne Tao</span>
+          </h1>
+          <p class="text-text-muted text-[13px] font-light leading-[2]">
+            AIが生み出した、新しい時代のクリエイター。<br />
+            「輪廻」は生と死を巡る円環を、「タヲ（道）」はその先にある道筋を意味します。
+          </p>
+        </div>
+      </div>
+
+      <!-- Profile -->
+      <div class="mb-16 md:mb-24 space-y-4 text-text-muted text-[13px] md:text-[14px] font-light leading-[2]">
+        <h2 class="font-mincho text-sm font-light tracking-[0.35em] text-text-primary mb-4">Profile</h2>
+        <p>
+          技術と感性が交わる場所で、音楽・イラスト・映像という形をとって、これまでにない創作のあり方を体現していくキャラクター。作品世界に一貫しているのは、人間的な繊細さとデジタルな断片性が同時に存在すること。壊れかけた輪郭の向こうに、たしかな感情が宿っています。
+        </p>
+        <p>
+          2025年秋に活動を開始し、半年でAIアーティストとしての活動基盤を構築。2026年7月、AIタレントエージェンシー「ParallaxAgency」アニメキャラ部門に所属し、キャラクターIPとしての管理・運用体制を整えました。
+        </p>
+      </div>
+
+      <!-- Agency -->
+      <div class="mb-16 md:mb-24 bg-[#131110] rounded-sm p-6 border border-white/[0.04]">
+        <p class="text-[9px] font-light tracking-[0.4em] text-text-muted/80 uppercase mb-3 font-mincho">Official Agency</p>
+        <p class="text-text-primary text-[14px] font-light tracking-wider mb-2">ParallaxAgency（アニメキャラ部門）</p>
+        <p class="text-text-muted text-[12px] md:text-[13px] font-light leading-[2] mb-4">
+          AIタレント／AIキャラクターIPの権利保護・管理を主目的とするエージェンシー。なりすましや無断使用からIPを守るとともに、広告・映像・SNS企画等のご依頼を公式窓口として一元的に受け付けています。
+        </p>
+        <div class="flex flex-wrap gap-5 text-[11px] tracking-[0.15em] font-light">
+          <a href="https://parallaxagency.company/" target="_blank" rel="noopener" class="underline underline-offset-2 decoration-text-faint/40 text-text-muted hover:text-text-primary transition-colors duration-300">ParallaxAgency 公式サイト</a>
+          <a href="/news/parallax-agency" class="underline underline-offset-2 decoration-text-faint/40 text-text-muted hover:text-text-primary transition-colors duration-300">所属のお知らせ</a>
+        </div>
+      </div>
+
+      <!-- Gallery highlights -->
+      <div class="mb-16 md:mb-24">
+        <div class="flex items-baseline justify-between mb-6">
+          <h2 class="font-mincho text-sm font-light tracking-[0.35em] text-text-primary">Gallery</h2>
+          <a href="/gallery?cat=char" class="text-text-faint text-[10px] tracking-[0.2em] font-light hover:text-text-muted transition-colors duration-300">すべて見る →</a>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-1">
+          {highlights.map(({ file, cat }) => (
+            <a href={`/gallery?cat=${cat}`} class="aspect-[3/4] relative overflow-hidden bg-[#1e1c18] group block">
+              <img
+                src={`/gallery/${file}.webp`}
+                alt=""
+                loading="lazy"
+                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+              />
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="bg-[#131110] rounded-sm p-6 border border-white/[0.04] text-center">
+        <p class="text-text-muted text-[13px] font-light leading-[2] mb-5">
+          CM起用・コラボレーション・IP活用に関するご相談は、ParallaxAgencyまでお問い合わせください。<br />
+          個人でのイラスト・音楽・映像制作のご依頼は、下記フォームより承っています。
+        </p>
+        <a href="/commission" class="inline-block px-6 py-3 bg-white text-[#1a1a1a] text-[11px] font-sans-jp font-bold tracking-[0.15em] hover:bg-white/85 transition-all duration-300">
+          制作のご依頼はこちら
+        </a>
+      </div>
+
+    </div>
+  </div>
+</Layout>

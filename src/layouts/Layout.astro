@@ -70,6 +70,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
         <!-- デスクトップメニュー -->
         <ul class="hidden md:flex items-center gap-7 text-[11px] font-light tracking-[0.25em] text-text-muted">
           <li><a href="/#about" class="hover:text-text-primary transition-colors duration-300">ABOUT</a></li>
+          <li><a href="/character" class:list={['hover:text-text-primary transition-colors duration-300', currentPath.startsWith('/character') && 'text-text-primary']}>CHARACTER</a></li>
           <li><a href="/gallery" class:list={['hover:text-text-primary transition-colors duration-300', currentPath.startsWith('/gallery') && 'text-text-primary']}>GALLERY</a></li>
           <li><a href="/#video" class="hover:text-text-primary transition-colors duration-300">VIDEO</a></li>
           <li><a href="/#music" class="hover:text-text-primary transition-colors duration-300">MUSIC</a></li>
@@ -90,6 +91,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
       <button id="menu-close" class="absolute top-4 right-5 text-text-muted text-2xl font-light">×</button>
       <ul class="flex flex-col items-center gap-10 text-[13px] font-light tracking-[0.4em] text-text-muted">
         <li><a href="/#about" class="hover:text-text-primary transition-colors duration-300">ABOUT</a></li>
+        <li><a href="/character" class="hover:text-text-primary transition-colors duration-300">CHARACTER</a></li>
         <li><a href="/gallery" class="hover:text-text-primary transition-colors duration-300">GALLERY</a></li>
         <li><a href="/#video" class="hover:text-text-primary transition-colors duration-300">VIDEO</a></li>
         <li><a href="/#music" class="hover:text-text-primary transition-colors duration-300">MUSIC</a></li>
