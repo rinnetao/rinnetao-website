@@ -390,11 +390,6 @@ const works = [
   <div id="lb-filename" class="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/40 text-[10px] font-mono tracking-wider"></div>
 </div>
 
-<!-- ページトップへ戻る -->
-<button id="back-to-top" class="hidden fixed bottom-10 right-8 z-30 w-14 h-14 rounded-full bg-black/70 backdrop-blur-sm border border-white/10 items-center justify-center text-white/70 hover:text-white hover:bg-black/85 transition-all duration-300" aria-label="ページトップへ戻る">
-  <svg width="18" height="18" viewBox="0 0 14 14" fill="none"><polyline points="2,9 7,4 12,9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-</button>
-
 <script define:vars={{ works }}>
   const BATCH = 48;
   const grid = document.getElementById('gallery-grid');
@@ -577,15 +572,4 @@ const works = [
       resetTrack(false);
     }
   }, { passive: true });
-
-  // ===== ページトップへ戻る =====
-  const backToTop = document.getElementById('back-to-top');
-  function toggleBackToTop() {
-    const show = window.scrollY > 400;
-    backToTop.classList.toggle('hidden', !show);
-    backToTop.classList.toggle('flex', show);
-  }
-  window.addEventListener('scroll', toggleBackToTop, { passive: true });
-  toggleBackToTop();
-  backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 </script>

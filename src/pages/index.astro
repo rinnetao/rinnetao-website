@@ -148,7 +148,7 @@ const jsonLd = {
         <a href="/news" class="text-text-faint text-[10px] tracking-[0.2em] font-light hover:text-text-muted transition-colors duration-300">すべて見る →</a>
       </div>
       <ul class="space-y-3">
-        {news.slice(0, 2).map(({ date, text, href }) => (
+        {news.slice(0, 3).map(({ date, text, href }) => (
           <li>
             {href ? (
               <a href={href} class="w-full text-left flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 text-text-muted hover:text-text-primary transition-colors duration-300 group">
