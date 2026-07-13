@@ -361,7 +361,7 @@ const jsonLd = {
 <style>
   .section-title {
     font-family: 'Cormorant Garamond', 'Shippori Mincho', serif;
-    color: theme('colors.text.primary');
+    color: theme('colors.text.faint');
     font-size: 24px;
     font-weight: 400;
     text-align: center;
@@ -369,21 +369,44 @@ const jsonLd = {
     letter-spacing: 0.3em;
     position: relative;
     margin-bottom: 32px;
+    text-shadow: none;
+    transition: color 1000ms ease, text-shadow 1000ms ease;
+  }
+  .section-title.is-visible {
+    color: theme('colors.text.primary');
+    text-shadow: 0 0 20px rgba(240, 236, 228, 0.45);
   }
   .section-title::after {
     content: '';
     position: absolute;
     left: 50%;
     bottom: -16px;
-    transform: translateX(-50%);
+    transform: translateX(-50%) scaleX(0);
+    transform-origin: center;
     width: 44px;
     height: 3px;
     border-radius: 3px;
     background: theme('colors.text.primary');
+    transition: transform 700ms ease 250ms;
+  }
+  .section-title.is-visible::after {
+    transform: translateX(-50%) scaleX(1);
   }
 </style>
 
 <script>
+  // ===== 見出しのスクロール出現演出 =====
+  const sectionTitles = document.querySelectorAll<HTMLElement>('.section-title');
+  const titleObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        titleObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.4, rootMargin: '0px 0px -10% 0px' });
+  sectionTitles.forEach(el => titleObserver.observe(el));
+
   // ===== Hero スライドショー =====
   const heroTrack = document.getElementById('hero-track') as HTMLElement;
   const heroSlideCount = document.querySelectorAll('.hero-slide').length;
