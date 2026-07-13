@@ -11,6 +11,18 @@ const videos = [
   { id: 'DstG8uTv8yY', title: 'ANGEL' },
 ];
 
+const musicWorks = [
+  { title: '魔女なの花ちゃん', albumId: '2xzeTRvl5R1UZvlRsw0RFo' },
+  { title: 'TAO',              albumId: '3kHWitbxjEn6GFShKa592G' },
+  { title: '狂宴',              albumId: '5u6BawfR7TPKeXduLqwO3f' },
+  { title: 'Me No Know AI',    albumId: '3qdWJyWCBwrfUf0j7JHpKh' },
+  { title: '羅針盤',            albumId: '1OJBV44Sw3zVTU4h9oxFgq' },
+  { title: '深海',              albumId: '7pulq3cniEtBBu1VbkD4bn' },
+  { title: 'PARADOX',          albumId: '0OjiuPjVXkbmKNUhGz6LXV' },
+  { title: 'Latch☆かんきん',    albumId: '7hLub3512tprb8NIhV37sF' },
+  { title: 'ANGEL',            albumId: '2mSTKDoge4u8q1THkiLRC8' },
+];
+
 function formatDate(d: Date) {
   return d.toISOString().slice(0, 10).replace(/-/g, '.');
 }
@@ -273,16 +285,7 @@ const jsonLd = {
     <!-- Music -->
     <div id="music" class="scroll-mt-[72px] md:scroll-mt-[86px]">
       <h2 class="font-mincho text-sm font-light tracking-[0.35em] text-text-primary mb-4">Music</h2>
-      <iframe
-        src="https://open.spotify.com/embed/artist/6cgNohFINOQDxktASQzmQy?utm_source=generator&theme=0"
-        width="100%"
-        height="352"
-        frameborder="0"
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        loading="lazy"
-        class="rounded-sm"
-      ></iframe>
-      <div class="flex items-center gap-5 mt-4 pt-4 border-t border-white/[0.04]">
+      <div class="flex items-center gap-5 pb-4 mb-5 border-b border-white/[0.04]">
         <a href="https://open.spotify.com/intl-ja/artist/6cgNohFINOQDxktASQzmQy" target="_blank" rel="noopener" class="hover:opacity-70 transition-opacity duration-300" aria-label="Spotify">
           <img src="https://www.google.com/s2/favicons?domain=spotify.com&sz=32" alt="Spotify" class="w-5 h-5" />
         </a>
@@ -290,6 +293,20 @@ const jsonLd = {
           <img src="https://www.google.com/s2/favicons?domain=music.apple.com&sz=32" alt="Apple Music" class="w-5 h-5" />
         </a>
         <p class="text-text-faint text-[10px] font-light tracking-[0.15em] font-gothic">各種ストリーミングで配信中 <br /> — <span class="text-text-muted">"RInne Tao"</span> で検索</p>
+      </div>
+      <div class="space-y-3">
+        {musicWorks.map(({ title, albumId }) => (
+          <iframe
+            src={`https://open.spotify.com/embed/album/${albumId}?utm_source=generator&theme=0`}
+            title={title}
+            width="100%"
+            height="152"
+            frameborder="0"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+            class="rounded-sm"
+          ></iframe>
+        ))}
       </div>
     </div>
 
