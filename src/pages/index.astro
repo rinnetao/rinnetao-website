@@ -326,33 +326,36 @@ const jsonLd = {
     <!-- Video -->
     <div id="video" class="scroll-mt-[72px] md:scroll-mt-[86px]">
       <h2 class="section-title">Video</h2>
-      <div class="relative mb-1">
-        <button id="top-prev" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-8 h-full flex items-center justify-center text-text-faint hover:text-text-muted transition-colors bg-gradient-to-r from-[#0e1210] to-transparent text-lg" aria-label="前へ">‹</button>
-        <div id="top-thumb-scroll" class="relative overflow-hidden mx-8">
-          <div id="top-thumb-track" class="flex gap-1">
+      <div class="relative max-w-lg mx-auto">
+        <div id="video-swipe-area" class="relative aspect-video overflow-hidden rounded-sm touch-pan-y">
+          <div id="video-track" class="absolute inset-0 flex">
             {videos.map((v, i) => (
-              <button data-id={v.id}
-                class:list={['top-thumb flex-shrink-0 w-[calc(30%-2px)] md:w-[calc(16.666%-1px)] aspect-video relative overflow-hidden',
-                  i === 0 ? 'ring-1 ring-white/30' : 'opacity-40 hover:opacity-70 transition-opacity']}
-                aria-label={v.title}>
-                <img src={`https://img.youtube.com/vi/${v.id}/mqdefault.jpg`} alt={v.title} class="w-full h-full object-cover" />
-              </button>
+              <div class="video-slide w-full h-full shrink-0 relative bg-[#1e1c18]" data-id={v.id} data-title={v.title}>
+                <button class="video-play-trigger absolute inset-0 w-full h-full group" aria-label={`${v.title}を再生`}>
+                  <img
+                    src={`https://img.youtube.com/vi/${v.id}/hqdefault.jpg`}
+                    alt={v.title}
+                    class="w-full h-full object-cover"
+                    loading={i === 0 ? 'eager' : 'lazy'}
+                  />
+                  <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center">
+                    <svg class="w-14 h-14 text-white drop-shadow-lg" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                  </div>
+                  <div class="absolute bottom-0 left-0 right-0 px-3 py-2 bg-gradient-to-t from-black/80 to-transparent">
+                    <p class="text-white text-[11px] font-light tracking-wide truncate text-left">{v.title}</p>
+                  </div>
+                </button>
+              </div>
             ))}
           </div>
         </div>
-        <button id="top-next" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-8 h-full flex items-center justify-center text-text-faint hover:text-text-muted transition-colors bg-gradient-to-l from-[#0e1210] to-transparent text-lg" aria-label="次へ">›</button>
+        <button id="video-prev" class="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-black/50 flex items-center justify-center text-white/80 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="前へ"><svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button id="video-next" class="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-black/50 flex items-center justify-center text-white/80 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="次へ"><svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="2,2 8,8 2,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </div>
-      <div id="top-thumb-dots" class="flex md:hidden justify-center gap-1.5 mb-2">
+      <div id="video-dots" class="flex justify-center gap-2 mt-3">
         {videos.map((_, i) => (
-          <span data-dot={i} class:list={['h-1 rounded-full transition-all duration-300', i === 0 ? 'w-4 bg-text-muted/70' : 'w-1 bg-text-faint/40']}></span>
+          <button data-video-dot={i} class:list={['rounded-full h-1.5 transition-all duration-300', i === 0 ? 'w-4 bg-text-muted/70' : 'w-1.5 bg-text-faint/40']} aria-label={`動画 ${i + 1}`}></button>
         ))}
-      </div>
-      <div class="aspect-video w-full md:max-w-[896px] mx-auto mt-3">
-        <iframe id="top-player-iframe"
-          src={`https://www.youtube.com/embed/${videos[0].id}?rel=0`}
-          title={videos[0].title}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen class="w-full h-full"></iframe>
       </div>
     </div>
 
@@ -503,81 +506,90 @@ const jsonLd = {
     startTimer();
   }, { passive: true });
 
-  // ===== Video スライダー（Heroと同じtranslateX方式：1マスずつ移動+無限ループ）=====
-  const iframe = document.getElementById('top-player-iframe') as HTMLIFrameElement;
-  const thumbViewport = document.getElementById('top-thumb-scroll') as HTMLElement;
-  const thumbTrack = document.getElementById('top-thumb-track') as HTMLElement;
-  const thumbs = document.querySelectorAll<HTMLButtonElement>('.top-thumb');
-  const thumbDots = document.querySelectorAll<HTMLSpanElement>('#top-thumb-dots [data-dot]');
-  const videoCount = thumbs.length;
-  let current = 0;
+  // ===== Video スワイプ（Heroと同じtranslateX方式：1マスずつ移動+無限ループ、タップで再生）=====
+  const videoSwipeArea = document.getElementById('video-swipe-area') as HTMLElement;
+  const videoTrack = document.getElementById('video-track') as HTMLElement;
+  const videoSlides = document.querySelectorAll<HTMLElement>('.video-slide');
+  const videoDots = document.querySelectorAll<HTMLButtonElement>('#video-dots [data-video-dot]');
+  const videoCount = videoSlides.length;
+  let videoIndex = 0;
 
-  function thumbStep() {
-    return thumbs[0].getBoundingClientRect().width + 4; // gap-1 = 4px
-  }
-  function renderThumbTrack(instant = false, dragDeltaX = 0) {
-    // PCなど全件が収まっている時はズラさない（元々全部見えているレイアウトを維持）
-    const overflowing = thumbTrack.scrollWidth > thumbViewport.clientWidth + 20;
-    const shiftIndex = overflowing ? current : 0;
-    thumbTrack.style.transition = instant ? 'none' : 'transform 400ms ease-out';
-    thumbTrack.style.transform = `translateX(${-shiftIndex * thumbStep() + dragDeltaX}px)`;
+  function stopVideoPlayback(slide: HTMLElement) {
+    slide.querySelector('iframe')?.remove();
+    slide.querySelector<HTMLButtonElement>('.video-play-trigger')?.classList.remove('hidden');
   }
 
-  function select(index: number, instant = false) {
-    const newIndex = (index + videoCount) % videoCount;
-    const isWrap = (current === videoCount - 1 && newIndex === 0) || (current === 0 && newIndex === videoCount - 1);
-    const btn = thumbs[newIndex];
-    iframe.src = `https://www.youtube.com/embed/${btn.dataset.id}?rel=0&autoplay=1`;
-    thumbs.forEach((b, i) => {
-      b.classList.toggle('ring-1', i === newIndex);
-      b.classList.toggle('ring-white/30', i === newIndex);
-      b.classList.toggle('opacity-40', i !== newIndex);
-    });
-    thumbDots.forEach((d, i) => {
-      d.classList.toggle('w-4', i === newIndex);
-      d.classList.toggle('bg-text-muted/70', i === newIndex);
-      d.classList.toggle('w-1', i !== newIndex);
-      d.classList.toggle('bg-text-faint/40', i !== newIndex);
-    });
-    current = newIndex;
-    renderThumbTrack(instant || isWrap);
+  function playVideo(slide: HTMLElement) {
+    if (slide.querySelector('iframe')) return;
+    const id = slide.dataset.id;
+    const title = slide.dataset.title ?? '';
+    if (!id) return;
+    slide.querySelector<HTMLButtonElement>('.video-play-trigger')?.classList.add('hidden');
+    const videoIframe = document.createElement('iframe');
+    videoIframe.src = `https://www.youtube.com/embed/${id}?rel=0&autoplay=1`;
+    videoIframe.title = title;
+    videoIframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+    videoIframe.allowFullscreen = true;
+    videoIframe.className = 'absolute inset-0 w-full h-full';
+    slide.appendChild(videoIframe);
   }
 
-  thumbs.forEach((btn, i) => btn.addEventListener('click', () => select(i)));
-  document.getElementById('top-prev')?.addEventListener('click', () => select(current - 1));
-  document.getElementById('top-next')?.addEventListener('click', () => select(current + 1));
-  renderThumbTrack(true);
+  function renderVideoTrack(instant = false, dragDeltaX = 0) {
+    videoTrack.style.transition = instant ? 'none' : 'transform 400ms ease-out';
+    videoTrack.style.transform = `translateX(${-videoIndex * 100 + (dragDeltaX / videoSwipeArea.clientWidth) * 100}%)`;
+  }
 
-  let thumbDragging = false;
-  let thumbStartX = 0;
-  let thumbStartY = 0;
-  let thumbDragDeltaX = 0;
+  function goToVideo(rawIndex: number, instant = false) {
+    const prevIndex = videoIndex;
+    const newIndex = (rawIndex + videoCount) % videoCount;
+    const isWrap = (prevIndex === videoCount - 1 && newIndex === 0) || (prevIndex === 0 && newIndex === videoCount - 1);
+    stopVideoPlayback(videoSlides[prevIndex]);
+    videoDots[prevIndex]?.classList.remove('w-4', 'bg-text-muted/70');
+    videoDots[prevIndex]?.classList.add('w-1.5', 'bg-text-faint/40');
+    videoDots[newIndex]?.classList.remove('w-1.5', 'bg-text-faint/40');
+    videoDots[newIndex]?.classList.add('w-4', 'bg-text-muted/70');
+    videoIndex = newIndex;
+    renderVideoTrack(instant || isWrap);
+  }
 
-  thumbViewport?.addEventListener('touchstart', (e) => {
-    thumbDragging = true;
-    thumbStartX = e.touches[0].clientX;
-    thumbStartY = e.touches[0].clientY;
-    thumbDragDeltaX = 0;
+  videoSlides.forEach(slide => {
+    slide.querySelector('.video-play-trigger')?.addEventListener('click', () => playVideo(slide));
+  });
+  document.getElementById('video-prev')?.addEventListener('click', () => goToVideo(videoIndex - 1));
+  document.getElementById('video-next')?.addEventListener('click', () => goToVideo(videoIndex + 1));
+  videoDots.forEach((dot, i) => dot.addEventListener('click', () => goToVideo(i)));
+  renderVideoTrack(true);
+
+  let videoDragging = false;
+  let videoStartX = 0;
+  let videoStartY = 0;
+  let videoDragDeltaX = 0;
+
+  videoSwipeArea?.addEventListener('touchstart', (e) => {
+    videoDragging = true;
+    videoStartX = e.touches[0].clientX;
+    videoStartY = e.touches[0].clientY;
+    videoDragDeltaX = 0;
   }, { passive: true });
 
-  thumbViewport?.addEventListener('touchmove', (e) => {
-    if (!thumbDragging) return;
-    const dx = e.touches[0].clientX - thumbStartX;
-    const dy = e.touches[0].clientY - thumbStartY;
+  videoSwipeArea?.addEventListener('touchmove', (e) => {
+    if (!videoDragging) return;
+    const dx = e.touches[0].clientX - videoStartX;
+    const dy = e.touches[0].clientY - videoStartY;
     if (Math.abs(dy) > Math.abs(dx)) return;
     e.preventDefault();
-    thumbDragDeltaX = dx;
-    renderThumbTrack(true, thumbDragDeltaX);
+    videoDragDeltaX = dx;
+    renderVideoTrack(true, videoDragDeltaX);
   }, { passive: false });
 
-  thumbViewport?.addEventListener('touchend', () => {
-    if (!thumbDragging) return;
-    thumbDragging = false;
-    const threshold = thumbViewport.clientWidth * 0.1;
-    if (Math.abs(thumbDragDeltaX) > threshold) {
-      select(current + (thumbDragDeltaX < 0 ? 1 : -1));
+  videoSwipeArea?.addEventListener('touchend', () => {
+    if (!videoDragging) return;
+    videoDragging = false;
+    const threshold = videoSwipeArea.clientWidth * 0.15;
+    if (Math.abs(videoDragDeltaX) > threshold) {
+      goToVideo(videoIndex + (videoDragDeltaX < 0 ? 1 : -1));
     } else {
-      renderThumbTrack();
+      renderVideoTrack();
     }
   }, { passive: true });
 
@@ -599,6 +611,6 @@ const jsonLd = {
   });
 
   window.addEventListener('resize', () => {
-    renderThumbTrack(true);
+    renderVideoTrack(true);
   });
 </script>
