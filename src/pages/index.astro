@@ -236,33 +236,21 @@ const jsonLd = {
       <div class="flex justify-end -mt-4 mb-4">
         <a href="/gallery" class="text-text-faint text-[10px] tracking-[0.2em] font-light hover:text-text-muted transition-colors duration-300">すべて →</a>
       </div>
-      <!-- モバイル：スワイプカルーセル -->
-      <div class="md:hidden">
-        <div id="gallery-swipe" class="relative overflow-hidden">
-          <div id="gallery-track" class="flex gap-2">
-            {galleryCats.map(({ file, label, cat }) => (
-              <a href={`/gallery?cat=${cat}`} class="gallery-swipe-item shrink-0 w-[70%] aspect-[3/4] relative overflow-hidden bg-[#1e1c18] block rounded-sm">
-                <img
-                  src={`/gallery/${file}.webp`}
-                  alt=""
-                  loading="lazy"
-                  class="w-full h-full object-cover"
-                />
-                <div class="absolute inset-x-0 top-1/2 -translate-y-1/2 py-2 flex items-center justify-center bg-black/80">
-                  <span class="text-white text-[12px] tracking-[0.2em] font-light font-mincho">{label}</span>
-                </div>
-              </a>
-            ))}
-          </div>
-        </div>
-        <div id="gallery-dots" class="flex justify-center gap-1.5 mt-3">
-          {galleryCats.map((_, i) => (
-            <button data-gallery-dot={i}
-              class:list={['gallery-dot rounded-full h-1.5 transition-all duration-300', i === 0 ? 'w-4 bg-text-muted/70' : 'w-1.5 bg-text-faint/40']}
-              aria-label={`カテゴリ ${i + 1}`}
-            ></button>
-          ))}
-        </div>
+      <!-- モバイル：スクエアグリッド -->
+      <div class="grid grid-cols-2 gap-3 md:hidden">
+        {galleryCats.map(({ file, label, cat }) => (
+          <a href={`/gallery?cat=${cat}`} class="relative aspect-square overflow-hidden rounded-md bg-[#1e1c18] block">
+            <img
+              src={`/gallery/${file}.webp`}
+              alt=""
+              loading="lazy"
+              class="w-full h-full object-cover"
+            />
+            <div class="absolute inset-0 bg-black/35 flex items-center justify-center">
+              <span class="text-white text-[13px] tracking-[0.2em] font-light font-mincho">{label}</span>
+            </div>
+          </a>
+        ))}
       </div>
 
       <!-- PC：グリッド -->
@@ -288,12 +276,12 @@ const jsonLd = {
       <h2 class="section-title">Music</h2>
       <div class="flex items-center gap-5 pb-4 mb-5 border-b border-white/[0.04]">
         <a href="https://open.spotify.com/intl-ja/artist/6cgNohFINOQDxktASQzmQy" target="_blank" rel="noopener" class="hover:opacity-70 transition-opacity duration-300" aria-label="Spotify">
-          <img src="https://www.google.com/s2/favicons?domain=spotify.com&sz=32" alt="Spotify" class="w-5 h-5" />
+          <img src="https://www.google.com/s2/favicons?domain=spotify.com&sz=64" alt="Spotify" class="w-7 h-7" />
         </a>
         <a href="https://music.apple.com/us/artist/rinne-tao/1863623820" target="_blank" rel="noopener" class="hover:opacity-70 transition-opacity duration-300" aria-label="Apple Music">
-          <img src="https://www.google.com/s2/favicons?domain=music.apple.com&sz=32" alt="Apple Music" class="w-5 h-5" />
+          <img src="https://www.google.com/s2/favicons?domain=music.apple.com&sz=64" alt="Apple Music" class="w-7 h-7" />
         </a>
-        <p class="text-text-faint text-[10px] font-light tracking-[0.15em] font-gothic">各種ストリーミングで配信中 <br /> — <span class="text-text-muted">"RInne Tao"</span> で検索</p>
+        <p class="text-text-faint text-[13px] font-light tracking-[0.15em] font-gothic">各種ストリーミングで配信中 <br /> — <span class="text-text-muted">"RInne Tao"</span> で検索</p>
       </div>
       <div id="music-player-wrap" class="hidden mb-3">
         <iframe id="music-player-iframe"
@@ -307,7 +295,7 @@ const jsonLd = {
       </div>
       {(['Album', 'Single'] as const).map(groupType => (
         <div class="mb-6 last:mb-0">
-          <p class="text-text-faint text-[10px] tracking-[0.4em] uppercase font-mincho mb-3">{groupType}</p>
+          <p class="text-text-faint text-[13px] tracking-[0.4em] uppercase font-mincho mb-3">{groupType}</p>
           <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
             {musicWorks.filter(w => w.type === groupType).map(({ title, albumId, cover }) => (
               <button data-album-id={albumId} data-title={title}
@@ -574,80 +562,7 @@ const jsonLd = {
     });
   });
 
-  // ===== Gallery スワイプ（Heroと同じtranslateX方式：1マスずつ移動+無限ループ）=====
-  const galleryViewport = document.getElementById('gallery-swipe') as HTMLElement;
-  const galleryTrack = document.getElementById('gallery-track') as HTMLElement;
-  const galleryItems = document.querySelectorAll<HTMLElement>('.gallery-swipe-item');
-  const galleryDots = document.querySelectorAll<HTMLButtonElement>('.gallery-dot');
-  const galleryCount = galleryItems.length;
-  let galleryIndex = 0;
-
-  function galleryStep() {
-    return galleryItems[0].getBoundingClientRect().width + 8; // gap-2 = 8px
-  }
-  function galleryCenterOffset() {
-    return (galleryViewport.clientWidth - galleryItems[0].getBoundingClientRect().width) / 2;
-  }
-  function renderGalleryTrack(instant = false, dragDeltaX = 0) {
-    galleryTrack.style.transition = instant ? 'none' : 'transform 400ms ease-out';
-    const offset = galleryCenterOffset() - galleryIndex * galleryStep() + dragDeltaX;
-    galleryTrack.style.transform = `translateX(${offset}px)`;
-  }
-  function setActiveGalleryDot(index: number) {
-    galleryDots.forEach((d, i) => {
-      d.classList.toggle('w-4', i === index);
-      d.classList.toggle('bg-text-muted/70', i === index);
-      d.classList.toggle('w-1.5', i !== index);
-      d.classList.toggle('bg-text-faint/40', i !== index);
-    });
-  }
-  function galleryGoTo(rawIndex: number) {
-    const prevIndex = galleryIndex;
-    const newIndex = (rawIndex + galleryCount) % galleryCount;
-    const isWrap = (prevIndex === galleryCount - 1 && newIndex === 0) || (prevIndex === 0 && newIndex === galleryCount - 1);
-    galleryIndex = newIndex;
-    setActiveGalleryDot(galleryIndex);
-    renderGalleryTrack(isWrap);
-  }
-
-  galleryDots.forEach((dot, i) => dot.addEventListener('click', () => galleryGoTo(i)));
-  renderGalleryTrack(true);
-
-  let galleryDragging = false;
-  let galleryStartX = 0;
-  let galleryStartY = 0;
-  let galleryDragDeltaX = 0;
-
-  galleryViewport?.addEventListener('touchstart', (e) => {
-    galleryDragging = true;
-    galleryStartX = e.touches[0].clientX;
-    galleryStartY = e.touches[0].clientY;
-    galleryDragDeltaX = 0;
-  }, { passive: true });
-
-  galleryViewport?.addEventListener('touchmove', (e) => {
-    if (!galleryDragging) return;
-    const dx = e.touches[0].clientX - galleryStartX;
-    const dy = e.touches[0].clientY - galleryStartY;
-    if (Math.abs(dy) > Math.abs(dx)) return;
-    e.preventDefault();
-    galleryDragDeltaX = dx;
-    renderGalleryTrack(true, galleryDragDeltaX);
-  }, { passive: false });
-
-  galleryViewport?.addEventListener('touchend', () => {
-    if (!galleryDragging) return;
-    galleryDragging = false;
-    const threshold = galleryViewport.clientWidth * 0.15;
-    if (Math.abs(galleryDragDeltaX) > threshold) {
-      galleryGoTo(galleryIndex + (galleryDragDeltaX < 0 ? 1 : -1));
-    } else {
-      renderGalleryTrack();
-    }
-  }, { passive: true });
-
   window.addEventListener('resize', () => {
     renderThumbTrack(true);
-    renderGalleryTrack(true);
   });
 </script>
