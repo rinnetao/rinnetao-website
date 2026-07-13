@@ -12,15 +12,15 @@ const videos = [
 ];
 
 const musicWorks = [
-  { title: 'TAO',              albumId: '3kHWitbxjEn6GFShKa592G', type: 'Album' },
-  { title: '魔女なの花ちゃん', albumId: '2xzeTRvl5R1UZvlRsw0RFo', type: 'Single' },
-  { title: '狂宴',              albumId: '5u6BawfR7TPKeXduLqwO3f', type: 'Single' },
-  { title: 'Me No Know AI',    albumId: '3qdWJyWCBwrfUf0j7JHpKh', type: 'Single' },
-  { title: '羅針盤',            albumId: '1OJBV44Sw3zVTU4h9oxFgq', type: 'Single' },
-  { title: '深海',              albumId: '7pulq3cniEtBBu1VbkD4bn', type: 'Single' },
-  { title: 'PARADOX',          albumId: '0OjiuPjVXkbmKNUhGz6LXV', type: 'Single' },
-  { title: 'Latch☆かんきん',    albumId: '7hLub3512tprb8NIhV37sF', type: 'Single' },
-  { title: 'ANGEL',            albumId: '2mSTKDoge4u8q1THkiLRC8', type: 'Single' },
+  { title: 'TAO',              albumId: '3kHWitbxjEn6GFShKa592G', type: 'Album',  cover: 'https://i.scdn.co/image/ab67616d000048516d76e1041a05f1117e48fff2' },
+  { title: '魔女なの花ちゃん', albumId: '2xzeTRvl5R1UZvlRsw0RFo', type: 'Single', cover: 'https://i.scdn.co/image/ab67616d00004851ce25c3d122f4b5080fe80e78' },
+  { title: '狂宴',              albumId: '5u6BawfR7TPKeXduLqwO3f', type: 'Single', cover: 'https://i.scdn.co/image/ab67616d00001e02da587e7978e15ca82287b3a0' },
+  { title: 'Me No Know AI',    albumId: '3qdWJyWCBwrfUf0j7JHpKh', type: 'Single', cover: 'https://i.scdn.co/image/ab67616d000048513f866d7609f9da053dd42c61' },
+  { title: '羅針盤',            albumId: '1OJBV44Sw3zVTU4h9oxFgq', type: 'Single', cover: 'https://i.scdn.co/image/ab67616d0000485101766aa8dbe78e7383897e2b' },
+  { title: '深海',              albumId: '7pulq3cniEtBBu1VbkD4bn', type: 'Single', cover: 'https://i.scdn.co/image/ab67616d00001e02f001d820a7b7e3980d64ad55' },
+  { title: 'PARADOX',          albumId: '0OjiuPjVXkbmKNUhGz6LXV', type: 'Single', cover: 'https://i.scdn.co/image/ab67616d00004851166984343fc3f549e9d8b446' },
+  { title: 'Latch☆かんきん',    albumId: '7hLub3512tprb8NIhV37sF', type: 'Single', cover: 'https://i.scdn.co/image/ab67616d00001e0212565f13ecb0ad207a2876c9' },
+  { title: 'ANGEL',            albumId: '2mSTKDoge4u8q1THkiLRC8', type: 'Single', cover: 'https://i.scdn.co/image/ab67616d00001e0214bb7efc1b89978d6a3ff68c' },
 ];
 
 function formatDate(d: Date) {
@@ -295,22 +295,29 @@ const jsonLd = {
         </a>
         <p class="text-text-faint text-[10px] font-light tracking-[0.15em] font-gothic">各種ストリーミングで配信中 <br /> — <span class="text-text-muted">"RInne Tao"</span> で検索</p>
       </div>
-      <div class="space-y-3">
-        {musicWorks.map(({ title, albumId, type }) => (
-          <div>
-            <p class="text-text-faint text-[9px] tracking-[0.3em] uppercase font-mincho mb-2">{type}</p>
-            <p class="font-mincho text-text-primary text-[13px] font-light tracking-wider mb-2">{title}</p>
-            <iframe
-              src={`https://open.spotify.com/embed/album/${albumId}?utm_source=generator&theme=0`}
-              title={title}
-              width="100%"
-              height="152"
-              frameborder="0"
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              loading="lazy"
-              class="rounded-sm"
-            ></iframe>
-          </div>
+      <div id="music-player-wrap" class="hidden mb-3">
+        <iframe id="music-player-iframe"
+          src=""
+          width="100%"
+          height="152"
+          frameborder="0"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          class="rounded-sm"
+        ></iframe>
+      </div>
+      <div class="grid grid-cols-3 md:grid-cols-5 gap-1">
+        {musicWorks.map(({ title, albumId, type, cover }) => (
+          <button data-album-id={albumId} data-title={title}
+            class="music-thumb group relative aspect-square overflow-hidden bg-[#1e1c18] cursor-pointer">
+            <img src={cover} alt={title} loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center">
+              <svg class="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+            <div class="absolute bottom-0 left-0 right-0 px-2 py-1.5 bg-gradient-to-t from-black/80 to-transparent">
+              <p class="text-white/60 text-[8px] tracking-[0.2em] uppercase font-mincho">{type}</p>
+              <p class="text-white text-[10px] font-light tracking-wide truncate">{title}</p>
+            </div>
+          </button>
         ))}
       </div>
     </div>
@@ -383,7 +390,7 @@ const jsonLd = {
     width: 44px;
     height: 3px;
     border-radius: 3px;
-    background: linear-gradient(90deg, theme('colors.accent.red'), theme('colors.text.faint'));
+    background: theme('colors.text.primary');
   }
 </style>
 
@@ -545,6 +552,23 @@ const jsonLd = {
       renderThumbTrack();
     }
   }, { passive: true });
+
+  // ===== Music：サムネイルタップでプレーヤー起動 =====
+  const musicThumbs = document.querySelectorAll<HTMLButtonElement>('.music-thumb');
+  const musicPlayerWrap = document.getElementById('music-player-wrap');
+  const musicPlayerIframe = document.getElementById('music-player-iframe') as HTMLIFrameElement;
+
+  musicThumbs.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const albumId = btn.dataset.albumId;
+      const title = btn.dataset.title ?? '';
+      if (!albumId || !musicPlayerWrap || !musicPlayerIframe) return;
+      musicPlayerIframe.src = `https://open.spotify.com/embed/album/${albumId}?utm_source=generator&theme=0&autoplay=1`;
+      musicPlayerIframe.title = title;
+      musicPlayerWrap.classList.remove('hidden');
+      musicPlayerWrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  });
 
   // ===== Gallery スワイプ（Heroと同じtranslateX方式：1マスずつ移動+無限ループ）=====
   const galleryViewport = document.getElementById('gallery-swipe') as HTMLElement;
