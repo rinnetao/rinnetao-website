@@ -308,7 +308,7 @@ const jsonLd = {
       {(['Album', 'Single'] as const).map(groupType => (
         <div class="mb-6 last:mb-0">
           <p class="text-text-faint text-[10px] tracking-[0.4em] uppercase font-mincho mb-3">{groupType}</p>
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
             {musicWorks.filter(w => w.type === groupType).map(({ title, albumId, cover }) => (
               <button data-album-id={albumId} data-title={title}
                 class="music-thumb group relative aspect-square overflow-hidden rounded-md bg-[#1e1c18] cursor-pointer">
