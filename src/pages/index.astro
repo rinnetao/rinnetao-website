@@ -328,8 +328,9 @@ const jsonLd = {
       <h2 class="section-title">Video</h2>
       <div class="flex gap-3 overflow-x-auto snap-x snap-mandatory no-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
         {videos.map((v, i) => (
-          <a href={`https://www.youtube.com/watch?v=${v.id}`} target="_blank" rel="noopener"
-            class="group relative aspect-video overflow-hidden rounded-md bg-[#1e1c18] shrink-0 snap-start w-[62%] sm:w-[42%] md:w-[calc(25%-12px)]">
+          <button data-id={v.id} data-title={v.title}
+            class="video-thumb group relative aspect-video overflow-hidden rounded-md bg-[#1e1c18] cursor-pointer shrink-0 snap-start w-[62%] sm:w-[42%] md:w-[calc(25%-12px)]"
+            aria-label={`${v.title}を再生`}>
             <img
               src={`https://img.youtube.com/vi/${v.id}/hqdefault.jpg`}
               alt={v.title}
@@ -342,7 +343,7 @@ const jsonLd = {
             <div class="absolute bottom-0 left-0 right-0 px-2 py-1.5 bg-gradient-to-t from-black/80 to-transparent">
               <p class="text-white text-[10px] font-light tracking-wide truncate">{v.title}</p>
             </div>
-          </a>
+          </button>
         ))}
       </div>
     </div>
@@ -493,6 +494,35 @@ const jsonLd = {
     }
     startTimer();
   }, { passive: true });
+
+  // ===== Video：サムネイルタップでその場再生+自動フルスクリーン =====
+  const videoThumbs = document.querySelectorAll<HTMLButtonElement>('.video-thumb');
+  let currentVideoThumb: HTMLButtonElement | null = null;
+
+  function stopVideoThumb(thumb: HTMLButtonElement) {
+    thumb.querySelector('iframe')?.remove();
+    thumb.querySelectorAll(':scope > div').forEach(el => el.classList.remove('hidden'));
+  }
+
+  videoThumbs.forEach(thumb => {
+    thumb.addEventListener('click', () => {
+      if (thumb.querySelector('iframe')) return;
+      if (currentVideoThumb && currentVideoThumb !== thumb) stopVideoThumb(currentVideoThumb);
+      const id = thumb.dataset.id;
+      const title = thumb.dataset.title ?? '';
+      if (!id) return;
+      thumb.querySelectorAll(':scope > div').forEach(el => el.classList.add('hidden'));
+      const videoIframe = document.createElement('iframe');
+      videoIframe.src = `https://www.youtube.com/embed/${id}?rel=0&autoplay=1`;
+      videoIframe.title = title;
+      videoIframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen';
+      videoIframe.allowFullscreen = true;
+      videoIframe.className = 'absolute inset-0 w-full h-full';
+      thumb.appendChild(videoIframe);
+      currentVideoThumb = thumb;
+      videoIframe.requestFullscreen?.().catch(() => {});
+    });
+  });
 
   // ===== Music：サムネイルタップでプレーヤー起動 =====
   const musicThumbs = document.querySelectorAll<HTMLButtonElement>('.music-thumb');
