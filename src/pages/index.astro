@@ -12,15 +12,15 @@ const videos = [
 ];
 
 const musicWorks = [
-  { title: '魔女なの花ちゃん', albumId: '2xzeTRvl5R1UZvlRsw0RFo' },
-  { title: 'TAO',              albumId: '3kHWitbxjEn6GFShKa592G' },
-  { title: '狂宴',              albumId: '5u6BawfR7TPKeXduLqwO3f' },
-  { title: 'Me No Know AI',    albumId: '3qdWJyWCBwrfUf0j7JHpKh' },
-  { title: '羅針盤',            albumId: '1OJBV44Sw3zVTU4h9oxFgq' },
-  { title: '深海',              albumId: '7pulq3cniEtBBu1VbkD4bn' },
-  { title: 'PARADOX',          albumId: '0OjiuPjVXkbmKNUhGz6LXV' },
-  { title: 'Latch☆かんきん',    albumId: '7hLub3512tprb8NIhV37sF' },
-  { title: 'ANGEL',            albumId: '2mSTKDoge4u8q1THkiLRC8' },
+  { title: 'TAO',              albumId: '3kHWitbxjEn6GFShKa592G', type: 'Album' },
+  { title: '魔女なの花ちゃん', albumId: '2xzeTRvl5R1UZvlRsw0RFo', type: 'Single' },
+  { title: '狂宴',              albumId: '5u6BawfR7TPKeXduLqwO3f', type: 'Single' },
+  { title: 'Me No Know AI',    albumId: '3qdWJyWCBwrfUf0j7JHpKh', type: 'Single' },
+  { title: '羅針盤',            albumId: '1OJBV44Sw3zVTU4h9oxFgq', type: 'Single' },
+  { title: '深海',              albumId: '7pulq3cniEtBBu1VbkD4bn', type: 'Single' },
+  { title: 'PARADOX',          albumId: '0OjiuPjVXkbmKNUhGz6LXV', type: 'Single' },
+  { title: 'Latch☆かんきん',    albumId: '7hLub3512tprb8NIhV37sF', type: 'Single' },
+  { title: 'ANGEL',            albumId: '2mSTKDoge4u8q1THkiLRC8', type: 'Single' },
 ];
 
 function formatDate(d: Date) {
@@ -295,17 +295,21 @@ const jsonLd = {
         <p class="text-text-faint text-[10px] font-light tracking-[0.15em] font-gothic">各種ストリーミングで配信中 <br /> — <span class="text-text-muted">"RInne Tao"</span> で検索</p>
       </div>
       <div class="space-y-3">
-        {musicWorks.map(({ title, albumId }) => (
-          <iframe
-            src={`https://open.spotify.com/embed/album/${albumId}?utm_source=generator&theme=0`}
-            title={title}
-            width="100%"
-            height="152"
-            frameborder="0"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-            class="rounded-sm"
-          ></iframe>
+        {musicWorks.map(({ title, albumId, type }) => (
+          <div>
+            <p class="text-text-faint text-[9px] tracking-[0.3em] uppercase font-mincho mb-2">{type}</p>
+            <p class="font-mincho text-text-primary text-[13px] font-light tracking-wider mb-2">{title}</p>
+            <iframe
+              src={`https://open.spotify.com/embed/album/${albumId}?utm_source=generator&theme=0`}
+              title={title}
+              width="100%"
+              height="152"
+              frameborder="0"
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+              class="rounded-sm"
+            ></iframe>
+          </div>
         ))}
       </div>
     </div>
