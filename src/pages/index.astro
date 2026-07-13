@@ -296,10 +296,19 @@ const jsonLd = {
       {(['Album', 'Single'] as const).map(groupType => (
         <div class="mb-6 last:mb-0">
           <p class="text-text-faint text-[15px] tracking-[0.4em] uppercase font-mincho mb-3 text-center">{groupType}</p>
-          <div class="flex flex-wrap justify-center gap-5">
+          <div class:list={[
+            groupType === 'Single'
+              ? 'flex gap-5 overflow-x-auto snap-x snap-mandatory no-scrollbar -mx-4 px-4 md:mx-0 md:px-0'
+              : 'flex flex-wrap justify-center gap-5',
+          ]}>
             {musicWorks.filter(w => w.type === groupType).map(({ title, albumId, cover }) => (
               <button data-album-id={albumId} data-title={title}
-                class="music-thumb group relative aspect-square overflow-hidden rounded-md bg-[#1e1c18] cursor-pointer w-[calc(50%-10px)] md:w-[calc(25%-15px)]">
+                class:list={[
+                  'music-thumb group relative aspect-square overflow-hidden rounded-md bg-[#1e1c18] cursor-pointer',
+                  groupType === 'Single'
+                    ? 'shrink-0 snap-start w-[42%] sm:w-[32%] md:w-[calc(25%-15px)]'
+                    : 'w-[calc(50%-10px)] md:w-[calc(25%-15px)]',
+                ]}>
                 <img src={cover} alt={title} loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                 <div class="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center">
                   <svg class="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
@@ -391,6 +400,13 @@ const jsonLd = {
   }
   .section-title.is-visible::after {
     transform: translateX(-50%) scaleX(1);
+  }
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 </style>
 
