@@ -515,6 +515,9 @@ const jsonLd = {
   let videoIndex = 0;
 
   function stopVideoPlayback(slide: HTMLElement) {
+    if (document.fullscreenElement && slide.contains(document.fullscreenElement)) {
+      document.exitFullscreen?.();
+    }
     slide.querySelector('iframe')?.remove();
     slide.querySelector<HTMLButtonElement>('.video-play-trigger')?.classList.remove('hidden');
   }
@@ -528,10 +531,11 @@ const jsonLd = {
     const videoIframe = document.createElement('iframe');
     videoIframe.src = `https://www.youtube.com/embed/${id}?rel=0&autoplay=1`;
     videoIframe.title = title;
-    videoIframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+    videoIframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen';
     videoIframe.allowFullscreen = true;
     videoIframe.className = 'absolute inset-0 w-full h-full';
     slide.appendChild(videoIframe);
+    videoIframe.requestFullscreen?.().catch(() => {});
   }
 
   function renderVideoTrack(instant = false, dragDeltaX = 0) {
