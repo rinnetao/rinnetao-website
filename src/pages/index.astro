@@ -296,28 +296,36 @@ const jsonLd = {
       {(['Album', 'Single'] as const).map(groupType => (
         <div class="mb-6 last:mb-0">
           <p class="text-text-faint text-[15px] tracking-[0.4em] uppercase font-mincho mb-3 text-center">{groupType}</p>
-          <div class:list={[
-            groupType === 'Single'
-              ? 'flex gap-5 overflow-x-auto snap-x snap-mandatory no-scrollbar -mx-4 px-4 md:mx-0 md:px-0'
-              : 'flex flex-wrap justify-center gap-5',
-          ]}>
-            {musicWorks.filter(w => w.type === groupType).map(({ title, albumId, cover }) => (
-              <button data-album-id={albumId} data-title={title}
-                class:list={[
-                  'music-thumb group relative aspect-square overflow-hidden rounded-md bg-[#1e1c18] cursor-pointer',
-                  groupType === 'Single'
-                    ? 'shrink-0 snap-start w-[42%] sm:w-[32%] md:w-[calc(25%-15px)]'
-                    : 'w-[calc(50%-10px)] md:w-[calc(25%-15px)]',
-                ]}>
-                <img src={cover} alt={title} loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center">
-                  <svg class="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                </div>
-                <div class="absolute bottom-0 left-0 right-0 px-2 py-1.5 bg-gradient-to-t from-black/80 to-transparent">
-                  <p class="text-white text-[10px] font-light tracking-wide truncate">{title}</p>
-                </div>
-              </button>
-            ))}
+          <div class="relative">
+            {groupType === 'Single' && (
+              <button id="music-single-prev" class="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/50 items-center justify-center text-white/70 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="前へ">‹</button>
+            )}
+            <div id={groupType === 'Single' ? 'music-single-row' : undefined} class:list={[
+              groupType === 'Single'
+                ? 'flex gap-5 overflow-x-auto snap-x snap-mandatory no-scrollbar -mx-4 px-4 md:mx-0 md:px-0'
+                : 'flex flex-wrap justify-center gap-5',
+            ]}>
+              {musicWorks.filter(w => w.type === groupType).map(({ title, albumId, cover }) => (
+                <button data-album-id={albumId} data-title={title}
+                  class:list={[
+                    'music-thumb group relative aspect-square overflow-hidden rounded-md bg-[#1e1c18] cursor-pointer',
+                    groupType === 'Single'
+                      ? 'shrink-0 snap-start w-[42%] sm:w-[32%] md:w-[calc(25%-15px)]'
+                      : 'w-[calc(50%-10px)] md:w-[calc(25%-15px)]',
+                  ]}>
+                  <img src={cover} alt={title} loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                  <div class="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center">
+                    <svg class="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                  </div>
+                  <div class="absolute bottom-0 left-0 right-0 px-2 py-1.5 bg-gradient-to-t from-black/80 to-transparent">
+                    <p class="text-white text-[10px] font-light tracking-wide truncate">{title}</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+            {groupType === 'Single' && (
+              <button id="music-single-next" class="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/50 items-center justify-center text-white/70 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="次へ">›</button>
+            )}
           </div>
         </div>
       ))}
@@ -326,25 +334,29 @@ const jsonLd = {
     <!-- Video -->
     <div id="video" class="scroll-mt-[72px] md:scroll-mt-[86px]">
       <h2 class="section-title">Video</h2>
-      <div class="flex gap-3 overflow-x-auto snap-x snap-mandatory no-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
-        {videos.map((v, i) => (
-          <button data-id={v.id} data-title={v.title}
-            class="video-thumb group relative aspect-video overflow-hidden rounded-md bg-[#1e1c18] cursor-pointer shrink-0 snap-start w-[62%] sm:w-[42%] md:w-[calc(25%-12px)]"
-            aria-label={`${v.title}を再生`}>
-            <img
-              src={`https://img.youtube.com/vi/${v.id}/hqdefault.jpg`}
-              alt={v.title}
-              loading={i === 0 ? 'eager' : 'lazy'}
-              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-            />
-            <div class="absolute inset-0 bg-black/10 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center">
-              <svg class="w-9 h-9 text-white opacity-90 group-hover:opacity-100 transition-opacity duration-300" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </div>
-            <div class="absolute bottom-0 left-0 right-0 px-2 py-1.5 bg-gradient-to-t from-black/80 to-transparent">
-              <p class="text-white text-[10px] font-light tracking-wide truncate">{v.title}</p>
-            </div>
-          </button>
-        ))}
+      <div class="relative">
+        <button id="video-row-prev" class="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/50 items-center justify-center text-white/70 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="前へ">‹</button>
+        <div id="video-row" class="flex gap-3 overflow-x-auto snap-x snap-mandatory no-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
+          {videos.map((v, i) => (
+            <button data-id={v.id} data-title={v.title}
+              class="video-thumb group relative aspect-video overflow-hidden rounded-md bg-[#1e1c18] cursor-pointer shrink-0 snap-start w-[62%] sm:w-[42%] md:w-[calc(25%-12px)]"
+              aria-label={`${v.title}を再生`}>
+              <img
+                src={`https://img.youtube.com/vi/${v.id}/hqdefault.jpg`}
+                alt={v.title}
+                loading={i === 0 ? 'eager' : 'lazy'}
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div class="absolute inset-0 bg-black/10 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center">
+                <svg class="w-9 h-9 text-white opacity-90 group-hover:opacity-100 transition-opacity duration-300" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+              <div class="absolute bottom-0 left-0 right-0 px-2 py-1.5 bg-gradient-to-t from-black/80 to-transparent">
+                <p class="text-white text-[10px] font-light tracking-wide truncate">{v.title}</p>
+              </div>
+            </button>
+          ))}
+        </div>
+        <button id="video-row-next" class="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/50 items-center justify-center text-white/70 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="次へ">›</button>
       </div>
     </div>
 
@@ -502,6 +514,22 @@ const jsonLd = {
     }
     startTimer();
   }, { passive: true });
+
+  // ===== PC用：横スクロール行の矢印ボタン（フリックできないPCでも端まで辿り着けるように） =====
+  function wireScrollArrows(rowId: string, prevId: string, nextId: string) {
+    const row = document.getElementById(rowId);
+    const prevBtn = document.getElementById(prevId);
+    const nextBtn = document.getElementById(nextId);
+    if (!row) return;
+    prevBtn?.addEventListener('click', () => {
+      row.scrollBy({ left: -row.clientWidth * 0.8, behavior: 'smooth' });
+    });
+    nextBtn?.addEventListener('click', () => {
+      row.scrollBy({ left: row.clientWidth * 0.8, behavior: 'smooth' });
+    });
+  }
+  wireScrollArrows('music-single-row', 'music-single-prev', 'music-single-next');
+  wireScrollArrows('video-row', 'video-row-prev', 'video-row-next');
 
   // ===== Video：サムネイルタップでライトボックス再生（ギャラリー拡大表示と同じ挙動） =====
   const videoThumbs = document.querySelectorAll<HTMLButtonElement>('.video-thumb');
