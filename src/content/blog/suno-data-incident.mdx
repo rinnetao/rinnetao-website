@@ -1,0 +1,115 @@
+---
+title: "Sunoの情報漏洩騒動 / 事実確認のおさらいと個人的に思うこと。"
+date: 2026-07-17
+description: "Sunoの学習データ収集とセキュリティインシデントが、X上で大きな話題になっています。一次情報をもとに事実関係を整理し、後半でSuno利用者としての個人的な見解をまとめました。"
+ogImage: "/blog/suno-data-incident-cover.jpg"
+---
+
+import CTA from '../../components/CTA.astro';
+
+!["Sunoの情報漏洩騒動 / 事実確認のおさらいと個人的に思うこと。"](/blog/suno-data-incident-cover.jpg)
+
+Sunoに関する、大きなニュースがXで広がっています。<br />
+不正アクセスによって、学習データの収集方法を示すソースコードが流出したというものです。<br />
+話題が過熱するほど、事実と印象が入り混じっていきます。<br />
+一次情報をもとに、まず事実関係を整理します。<br />
+後半に、Suno利用者としての個人的な見解を書いています。
+
+## 何が起きたのか
+
+きっかけは、[404 Media](https://www.404media.co/hack-reveals-suno-ai-music-generator-scraped-youtube-deezer-and-genius/)の独自取材でした。<br />
+Sunoに不正アクセスした攻撃者から、学習データの収集方法を示すソースコード(2023〜2024年時点のもの)を入手した、という内容です。
+
+流出したコードによれば、SunoはYouTube Music・Deezer・Genius・Pond5・Jamendoなど複数のプラットフォームから、音源を収集していました。<br />
+YouTube Musicだけで113,879時間、Pond5から62,117時間、Deezerから12,287時間分。<br />
+攻撃者は、数十万人規模の顧客情報とStripeの決済関連データにもアクセスした可能性がある、と主張しています。
+
+セキュリティ専門メディア[SC Media](https://www.scworld.com/brief/suno-ai-music-generator-hacked-source-code-reveals-alleged-data-scraping)は、この侵害が2025年11月に起きていたこと、Sunoがこれを「限定的なインシデント」と位置づけ、利用者への個別通知を行わなかったことを報じています。
+
+## Xでは、二重に燃えている
+
+この話題、X上では二つの燃え方をしています。
+
+> **燃えている対象は二つ**<br />
+> ・Sunoへの批判(無断での学習データ収集、顧客データへのアクセス可能性、8ヶ月近い非開示)<br />
+> ・拡散の起点になったアカウントへの批判(404 Mediaの独自取材を、クレジットなしで拡散したのではという指摘)
+
+拡散の起点になったのは、次の投稿です。
+
+> ‼️ BREAKING: A hacker breached AI music company Suno using the Shai-Hulud worm and released source code showing how its training set was built:<br />
+> - 113,879 hours of YouTube Music<br />
+> - 62,117 hours of Pond5<br />
+> - 12,287 hours of Deezer<br />
+> - plus Genius lyrics and a plan to download roughly 1 million hours of podcasts<br />
+> The same intrusion reached customer emails, phone numbers, and Stripe payment data for what the hacker says is hundreds of thousands of users.<br />
+> Suno dates the incident to November 2025, calls it limited, and says individual notifications were not warranted.<br />
+> [元ポストを見る](https://x.com/IntCyberDigest/status/2077760975734763861) — International Cyber Digest、2026年7月16日、67万表示超
+
+これに対し、404 Mediaの記者Jason Koebler氏が、次のように引用投稿しています。
+
+> damn that's crazy where did you get this information did you investigate it yourself or did you rip it from my reporting without credit or mention<br />
+> [元ポストを見る](https://x.com/jason_koebler/status/2077791475807769045) — Jason Koebler、2026年7月16日、10万表示超
+
+<CTA />
+
+## 確定していること、まだ確認できていないこと
+
+今回の話、すべてが同じ確度で確認されているわけではありません。<br />
+複数の独立したソースで確認できたのは、次の点です。
+
+> **確度が高い情報**<br />
+> ・プラットフォームごとの収集時間数の内訳<br />
+> ・数十万人規模の顧客データ・決済関連データへのアクセス可能性<br />
+> ・2025年11月のインシデントを、Sunoが「限定的」として個別通知しなかったこと
+
+一方で、Xで大きく拡散している以下の情報は、404 Media・SC Mediaという一次ソースでは確認できませんでした。
+
+> **確度が低い、まだ裏付けの薄い情報**<br />
+> ・「Shai-Hulud」という特定のワーム(マルウェア)が使われたという攻撃手法の詳細<br />
+> ・「約100万時間のポッドキャストを取得する計画だった」という具体的な数字
+
+この2点は、日本語の一部メディアや、拡散元のポストにしか出てきていません。
+
+## Suno利用者として、思うこと
+
+この記事を書こうと思ったのは、話題が過熱しすぎることで、事実や印象が捻じ曲げられていくことに、危うさを感じたからです。<br />
+悪いところは悪いと認め、改善されるべきだと思います。<br />
+でもそれは、冷静な判断と、必要であれば司法の手続きに従って進むべきものです。<br />
+扇動によって、まだ発展途上にあるSunoやAI音楽が、私刑のような形で道を閉ざされることがあってはならないと思っています。
+
+企業としての落ち度は、率直に指摘されるべきだと思います。<br />
+許可なく大量のデータを学習に使ったこと。<br />
+顧客データへのアクセス可能性を、8ヶ月近く利用者に知らせなかったこと。<br />
+これらは、AI技術への賛否とは関係なく、企業姿勢の問題です。
+
+**Sunoのポテンシャルを信じているからこそ、必要な批判は擁護せずにしていきたい**と思っています。<br />
+好きだから何も言わない、というのは、応援の仕方として不誠実です。
+
+そもそも、AI音楽の権利問題自体は、今回に限らず以前から指摘され続けてきたことです。<br />
+これをきっかけに一気にヒートアップするのではなく、冷静に状況を見ていく必要があると思っています。
+
+Sunoには、炎上が鎮まったらそれで終わり、にはしてほしくありません。<br />
+起きたことに対してきちんと対策を取り、それを利用者にきちんと伝えてほしい。<br />
+そこまでやって、初めて信頼は取り戻せるものだと思っています。
+
+Sunoを使い続けるかどうかは、また別の判断です。<br />
+ただ、この一件をきっかけに、まだ育っている途中のAI音楽の技術・コミュニティ・文化・アーティストたちが、一時の逆風で立ち消えになってしまうようなことには、なってほしくありません。<br />
+少なくとも自分は、学習データの扱いと、インシデント対応の透明性を、利用者として注視し続けます。
+
+## 事実を正しく確認して、冷静に
+
+こういう話題に触れるとき、大事にしたいことがあります。
+
+**まず、一次情報に当たること。**<br />
+SNSで拡散されている要約や又聞きではなく、報道の元記事や、当事者の発言そのものを確認する。<br />
+この記事も、404 MediaやSC Mediaの報道、当事者のポストを直接確認した上で書いています。
+
+**そして、確度の違いを区別すること。**<br />
+複数のソースで裏付けが取れている情報と、拡散元の投稿にしか出てこない情報を、同じ強さで語らない。<br />
+「まだ確認できていない」という状態を、確認できていないまま受け止める。
+
+**感情的な反応の前に、一呼吸置くこと。**<br />
+話題が過熱しているときほど、一次情報を確認する前に反応したくなります。<br />
+でも、その一呼吸が、扇動と冷静な批判を分けるものだと思っています。
+
+そのためにも、まずは一人ひとりが、冷静な視点を持ち続けることが大事だと思っています。
