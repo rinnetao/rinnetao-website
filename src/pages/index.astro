@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import { works as galleryWorks } from '../data/gallery-works';
 
 const videos = [
   { id: 'ujpMwPWFooQ', title: '魔女なの花ちゃん' },
@@ -36,14 +37,6 @@ const news = [
   .sort((a, b) => b.date.valueOf() - a.date.valueOf())
   .map(n => ({ ...n, date: formatDate(n.date) }));
 
-const galleryCats = [
-  { file: 'char_131',     label: 'Character',  cat: 'char' },
-  { file: 'angel_80',     label: 'Angel',      cat: 'angel' },
-  { file: 'chaos_65',     label: 'Chaos',      cat: 'chaos' },
-  { file: 'landscape_09', label: 'Landscape',  cat: 'landscape' },
-  { file: 'jitsusya_20',  label: 'Photo',      cat: 'jitsusya' },
-  { file: 'ipcd_16',      label: 'Commercial', cat: 'ipcd' },
-];
 
 // 直近のお知らせ用サムネイルはオープニング演出直後に見てもらえるよう先頭に配置。タップでニュース詳細へ
 const heroImages = [
@@ -236,38 +229,10 @@ const jsonLd = {
       <div class="flex justify-end -mt-4 mb-4">
         <a href="/gallery" class="text-text-faint text-[10px] tracking-[0.2em] font-light hover:text-text-muted transition-colors duration-300">すべて →</a>
       </div>
-      <!-- モバイル：横スワイプ -->
-      <div class="flex gap-3 overflow-x-auto snap-x snap-mandatory no-scrollbar -mx-4 px-4 md:hidden">
-        {galleryCats.map(({ file, label, cat }) => (
-          <a href={`/gallery?cat=${cat}`} class="relative aspect-square overflow-hidden rounded-md bg-[#1e1c18] block shrink-0 snap-start w-[42%] sm:w-[32%]">
-            <img
-              src={`/gallery/${file}.webp`}
-              alt=""
-              loading="lazy"
-              class="w-full h-full object-cover"
-            />
-            <div class="absolute inset-x-0 top-1/2 -translate-y-1/2 py-2 flex items-center justify-center bg-black/80">
-              <span class="text-white text-[13px] tracking-[0.2em] font-light font-mincho">{label}</span>
-            </div>
-          </a>
-        ))}
-      </div>
-
-      <!-- PC：グリッド -->
-      <div class="hidden md:grid md:grid-cols-6 gap-1">
-        {galleryCats.map(({ file, label, cat }) => (
-          <a href={`/gallery?cat=${cat}`} class="aspect-[3/4] relative overflow-hidden bg-[#1e1c18] group cursor-pointer block">
-            <img
-              src={`/gallery/${file}.webp`}
-              alt=""
-              loading="lazy"
-              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-            />
-            <div class="flex absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/55 items-center justify-center">
-              <span class="text-white text-[13px] tracking-[0.3em] font-light font-mincho drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">{label}</span>
-            </div>
-          </a>
-        ))}
+      <div class="relative">
+        <button id="gallery-row-prev" class="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/50 border border-white items-center justify-center text-white/70 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="前へ"><svg width="8" height="13" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div id="gallery-random-row" class="flex gap-3 overflow-x-auto snap-x snap-mandatory no-scrollbar -mx-4 px-4 md:mx-0 md:px-0"></div>
+        <button id="gallery-row-next" class="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/50 border border-white items-center justify-center text-white/70 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="次へ"><svg width="8" height="13" viewBox="0 0 10 16" fill="none"><polyline points="2,2 8,8 2,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </div>
     </div>
 
@@ -370,6 +335,29 @@ const jsonLd = {
   <button id="video-lightbox-close" class="absolute top-4 right-5 text-white/70 hover:text-white text-2xl font-light z-10" aria-label="閉じる">×</button>
   <div class="w-full max-w-4xl aspect-video" onclick="event.stopPropagation()">
     <iframe id="video-lightbox-iframe" src="" title="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen class="w-full h-full"></iframe>
+  </div>
+</div>
+
+<!-- Gallery ライトボックス -->
+<div id="gallery-lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90" role="dialog" aria-modal="true">
+  <button id="glb-prev" class="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/70 hover:text-white transition-all" aria-label="前へ">
+    <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <button id="glb-next" class="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/70 hover:text-white transition-all" aria-label="次へ">
+    <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="2,2 8,8 2,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <div id="glb-swipe-area" class="relative w-full h-full overflow-hidden touch-pan-y">
+    <div id="glb-track" class="w-full h-full flex">
+      <div class="w-full h-full shrink-0 flex items-center justify-center">
+        <img id="glb-img-prev" src="" alt="" class="max-h-[90vh] max-w-[90vw] object-contain select-none pointer-events-none" />
+      </div>
+      <div class="w-full h-full shrink-0 flex items-center justify-center">
+        <img id="glb-img" src="" alt="" class="max-h-[90vh] max-w-[90vw] object-contain select-none" />
+      </div>
+      <div class="w-full h-full shrink-0 flex items-center justify-center">
+        <img id="glb-img-next" src="" alt="" class="max-h-[90vh] max-w-[90vw] object-contain select-none pointer-events-none" />
+      </div>
+    </div>
   </div>
 </div>
 
@@ -578,4 +566,141 @@ const jsonLd = {
     });
   });
 
+</script>
+
+<script define:vars={{ galleryWorks }}>
+  // ===== Gallery：ランダム表示+ライトボックス =====
+  function shuffleGallery(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  const shuffledWorks = shuffleGallery(galleryWorks);
+  const galleryRow = document.getElementById('gallery-random-row');
+  const TEASER_COUNT = 6;
+
+  function galleryItemMarkup(w) {
+    const btn = document.createElement('button');
+    btn.className = 'group relative aspect-square overflow-hidden rounded-md bg-[#1e1c18] cursor-pointer shrink-0 snap-start w-[42%] sm:w-[32%] md:w-[calc(25%-15px)]';
+    const img = document.createElement('img');
+    img.src = `/gallery/${w.file}.webp`;
+    img.alt = '';
+    img.loading = 'lazy';
+    img.className = 'w-full h-full object-cover transition-transform duration-500 group-hover:scale-105';
+    btn.appendChild(img);
+    return btn;
+  }
+
+  shuffledWorks.slice(0, TEASER_COUNT).forEach((w, i) => {
+    const item = galleryItemMarkup(w);
+    item.addEventListener('click', () => openGalleryLightbox(i));
+    galleryRow.appendChild(item);
+  });
+
+  document.getElementById('gallery-row-prev')?.addEventListener('click', () => {
+    galleryRow.scrollBy({ left: -galleryRow.clientWidth * 0.8, behavior: 'smooth' });
+  });
+  document.getElementById('gallery-row-next')?.addEventListener('click', () => {
+    galleryRow.scrollBy({ left: galleryRow.clientWidth * 0.8, behavior: 'smooth' });
+  });
+
+  // ===== ライトボックス =====
+  const glb = document.getElementById('gallery-lightbox');
+  const glbSwipeArea = document.getElementById('glb-swipe-area');
+  const glbTrack = document.getElementById('glb-track');
+  const glbImg = document.getElementById('glb-img');
+  const glbImgPrev = document.getElementById('glb-img-prev');
+  const glbImgNext = document.getElementById('glb-img-next');
+  let glbIndex = 0;
+
+  function srcFor(idx) {
+    const n = shuffledWorks.length;
+    const w = shuffledWorks[((idx % n) + n) % n];
+    return `/gallery/${w.file}.webp`;
+  }
+
+  function resetGlbTrack(instant) {
+    glbTrack.style.transition = instant ? 'none' : 'transform 250ms ease-out';
+    glbTrack.style.transform = 'translateX(-100%)';
+  }
+
+  function showGlb() {
+    glbImg.src = srcFor(glbIndex);
+    glbImgPrev.src = srcFor(glbIndex - 1);
+    glbImgNext.src = srcFor(glbIndex + 1);
+    resetGlbTrack(true);
+  }
+
+  function openGalleryLightbox(index) {
+    glbIndex = index;
+    showGlb();
+    glb.classList.remove('hidden');
+    glb.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeGalleryLightbox() {
+    glb.classList.add('hidden');
+    glb.classList.remove('flex');
+    document.body.style.overflow = '';
+  }
+
+  function glbGo(delta) {
+    glbIndex += delta;
+    showGlb();
+  }
+
+  document.getElementById('glb-prev')?.addEventListener('click', () => glbGo(-1));
+  document.getElementById('glb-next')?.addEventListener('click', () => glbGo(1));
+  glb.addEventListener('click', e => { if (e.target === glb) closeGalleryLightbox(); });
+  glbImg.addEventListener('click', closeGalleryLightbox);
+  document.addEventListener('keydown', e => {
+    if (glb.classList.contains('hidden')) return;
+    if (e.key === 'Escape') closeGalleryLightbox();
+    if (e.key === 'ArrowLeft') glbGo(-1);
+    if (e.key === 'ArrowRight') glbGo(1);
+  });
+
+  // ===== スワイプ（指の動きに追従） =====
+  let glbDragging = false;
+  let glbDragStartX = 0;
+  let glbDragStartY = 0;
+  let glbDragDeltaX = 0;
+  let glbAreaWidth = 0;
+
+  glbSwipeArea.addEventListener('touchstart', e => {
+    glbDragging = true;
+    glbDragStartX = e.touches[0].clientX;
+    glbDragStartY = e.touches[0].clientY;
+    glbDragDeltaX = 0;
+    glbAreaWidth = glbSwipeArea.clientWidth;
+    glbTrack.style.transition = 'none';
+  }, { passive: true });
+
+  glbSwipeArea.addEventListener('touchmove', e => {
+    if (!glbDragging) return;
+    const dx = e.touches[0].clientX - glbDragStartX;
+    const dy = e.touches[0].clientY - glbDragStartY;
+    if (Math.abs(dy) > Math.abs(dx)) return;
+    glbDragDeltaX = dx;
+    glbTrack.style.transform = `translateX(calc(-100% + ${dx}px))`;
+  }, { passive: true });
+
+  glbSwipeArea.addEventListener('touchend', () => {
+    if (!glbDragging) return;
+    glbDragging = false;
+    const threshold = glbAreaWidth * 0.15;
+    if (Math.abs(glbDragDeltaX) > threshold) {
+      const dir = glbDragDeltaX < 0 ? 1 : -1;
+      glbTrack.style.transition = 'transform 250ms ease-out';
+      glbTrack.style.transform = `translateX(${dir < 0 ? '0%' : '-200%'})`;
+      setTimeout(() => glbGo(dir), 250);
+    } else {
+      resetGlbTrack(false);
+    }
+  }, { passive: true });
 </script>
