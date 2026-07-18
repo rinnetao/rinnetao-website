@@ -234,6 +234,7 @@ const jsonLd = {
         <div id="gallery-random-row" class="flex gap-3 overflow-x-auto snap-x snap-mandatory no-scrollbar -mx-4 px-4 md:mx-0 md:px-0"></div>
         <button id="gallery-row-next" class="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/50 border border-white items-center justify-center text-white/70 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="次へ"><svg width="8" height="13" viewBox="0 0 10 16" fill="none"><polyline points="2,2 8,8 2,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </div>
+      <p class="text-text-faint text-[11px] font-light text-center mt-3">画像をタップでイラストを表示します</p>
     </div>
 
     <!-- Music -->
@@ -340,6 +341,7 @@ const jsonLd = {
 
 <!-- Gallery ライトボックス -->
 <div id="gallery-lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90" role="dialog" aria-modal="true">
+  <div class="absolute top-4 left-1/2 -translate-x-1/2 text-white/70 text-[12px] tracking-wider text-center whitespace-nowrap pointer-events-none">← 左右にスワイプ →</div>
   <button id="glb-prev" class="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 border border-white/70 hover:bg-white/20 flex items-center justify-center text-white/70 hover:text-white transition-all" aria-label="前へ">
     <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
