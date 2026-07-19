@@ -86,9 +86,7 @@ const videos = [
 
       <!-- Movie -->
       <div class="mb-16 md:mb-24">
-        <div class="mb-6">
-          <h2 class="char-heading font-mincho text-sm font-light tracking-[0.35em]">Movie</h2>
-        </div>
+        <h2 class="char-heading">Movie</h2>
         <div class="relative">
           <button id="char-movie-prev" class="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/50 border border-white items-center justify-center text-white/70 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="前へ"><svg width="8" height="13" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           <div id="char-movie-row" class="flex gap-3 overflow-x-auto snap-x snap-mandatory no-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
@@ -114,9 +112,7 @@ const videos = [
 
       <!-- Illustration -->
       <div>
-        <div class="mb-6">
-          <h2 class="char-heading font-mincho text-sm font-light tracking-[0.35em]">Illustration</h2>
-        </div>
+        <h2 class="char-heading">Illustration</h2>
         <div id="char-illust-grid" class="grid grid-cols-2 md:grid-cols-3 gap-3"></div>
       </div>
 
@@ -159,10 +155,15 @@ const videos = [
 
 <style>
   .char-heading {
-    position: relative;
-    display: inline-block;
-    padding-bottom: 14px;
+    font-family: 'Cormorant Garamond', 'Shippori Mincho', serif;
     color: theme('colors.text.faint');
+    font-size: 24px;
+    font-weight: 400;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    position: relative;
+    margin-bottom: 32px;
     text-shadow: none;
     transition: color 1000ms ease, text-shadow 1000ms ease;
   }
@@ -173,18 +174,18 @@ const videos = [
   .char-heading::after {
     content: '';
     position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 32px;
+    left: 50%;
+    bottom: -16px;
+    transform: translateX(-50%) scaleX(0);
+    transform-origin: center;
+    width: 44px;
     height: 3px;
     border-radius: 3px;
     background: theme('colors.text.primary');
-    transform: scaleX(0);
-    transform-origin: left;
     transition: transform 700ms ease 250ms;
   }
   .char-heading.is-visible::after {
-    transform: scaleX(1);
+    transform: translateX(-50%) scaleX(1);
   }
   .no-scrollbar {
     scrollbar-width: none;
