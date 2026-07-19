@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-const highlights = [
+const illustrations = [
   { file: 'guitar-bust' },
   { file: 'piano' },
   { file: 'fullbody-front' },
@@ -10,6 +10,25 @@ const highlights = [
   { file: 'lying-down' },
   { file: 'guitar-peace' },
   { file: 'sitting-profile' },
+  { file: 'first-take' },
+  { file: 'fullbody-pose' },
+  { file: 'fullbody-standing' },
+  { file: 'fisheye-street' },
+  { file: 'eye-closeup' },
+  { file: 'gift-box' },
+  { file: 'subway' },
+  { file: 'okinawa' },
+  { file: 'finger-frame' },
+  { file: 'studio-booth' },
+];
+
+const videos = [
+  { file: 'mv-okinawa', title: 'MV「沖縄」' },
+  { file: 'mv-first', title: 'MV 第一弾' },
+  { file: 'carbonara', title: 'カルボナーラを作ろう' },
+  { file: 'cosmetic', title: 'コスメティック' },
+  { file: 'watashi-wa-tao', title: '私はタヲ' },
+  { file: 'hanabi-kaeri', title: '花火の帰り' },
 ];
 ---
 
@@ -65,30 +84,27 @@ const highlights = [
         </div>
       </div>
 
-      <!-- Gallery highlights -->
+      <!-- Movie -->
+      <div class="mb-16 md:mb-24">
+        <div class="mb-6">
+          <h2 class="font-mincho text-sm font-light tracking-[0.35em] text-text-primary">Movie</h2>
+        </div>
+        <div id="char-movie-grid" class="grid grid-cols-2 gap-3"></div>
+      </div>
+
+      <!-- Illustration -->
       <div>
         <div class="mb-6">
-          <h2 class="font-mincho text-sm font-light tracking-[0.35em] text-text-primary">Gallery</h2>
+          <h2 class="font-mincho text-sm font-light tracking-[0.35em] text-text-primary">Illustration</h2>
         </div>
-        <div id="char-gallery-grid" class="grid grid-cols-2 md:grid-cols-4 gap-1">
-          {highlights.map(({ file }) => (
-            <div class="char-gallery-item aspect-[3/4] relative overflow-hidden bg-[#1e1c18] group cursor-pointer" data-src={`/character/${file}.webp`} data-file={file}>
-              <img
-                src={`/character/${file}.webp`}
-                alt=""
-                loading="lazy"
-                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-              />
-            </div>
-          ))}
-        </div>
+        <div id="char-illust-grid" class="grid grid-cols-2 md:grid-cols-3 gap-3"></div>
       </div>
 
     </div>
   </div>
 </Layout>
 
-<!-- Lightbox -->
+<!-- Illustration Lightbox -->
 <div id="lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90" role="dialog" aria-modal="true">
   <div class="absolute top-[8%] left-1/2 -translate-x-1/2 bg-black/70 px-3 py-1.5 rounded-sm text-white/70 text-[12px] tracking-wider text-center whitespace-nowrap pointer-events-none">← 左右にスワイプ →</div>
   <button id="lb-prev" class="hidden md:flex absolute left-[16%] top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 border border-white/70 hover:bg-white/20 items-center justify-center text-white/70 hover:text-white transition-all" aria-label="前へ">
@@ -110,47 +126,100 @@ const highlights = [
     </div>
   </div>
   </div>
-  <div class="absolute bottom-[10%] left-1/2 -translate-x-1/2 bg-black/70 px-3 py-1.5 rounded-sm text-white/70 text-[12px] tracking-wider text-center whitespace-nowrap pointer-events-none">画像をタップで一覧に戻ります</div>
-  <div id="lb-filename" class="absolute bottom-[5%] left-1/2 -translate-x-1/2 bg-black/70 px-2 py-1 rounded-sm text-white/40 text-[10px] font-mono tracking-wider"></div>
+  <div class="absolute bottom-[10%] left-1/2 -translate-x-1/2 bg-black/70 px-3 py-1.5 rounded-sm text-white/70 text-[12px] tracking-wider text-center whitespace-nowrap pointer-events-none">画像をタップで閉じます</div>
 </div>
 
-<script>
-  const items = Array.from(document.querySelectorAll('.char-gallery-item'));
+<!-- Movie Lightbox -->
+<div id="movie-lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90" role="dialog" aria-modal="true">
+  <div class="absolute top-[8%] left-1/2 -translate-x-1/2 bg-black/70 px-3 py-1.5 rounded-sm text-white/70 text-[12px] tracking-wider text-center whitespace-nowrap pointer-events-none">← 左右にスワイプ →</div>
+  <button id="mlb-prev" class="hidden md:flex absolute left-[16%] top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 border border-white/70 hover:bg-white/20 items-center justify-center text-white/70 hover:text-white transition-all" aria-label="前へ">
+    <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <button id="mlb-next" class="hidden md:flex absolute right-[16%] top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 border border-white/70 hover:bg-white/20 items-center justify-center text-white/70 hover:text-white transition-all" aria-label="次へ">
+    <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="2,2 8,8 2,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <div id="mlb-swipe-area" class="relative w-full h-full overflow-hidden touch-pan-y">
+  <div id="mlb-track" class="w-full h-full flex">
+    <div class="w-full h-full shrink-0 flex items-center justify-center">
+      <video id="mlb-video-prev" class="max-h-[90vh] max-w-[90vw] pointer-events-none" muted playsinline preload="none"></video>
+    </div>
+    <div class="w-full h-full shrink-0 flex items-center justify-center">
+      <video id="mlb-video" class="max-h-[90vh] max-w-[90vw]" controls playsinline preload="none"></video>
+    </div>
+    <div class="w-full h-full shrink-0 flex items-center justify-center">
+      <video id="mlb-video-next" class="max-h-[90vh] max-w-[90vw] pointer-events-none" muted playsinline preload="none"></video>
+    </div>
+  </div>
+  </div>
+  <div class="absolute bottom-[10%] left-1/2 -translate-x-1/2 bg-black/70 px-3 py-1.5 rounded-sm text-white/70 text-[12px] tracking-wider text-center whitespace-nowrap pointer-events-none">外側をタップで閉じます</div>
+  <div id="mlb-filename" class="absolute bottom-[5%] left-1/2 -translate-x-1/2 bg-black/70 px-2 py-1 rounded-sm text-white/40 text-[10px] font-mono tracking-wider"></div>
+</div>
 
-  const lb = document.getElementById('lightbox')!;
-  const lbSwipeArea = document.getElementById('lb-swipe-area')!;
-  const lbTrack = document.getElementById('lb-track') as HTMLElement;
-  const lbImg = document.getElementById('lb-img') as HTMLImageElement;
-  const lbImgPrev = document.getElementById('lb-img-prev') as HTMLImageElement;
-  const lbImgNext = document.getElementById('lb-img-next') as HTMLImageElement;
-  const lbFilename = document.getElementById('lb-filename')!;
-  let lbIndex = 0;
-
-  function neighborSrc(offset: number) {
-    if (items.length === 0) return '';
-    const idx = (lbIndex + offset + items.length) % items.length;
-    return (items[idx] as HTMLElement)?.dataset.src ?? '';
+<script define:vars={{ illustrations, videos }}>
+  function shuffleArr(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
   }
 
-  function resetTrack(instant: boolean) {
+  // ===== Illustration：ランダム表示+ライトボックス =====
+  const shuffledIllust = shuffleArr(illustrations);
+  const illustGrid = document.getElementById('char-illust-grid');
+  const ILLUST_TEASER = 6;
+
+  function illustItemMarkup(w) {
+    const btn = document.createElement('button');
+    btn.className = 'group relative aspect-square overflow-hidden rounded-md bg-[#1e1c18] cursor-pointer';
+    const img = document.createElement('img');
+    img.src = `/character/${w.file}.webp`;
+    img.alt = '';
+    img.loading = 'lazy';
+    img.className = 'w-full h-full object-cover transition-transform duration-500 group-hover:scale-105';
+    btn.appendChild(img);
+    return btn;
+  }
+
+  shuffledIllust.slice(0, ILLUST_TEASER).forEach((w, i) => {
+    const item = illustItemMarkup(w);
+    item.addEventListener('click', () => openLightbox(i));
+    illustGrid.appendChild(item);
+  });
+
+  const lb = document.getElementById('lightbox');
+  const lbSwipeArea = document.getElementById('lb-swipe-area');
+  const lbTrack = document.getElementById('lb-track');
+  const lbImg = document.getElementById('lb-img');
+  const lbImgPrev = document.getElementById('lb-img-prev');
+  const lbImgNext = document.getElementById('lb-img-next');
+  let lbIndex = 0;
+
+  function illustSrcFor(idx) {
+    const n = shuffledIllust.length;
+    const w = shuffledIllust[((idx % n) + n) % n];
+    return `/character/${w.file}.webp`;
+  }
+
+  function resetLbTrack(instant) {
     lbTrack.style.transition = instant ? 'none' : 'transform 250ms ease-out';
     lbTrack.style.transform = 'translateX(-100%)';
   }
 
-  function openLightbox(clickedEl: HTMLElement) {
-    lbIndex = items.indexOf(clickedEl);
-    showLb(clickedEl);
+  function showLb() {
+    lbImg.src = illustSrcFor(lbIndex);
+    lbImgPrev.src = illustSrcFor(lbIndex - 1);
+    lbImgNext.src = illustSrcFor(lbIndex + 1);
+    resetLbTrack(true);
+  }
+
+  function openLightbox(index) {
+    lbIndex = index;
+    showLb();
     lb.classList.remove('hidden');
     lb.classList.add('flex');
     document.body.style.overflow = 'hidden';
-  }
-
-  function showLb(el: HTMLElement) {
-    lbImg.src = el.dataset.src ?? '';
-    lbFilename.textContent = el.dataset.file ?? '';
-    lbImgPrev.src = neighborSrc(-1);
-    lbImgNext.src = neighborSrc(1);
-    resetTrack(true);
   }
 
   function closeLightbox() {
@@ -159,31 +228,23 @@ const highlights = [
     document.body.style.overflow = '';
   }
 
-  function lbGo(delta: number) {
-    lbIndex = (lbIndex + delta + items.length) % items.length;
-    showLb(items[lbIndex] as HTMLElement);
+  function lbGo(delta) {
+    lbIndex += delta;
+    showLb();
   }
 
-  items.forEach(el => el.addEventListener('click', () => openLightbox(el as HTMLElement)));
   document.getElementById('lb-prev')?.addEventListener('click', () => lbGo(-1));
   document.getElementById('lb-next')?.addEventListener('click', () => lbGo(1));
   lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
   lbImg.addEventListener('click', closeLightbox);
-  document.addEventListener('keydown', e => {
-    if (lb.classList.contains('hidden')) return;
-    if (e.key === 'Escape') closeLightbox();
-    if (e.key === 'ArrowLeft') lbGo(-1);
-    if (e.key === 'ArrowRight') lbGo(1);
-  });
 
-  // ===== ライトボックス スワイプ（指の動きに追従） =====
   let lbDragging = false;
   let lbDragStartX = 0;
   let lbDragStartY = 0;
   let lbDragDeltaX = 0;
   let lbAreaWidth = 0;
 
-  lbSwipeArea.addEventListener('touchstart', (e: TouchEvent) => {
+  lbSwipeArea.addEventListener('touchstart', e => {
     lbDragging = true;
     lbDragStartX = e.touches[0].clientX;
     lbDragStartY = e.touches[0].clientY;
@@ -192,7 +253,7 @@ const highlights = [
     lbTrack.style.transition = 'none';
   }, { passive: true });
 
-  lbSwipeArea.addEventListener('touchmove', (e: TouchEvent) => {
+  lbSwipeArea.addEventListener('touchmove', e => {
     if (!lbDragging) return;
     const dx = e.touches[0].clientX - lbDragStartX;
     const dy = e.touches[0].clientY - lbDragStartY;
@@ -211,7 +272,153 @@ const highlights = [
       lbTrack.style.transform = `translateX(${dir < 0 ? '0%' : '-200%'})`;
       setTimeout(() => lbGo(dir), 250);
     } else {
-      resetTrack(false);
+      resetLbTrack(false);
     }
   }, { passive: true });
+
+  // ===== Movie：ランダム表示+ライトボックス =====
+  const shuffledVideos = shuffleArr(videos);
+  const movieGrid = document.getElementById('char-movie-grid');
+  const MOVIE_TEASER = 4;
+
+  function movieItemMarkup(v) {
+    const btn = document.createElement('button');
+    btn.className = 'group relative aspect-square overflow-hidden rounded-md bg-[#1e1c18] cursor-pointer';
+    const img = document.createElement('img');
+    img.src = `/character/video/${v.file}.jpg`;
+    img.alt = '';
+    img.loading = 'lazy';
+    img.className = 'w-full h-full object-cover transition-transform duration-500 group-hover:scale-105';
+    const playIcon = document.createElement('div');
+    playIcon.className = 'absolute inset-0 flex items-center justify-center bg-black/10 group-hover:bg-black/30 transition-colors duration-300';
+    playIcon.innerHTML = '<svg class="w-9 h-9 text-white opacity-90" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+    btn.appendChild(img);
+    btn.appendChild(playIcon);
+    return btn;
+  }
+
+  shuffledVideos.slice(0, MOVIE_TEASER).forEach((v, i) => {
+    const item = movieItemMarkup(v);
+    item.addEventListener('click', () => openMovieLightbox(i));
+    movieGrid.appendChild(item);
+  });
+
+  const mlb = document.getElementById('movie-lightbox');
+  const mlbSwipeArea = document.getElementById('mlb-swipe-area');
+  const mlbTrack = document.getElementById('mlb-track');
+  const mlbVideo = document.getElementById('mlb-video');
+  const mlbVideoPrev = document.getElementById('mlb-video-prev');
+  const mlbVideoNext = document.getElementById('mlb-video-next');
+  const mlbFilename = document.getElementById('mlb-filename');
+  let mlbIndex = 0;
+
+  function videoFor(idx) {
+    const n = shuffledVideos.length;
+    return shuffledVideos[((idx % n) + n) % n];
+  }
+
+  function resetMlbTrack(instant) {
+    mlbTrack.style.transition = instant ? 'none' : 'transform 250ms ease-out';
+    mlbTrack.style.transform = 'translateX(-100%)';
+  }
+
+  function showMlb() {
+    const cur = videoFor(mlbIndex);
+    const prev = videoFor(mlbIndex - 1);
+    const next = videoFor(mlbIndex + 1);
+
+    mlbVideo.pause();
+    mlbVideo.poster = `/character/video/${cur.file}.jpg`;
+    mlbVideo.src = `/character/video/${cur.file}.mp4`;
+    mlbFilename.textContent = cur.title;
+
+    mlbVideoPrev.poster = `/character/video/${prev.file}.jpg`;
+    mlbVideoPrev.removeAttribute('src');
+    mlbVideoNext.poster = `/character/video/${next.file}.jpg`;
+    mlbVideoNext.removeAttribute('src');
+
+    resetMlbTrack(true);
+  }
+
+  function stopMlbPlayback() {
+    mlbVideo.pause();
+    mlbVideo.removeAttribute('src');
+    mlbVideo.load();
+  }
+
+  function openMovieLightbox(index) {
+    mlbIndex = index;
+    showMlb();
+    mlb.classList.remove('hidden');
+    mlb.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMovieLightbox() {
+    stopMlbPlayback();
+    mlb.classList.add('hidden');
+    mlb.classList.remove('flex');
+    document.body.style.overflow = '';
+  }
+
+  function mlbGo(delta) {
+    stopMlbPlayback();
+    mlbIndex += delta;
+    showMlb();
+  }
+
+  document.getElementById('mlb-prev')?.addEventListener('click', () => mlbGo(-1));
+  document.getElementById('mlb-next')?.addEventListener('click', () => mlbGo(1));
+  mlb.addEventListener('click', e => { if (e.target === mlb) closeMovieLightbox(); });
+
+  let mlbDragging = false;
+  let mlbDragStartX = 0;
+  let mlbDragStartY = 0;
+  let mlbDragDeltaX = 0;
+  let mlbAreaWidth = 0;
+
+  mlbSwipeArea.addEventListener('touchstart', e => {
+    mlbDragging = true;
+    mlbDragStartX = e.touches[0].clientX;
+    mlbDragStartY = e.touches[0].clientY;
+    mlbDragDeltaX = 0;
+    mlbAreaWidth = mlbSwipeArea.clientWidth;
+    mlbTrack.style.transition = 'none';
+  }, { passive: true });
+
+  mlbSwipeArea.addEventListener('touchmove', e => {
+    if (!mlbDragging) return;
+    const dx = e.touches[0].clientX - mlbDragStartX;
+    const dy = e.touches[0].clientY - mlbDragStartY;
+    if (Math.abs(dy) > Math.abs(dx)) return;
+    mlbDragDeltaX = dx;
+    mlbTrack.style.transform = `translateX(calc(-100% + ${dx}px))`;
+  }, { passive: true });
+
+  mlbSwipeArea.addEventListener('touchend', () => {
+    if (!mlbDragging) return;
+    mlbDragging = false;
+    const threshold = mlbAreaWidth * 0.15;
+    if (Math.abs(mlbDragDeltaX) > threshold) {
+      const dir = mlbDragDeltaX < 0 ? 1 : -1;
+      mlbTrack.style.transition = 'transform 250ms ease-out';
+      mlbTrack.style.transform = `translateX(${dir < 0 ? '0%' : '-200%'})`;
+      setTimeout(() => mlbGo(dir), 250);
+    } else {
+      resetMlbTrack(false);
+    }
+  }, { passive: true });
+
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('hidden')) {
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') lbGo(-1);
+      if (e.key === 'ArrowRight') lbGo(1);
+    }
+    if (!mlb.classList.contains('hidden')) {
+      if (e.key === 'Escape') closeMovieLightbox();
+      if (e.key === 'ArrowLeft') mlbGo(-1);
+      if (e.key === 'ArrowRight') mlbGo(1);
+    }
+  });
 </script>
