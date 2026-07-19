@@ -298,7 +298,7 @@ const jsonLd = {
         <div id="video-row" class="flex gap-3 overflow-x-auto snap-x snap-mandatory no-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
           {videos.map((v, i) => (
             <button data-id={v.id} data-title={v.title}
-              class="video-thumb group relative aspect-video overflow-hidden rounded-md bg-[#1e1c18] cursor-pointer shrink-0 snap-start w-[62%] sm:w-[42%] md:w-[calc(25%-12px)]"
+              class="video-thumb group relative aspect-square overflow-hidden rounded-md bg-[#1e1c18] cursor-pointer shrink-0 snap-start w-[42%] sm:w-[32%] md:w-[calc(25%-15px)]"
               aria-label={`${v.title}を再生`}>
               <img
                 src={`https://img.youtube.com/vi/${v.id}/hqdefault.jpg`}
