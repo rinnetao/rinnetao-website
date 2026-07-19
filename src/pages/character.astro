@@ -90,13 +90,7 @@ const highlights = [
 
 <!-- Lightbox -->
 <div id="lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90" role="dialog" aria-modal="true">
-  <div class="absolute top-4 left-1/2 -translate-x-1/2 text-white/70 text-[12px] tracking-wider text-center whitespace-nowrap pointer-events-none">← 左右にスワイプ →</div>
-  <button id="lb-prev" class="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 border border-white/70 hover:bg-white/20 flex items-center justify-center text-white/70 hover:text-white transition-all" aria-label="前へ">
-    <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  </button>
-  <button id="lb-next" class="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 border border-white/70 hover:bg-white/20 flex items-center justify-center text-white/70 hover:text-white transition-all" aria-label="次へ">
-    <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="2,2 8,8 2,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  </button>
+  <div class="absolute top-[8%] left-1/2 -translate-x-1/2 text-white/70 text-[12px] tracking-wider text-center whitespace-nowrap pointer-events-none">← 左右にスワイプ →</div>
   <div id="lb-swipe-area" class="relative w-full h-full overflow-hidden touch-pan-y">
   <div id="lb-track" class="w-full h-full flex">
     <div class="w-full h-full shrink-0 flex items-center justify-center">
@@ -110,8 +104,8 @@ const highlights = [
     </div>
   </div>
   </div>
-  <div class="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/70 text-[12px] tracking-wider text-center whitespace-nowrap pointer-events-none">画像をタップで一覧に戻ります</div>
-  <div id="lb-filename" class="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/40 text-[10px] font-mono tracking-wider"></div>
+  <div class="absolute bottom-[10%] left-1/2 -translate-x-1/2 text-white/70 text-[12px] tracking-wider text-center whitespace-nowrap pointer-events-none">画像をタップで一覧に戻ります</div>
+  <div id="lb-filename" class="absolute bottom-[5%] left-1/2 -translate-x-1/2 text-white/40 text-[10px] font-mono tracking-wider"></div>
 </div>
 
 <script>
@@ -165,8 +159,6 @@ const highlights = [
   }
 
   items.forEach(el => el.addEventListener('click', () => openLightbox(el as HTMLElement)));
-  document.getElementById('lb-prev')?.addEventListener('click', () => lbGo(-1));
-  document.getElementById('lb-next')?.addEventListener('click', () => lbGo(1));
   lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
   lbImg.addEventListener('click', closeLightbox);
   document.addEventListener('keydown', e => {
