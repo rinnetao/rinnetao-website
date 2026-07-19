@@ -226,11 +226,11 @@ const jsonLd = {
     <!-- Gallery -->
     <div>
       <h2 class="section-title">Gallery</h2>
-      <div class="flex justify-end -mt-4 mb-4">
-        <a href="/gallery" class="text-text-faint text-[10px] tracking-[0.2em] font-light hover:text-text-muted transition-colors duration-300">すべて →</a>
-      </div>
       <p class="gallery-caption text-center mb-4">画像をタップでイラストを表示します</p>
       <div id="gallery-random-row" class="grid grid-cols-2 md:grid-cols-3 gap-3"></div>
+      <div class="flex justify-end mt-4">
+        <a href="/gallery" class="gallery-caption-link text-[10px] tracking-[0.2em] font-light transition-colors duration-300 hover:text-text-muted">すべて →</a>
+      </div>
     </div>
 
     <!-- Music -->
@@ -406,6 +406,15 @@ const jsonLd = {
     color: theme('colors.text.primary');
     text-shadow: 0 0 14px rgba(240, 236, 228, 0.4);
   }
+  .gallery-caption-link {
+    color: theme('colors.text.faint');
+    text-shadow: none;
+    transition: color 1000ms ease, text-shadow 1000ms ease;
+  }
+  .gallery-caption-link.is-visible {
+    color: theme('colors.text.primary');
+    text-shadow: 0 0 10px rgba(240, 236, 228, 0.35);
+  }
   .no-scrollbar {
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -417,7 +426,7 @@ const jsonLd = {
 
 <script>
   // ===== 見出しのスクロール出現演出 =====
-  const sectionTitles = document.querySelectorAll<HTMLElement>('.section-title, .gallery-caption');
+  const sectionTitles = document.querySelectorAll<HTMLElement>('.section-title, .gallery-caption, .gallery-caption-link');
   const titleObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
