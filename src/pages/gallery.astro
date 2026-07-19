@@ -33,7 +33,7 @@ import { categories, works } from '../data/gallery-works';
 
 <!-- Lightbox -->
 <div id="lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90" role="dialog" aria-modal="true">
-  <div class="absolute top-[8%] left-1/2 -translate-x-1/2 text-white/70 text-[12px] tracking-wider text-center whitespace-nowrap pointer-events-none">← 左右にスワイプ →</div>
+  <div class="absolute top-[8%] left-1/2 -translate-x-1/2 bg-black/70 px-3 py-1.5 rounded-sm text-white/70 text-[12px] tracking-wider text-center whitespace-nowrap pointer-events-none">← 左右にスワイプ →</div>
   <div id="lb-swipe-area" class="relative w-full h-full overflow-hidden touch-pan-y">
   <div id="lb-track" class="w-full h-full flex">
     <div class="w-full h-full shrink-0 flex items-center justify-center">
@@ -47,8 +47,8 @@ import { categories, works } from '../data/gallery-works';
     </div>
   </div>
   </div>
-  <div class="absolute bottom-[10%] left-1/2 -translate-x-1/2 text-white/70 text-[12px] tracking-wider text-center whitespace-nowrap pointer-events-none">画像をタップで一覧に戻ります</div>
-  <div id="lb-filename" class="absolute bottom-[5%] left-1/2 -translate-x-1/2 text-white/40 text-[10px] font-mono tracking-wider"></div>
+  <div class="absolute bottom-[10%] left-1/2 -translate-x-1/2 bg-black/70 px-3 py-1.5 rounded-sm text-white/70 text-[12px] tracking-wider text-center whitespace-nowrap pointer-events-none">画像をタップで一覧に戻ります</div>
+  <div id="lb-filename" class="absolute bottom-[5%] left-1/2 -translate-x-1/2 bg-black/70 px-2 py-1 rounded-sm text-white/40 text-[10px] font-mono tracking-wider"></div>
 </div>
 
 <script define:vars={{ works }}>
