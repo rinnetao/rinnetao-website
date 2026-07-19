@@ -10,6 +10,30 @@ export const categories = [
 
 // 新しい順
 export const works = [
+  // 新作 (2026-07-18)
+  { file: 'char_132',     cat: 'char' },
+  { file: 'angel_84',     cat: 'angel' },
+  { file: 'angel_83',     cat: 'angel' },
+  { file: 'angel_82',     cat: 'angel' },
+  { file: 'angel_81',     cat: 'angel' },
+  { file: 'chaos_79',     cat: 'chaos' },
+  { file: 'chaos_78',     cat: 'chaos' },
+  { file: 'chaos_77',     cat: 'chaos' },
+  { file: 'chaos_76',     cat: 'chaos' },
+  { file: 'chaos_75',     cat: 'chaos' },
+  { file: 'chaos_74',     cat: 'chaos' },
+  { file: 'chaos_73',     cat: 'chaos' },
+  { file: 'chaos_72',     cat: 'chaos' },
+  { file: 'chaos_71',     cat: 'chaos' },
+  { file: 'chaos_70',     cat: 'chaos' },
+  { file: 'chaos_69',     cat: 'chaos' },
+  { file: 'chaos_68',     cat: 'chaos' },
+  { file: 'chaos_67',     cat: 'chaos' },
+  { file: 'chaos_66',     cat: 'chaos' },
+  { file: 'landscape_12', cat: 'landscape' },
+  { file: 'landscape_11', cat: 'landscape' },
+  { file: 'landscape_10', cat: 'landscape' },
+  { file: 'jitsusya_21',  cat: 'jitsusya' },
   // 新作 (2026-07-02)
   { file: 'char_131',     cat: 'char' },
   { file: 'char_130',     cat: 'char' },
