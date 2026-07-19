@@ -34,10 +34,10 @@ import { categories, works } from '../data/gallery-works';
 <!-- Lightbox -->
 <div id="lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90" role="dialog" aria-modal="true">
   <div class="absolute top-[8%] left-1/2 -translate-x-1/2 bg-black/70 px-3 py-1.5 rounded-sm text-white/70 text-[12px] tracking-wider text-center whitespace-nowrap pointer-events-none">← 左右にスワイプ →</div>
-  <button id="lb-prev" class="hidden md:flex absolute left-[8%] top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 border border-white/70 hover:bg-white/20 items-center justify-center text-white/70 hover:text-white transition-all" aria-label="前へ">
+  <button id="lb-prev" class="hidden md:flex absolute left-[16%] top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 border border-white/70 hover:bg-white/20 items-center justify-center text-white/70 hover:text-white transition-all" aria-label="前へ">
     <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
-  <button id="lb-next" class="hidden md:flex absolute right-[8%] top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 border border-white/70 hover:bg-white/20 items-center justify-center text-white/70 hover:text-white transition-all" aria-label="次へ">
+  <button id="lb-next" class="hidden md:flex absolute right-[16%] top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 border border-white/70 hover:bg-white/20 items-center justify-center text-white/70 hover:text-white transition-all" aria-label="次へ">
     <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="2,2 8,8 2,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
   <div id="lb-swipe-area" class="relative w-full h-full overflow-hidden touch-pan-y">
