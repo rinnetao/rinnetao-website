@@ -78,7 +78,15 @@ const jsonLd = {
     (function () {
       var opening = document.getElementById('opening');
       if (!opening) return;
-      if (localStorage.getItem('rt-intro-seen')) {
+
+      // サイト内の他ページ（記事のCTA等）からの遷移では演出を出さない。
+      // 直接アクセス（検索・ブックマーク・URL直打ち）の時だけ発動する。
+      var cameFromSameSite = false;
+      if (document.referrer) {
+        try { cameFromSameSite = new URL(document.referrer).origin === location.origin; } catch (e) {}
+      }
+
+      if (localStorage.getItem('rt-intro-seen') || cameFromSameSite) {
         opening.remove();
         return;
       }
