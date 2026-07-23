@@ -336,10 +336,28 @@ const jsonLd = {
 </Layout>
 
 <!-- Video ライトボックス -->
-<div id="video-lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/95 px-4" role="dialog" aria-modal="true">
+<div id="video-lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/95 px-4 md:px-20 lg:px-24" role="dialog" aria-modal="true">
   <button id="video-lightbox-close" class="absolute top-4 right-5 text-white/70 hover:text-white text-2xl font-light z-10" aria-label="閉じる">×</button>
-  <div class="w-full max-w-4xl aspect-video" onclick="event.stopPropagation()">
-    <iframe id="video-lightbox-iframe" src="" title="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen class="w-full h-full"></iframe>
+  <div class="flex flex-col items-center gap-5 w-full max-w-4xl" onclick="event.stopPropagation()">
+    <div class="relative w-full">
+      <button id="video-lightbox-prev" class="hidden md:flex absolute -left-12 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 border border-white/70 hover:bg-white/20 items-center justify-center text-white/70 hover:text-white transition-all" aria-label="前へ">
+        <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="aspect-video">
+        <iframe id="video-lightbox-iframe" src="" title="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen class="w-full h-full"></iframe>
+      </div>
+      <button id="video-lightbox-next" class="hidden md:flex absolute -right-12 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 border border-white/70 hover:bg-white/20 items-center justify-center text-white/70 hover:text-white transition-all" aria-label="次へ">
+        <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="2,2 8,8 2,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+    <div class="flex md:hidden items-center gap-8">
+      <button id="video-lightbox-prev-mobile" class="w-11 h-11 rounded-full bg-white/10 border border-white/70 flex items-center justify-center text-white/70 hover:text-white transition-all" aria-label="前へ">
+        <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button id="video-lightbox-next-mobile" class="w-11 h-11 rounded-full bg-white/10 border border-white/70 flex items-center justify-center text-white/70 hover:text-white transition-all" aria-label="次へ">
+        <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="2,2 8,8 2,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
   </div>
 </div>
 
@@ -530,14 +548,24 @@ const jsonLd = {
   wireScrollArrows('video-row', 'video-row-prev', 'video-row-next');
 
   // ===== Video：サムネイルタップでライトボックス再生（ギャラリー拡大表示と同じ挙動） =====
-  const videoThumbs = document.querySelectorAll<HTMLButtonElement>('.video-thumb');
+  const videoThumbs = Array.from(document.querySelectorAll<HTMLButtonElement>('.video-thumb'));
   const videoLightbox = document.getElementById('video-lightbox');
   const videoLightboxIframe = document.getElementById('video-lightbox-iframe') as HTMLIFrameElement;
+  let videoIndex = 0;
 
-  function openVideoLightbox(id: string, title: string) {
-    if (!videoLightbox || !videoLightboxIframe) return;
+  function showVideoLightbox() {
+    if (!videoLightboxIframe) return;
+    const thumb = videoThumbs[videoIndex];
+    const id = thumb.dataset.id;
+    const title = thumb.dataset.title ?? '';
     videoLightboxIframe.src = `https://www.youtube.com/embed/${id}?rel=0&autoplay=1`;
     videoLightboxIframe.title = title;
+  }
+
+  function openVideoLightbox(index: number) {
+    if (!videoLightbox) return;
+    videoIndex = index;
+    showVideoLightbox();
     videoLightbox.classList.remove('hidden');
     videoLightbox.classList.add('flex');
     document.body.style.overflow = 'hidden';
@@ -551,18 +579,28 @@ const jsonLd = {
     document.body.style.overflow = '';
   }
 
-  videoThumbs.forEach(thumb => {
-    thumb.addEventListener('click', () => {
-      const id = thumb.dataset.id;
-      const title = thumb.dataset.title ?? '';
-      if (!id) return;
-      openVideoLightbox(id, title);
-    });
+  function videoGo(delta: number) {
+    videoIndex = (videoIndex + delta + videoThumbs.length) % videoThumbs.length;
+    showVideoLightbox();
+  }
+
+  videoThumbs.forEach((thumb, i) => {
+    thumb.addEventListener('click', () => openVideoLightbox(i));
   });
 
+  document.getElementById('video-lightbox-prev')?.addEventListener('click', () => videoGo(-1));
+  document.getElementById('video-lightbox-next')?.addEventListener('click', () => videoGo(1));
+  document.getElementById('video-lightbox-prev-mobile')?.addEventListener('click', () => videoGo(-1));
+  document.getElementById('video-lightbox-next-mobile')?.addEventListener('click', () => videoGo(1));
   document.getElementById('video-lightbox-close')?.addEventListener('click', closeVideoLightbox);
   videoLightbox?.addEventListener('click', (e) => {
     if (e.target === videoLightbox) closeVideoLightbox();
+  });
+  document.addEventListener('keydown', e => {
+    if (!videoLightbox || videoLightbox.classList.contains('hidden')) return;
+    if (e.key === 'Escape') closeVideoLightbox();
+    if (e.key === 'ArrowLeft') videoGo(-1);
+    if (e.key === 'ArrowRight') videoGo(1);
   });
 
   // ===== Music：サムネイルタップでプレーヤー起動 =====
