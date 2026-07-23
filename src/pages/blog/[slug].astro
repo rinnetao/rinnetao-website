@@ -29,7 +29,7 @@ const jsonLd = {
   description: post.data.description,
   datePublished: post.data.date.toISOString(),
   author: { '@type': 'Person', name: '輪廻タヲ' },
-  ...(post.data.ogImage ? { image: post.data.ogImage } : {}),
+  ...(post.data.ogImage ? { image: new URL(post.data.ogImage, Astro.site).toString() } : {}),
 };
 ---
 
