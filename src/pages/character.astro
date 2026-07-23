@@ -117,16 +117,26 @@ const videos = [
 <!-- Movie ライトボックス -->
 <div id="movie-lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/95 px-4 md:px-20 lg:px-24" role="dialog" aria-modal="true">
   <button id="movie-lightbox-close" class="absolute top-4 right-5 text-white/70 hover:text-white text-2xl font-light z-10" aria-label="閉じる">×</button>
-  <div class="relative w-full max-w-4xl" onclick="event.stopPropagation()">
-    <button id="movie-lightbox-prev" class="hidden md:flex absolute -left-12 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 border border-white/70 hover:bg-white/20 items-center justify-center text-white/70 hover:text-white transition-all" aria-label="前へ">
-      <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-    <div class="aspect-video">
-      <video id="movie-lightbox-video" src="" controls autoplay playsinline class="w-full h-full"></video>
+  <div class="flex flex-col items-center gap-5 w-full max-w-4xl" onclick="event.stopPropagation()">
+    <div class="relative w-full">
+      <button id="movie-lightbox-prev" class="hidden md:flex absolute -left-12 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 border border-white/70 hover:bg-white/20 items-center justify-center text-white/70 hover:text-white transition-all" aria-label="前へ">
+        <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="aspect-video">
+        <video id="movie-lightbox-video" src="" controls autoplay playsinline class="w-full h-full"></video>
+      </div>
+      <button id="movie-lightbox-next" class="hidden md:flex absolute -right-12 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 border border-white/70 hover:bg-white/20 items-center justify-center text-white/70 hover:text-white transition-all" aria-label="次へ">
+        <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="2,2 8,8 2,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
     </div>
-    <button id="movie-lightbox-next" class="hidden md:flex absolute -right-12 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 border border-white/70 hover:bg-white/20 items-center justify-center text-white/70 hover:text-white transition-all" aria-label="次へ">
-      <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="2,2 8,8 2,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
+    <div class="flex md:hidden items-center gap-8">
+      <button id="movie-lightbox-prev-mobile" class="w-11 h-11 rounded-full bg-white/10 border border-white/70 flex items-center justify-center text-white/70 hover:text-white transition-all" aria-label="前へ">
+        <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button id="movie-lightbox-next-mobile" class="w-11 h-11 rounded-full bg-white/10 border border-white/70 flex items-center justify-center text-white/70 hover:text-white transition-all" aria-label="次へ">
+        <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="2,2 8,8 2,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
   </div>
 </div>
 
@@ -271,6 +281,8 @@ const videos = [
 
   document.getElementById('movie-lightbox-prev')?.addEventListener('click', () => movieGo(-1));
   document.getElementById('movie-lightbox-next')?.addEventListener('click', () => movieGo(1));
+  document.getElementById('movie-lightbox-prev-mobile')?.addEventListener('click', () => movieGo(-1));
+  document.getElementById('movie-lightbox-next-mobile')?.addEventListener('click', () => movieGo(1));
   document.getElementById('movie-lightbox-close')?.addEventListener('click', closeMovieLightbox);
   movieLightbox?.addEventListener('click', (e) => {
     if (e.target === movieLightbox) closeMovieLightbox();

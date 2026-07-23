@@ -1,6 +1,5 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import CTA from '../../components/CTA.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -65,29 +64,41 @@ const jsonLd = {
       </div>
 
       <div class="not-prose my-10 border border-accent-line px-6 py-8">
-        <p class="font-mincho text-text-primary text-base font-light tracking-wider mb-2">輪廻タヲ / Rinne Tao</p>
-        <p class="text-text-muted text-[13px] font-light leading-relaxed mb-5">
-          AIを制作に活用するコンテンツクリエイター。音楽、イラスト、映像作品を中心に発信しています。
-        </p>
-        <div class="flex flex-wrap gap-x-5 gap-y-2 text-[11px] tracking-[0.15em] font-light">
-          <a href="/#music" class="underline underline-offset-2 decoration-text-faint/40 text-text-muted hover:text-text-primary transition-colors duration-300">音楽を聴く →</a>
-          <a href="/#video" class="underline underline-offset-2 decoration-text-faint/40 text-text-muted hover:text-text-primary transition-colors duration-300">映像を見る →</a>
-          <a href="/gallery" class="underline underline-offset-2 decoration-text-faint/40 text-text-muted hover:text-text-primary transition-colors duration-300">イラストを見る →</a>
-          <a href="https://x.com/TaoRInne" target="_blank" rel="noopener" class="underline underline-offset-2 decoration-text-faint/40 text-text-muted hover:text-text-primary transition-colors duration-300">Xをフォロー →</a>
-          <a href="/commission" class="underline underline-offset-2 decoration-text-faint/40 text-text-muted hover:text-text-primary transition-colors duration-300">仕事を依頼する →</a>
+        <div class="flex items-center gap-4 mb-5">
+          <img src="/icon.webp" alt="輪廻タヲ" class="w-16 h-16 md:w-20 md:h-20 object-cover rounded-sm shrink-0" />
+          <div>
+            <p class="font-mincho text-text-primary text-base font-light tracking-wider mb-1">輪廻タヲ / Rinne Tao</p>
+            <p class="text-text-muted text-[13px] font-light leading-relaxed">
+              AIを制作に活用するコンテンツクリエイター。音楽、イラスト、映像作品を中心に発信しています。
+            </p>
+          </div>
         </div>
+        <p class="text-text-muted text-[13px] font-light leading-relaxed mb-4">
+          最新作品やAIに関する考察はXで発信しています。
+        </p>
+        <a
+          href="https://x.com/TaoRInne"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-block px-6 py-[10px] bg-white !text-[#1a1a1a] !no-underline text-[11px] font-sans-jp font-bold tracking-[0.15em] hover:bg-white/85 transition-all duration-300"
+        >
+          @TaoRInne をフォローする
+        </a>
       </div>
-
-      <CTA />
 
       {relatedPosts.length > 0 && (
         <div class="mt-10">
           <p class="text-text-faint text-[10px] tracking-[0.3em] font-light uppercase mb-4">関連記事</p>
           <div class="space-y-1">
             {relatedPosts.map(rp => (
-              <a href={`/blog/${rp.slug}`} class="block border-b border-accent-line py-4 hover:opacity-80 transition-opacity duration-300">
-                <p class="text-text-faint text-[10px] tracking-[0.2em] font-mono mb-1">{formatDate(rp.data.date)}</p>
-                <p class="font-mincho text-text-primary text-[14px] font-light tracking-wider">{rp.data.title}</p>
+              <a href={`/blog/${rp.slug}`} class="flex items-center gap-4 border-b border-accent-line py-4 hover:opacity-80 transition-opacity duration-300">
+                {rp.data.ogImage && (
+                  <img src={rp.data.ogImage} alt={rp.data.title} loading="lazy" class="w-16 h-16 md:w-20 md:h-20 object-cover shrink-0" />
+                )}
+                <div class="min-w-0">
+                  <p class="text-text-faint text-[10px] tracking-[0.2em] font-mono mb-1">{formatDate(rp.data.date)}</p>
+                  <p class="font-mincho text-text-primary text-[14px] font-light tracking-wider">{rp.data.title}</p>
+                </div>
               </a>
             ))}
           </div>
