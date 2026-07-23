@@ -18,6 +18,11 @@ interface Props {
 const { post } = Astro.props;
 const { Content } = await post.render();
 
+const allPosts = await getCollection('blog');
+const relatedPosts = (post.data.relatedSlugs ?? [])
+  .map(slug => allPosts.find(p => p.slug === slug))
+  .filter((p): p is CollectionEntry<'blog'> => Boolean(p));
+
 function formatDate(d: Date) {
   return d.toISOString().slice(0, 10).replace(/-/g, '.');
 }
@@ -50,13 +55,44 @@ const jsonLd = {
         <h1 class="font-mincho text-text-primary text-2xl md:text-3xl font-light tracking-[0.1em] leading-relaxed">
           {post.data.title}
         </h1>
+        <p class="text-text-faint text-[11px] font-light tracking-wider mt-4">
+          執筆: 輪廻タヲ ・ AIを活用した音楽・イラスト・映像作品を制作するコンテンツクリエイター
+        </p>
       </div>
 
       <div class="blog-content text-text-muted text-[15px] font-light leading-[2]">
         <Content />
       </div>
 
+      <div class="not-prose my-10 border border-accent-line px-6 py-8">
+        <p class="font-mincho text-text-primary text-base font-light tracking-wider mb-2">輪廻タヲ / Rinne Tao</p>
+        <p class="text-text-muted text-[13px] font-light leading-relaxed mb-5">
+          AIを制作に活用するコンテンツクリエイター。音楽、イラスト、映像作品を中心に発信しています。
+        </p>
+        <div class="flex flex-wrap gap-x-5 gap-y-2 text-[11px] tracking-[0.15em] font-light">
+          <a href="/#music" class="underline underline-offset-2 decoration-text-faint/40 text-text-muted hover:text-text-primary transition-colors duration-300">音楽を聴く →</a>
+          <a href="/#video" class="underline underline-offset-2 decoration-text-faint/40 text-text-muted hover:text-text-primary transition-colors duration-300">映像を見る →</a>
+          <a href="/gallery" class="underline underline-offset-2 decoration-text-faint/40 text-text-muted hover:text-text-primary transition-colors duration-300">イラストを見る →</a>
+          <a href="https://x.com/TaoRInne" target="_blank" rel="noopener" class="underline underline-offset-2 decoration-text-faint/40 text-text-muted hover:text-text-primary transition-colors duration-300">Xをフォロー →</a>
+          <a href="/commission" class="underline underline-offset-2 decoration-text-faint/40 text-text-muted hover:text-text-primary transition-colors duration-300">仕事を依頼する →</a>
+        </div>
+      </div>
+
       <CTA />
+
+      {relatedPosts.length > 0 && (
+        <div class="mt-10">
+          <p class="text-text-faint text-[10px] tracking-[0.3em] font-light uppercase mb-4">関連記事</p>
+          <div class="space-y-1">
+            {relatedPosts.map(rp => (
+              <a href={`/blog/${rp.slug}`} class="block border-b border-accent-line py-4 hover:opacity-80 transition-opacity duration-300">
+                <p class="text-text-faint text-[10px] tracking-[0.2em] font-mono mb-1">{formatDate(rp.data.date)}</p>
+                <p class="font-mincho text-text-primary text-[14px] font-light tracking-wider">{rp.data.title}</p>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div class="mt-16 pt-8 border-t border-accent-line">
         <a href="/blog" class="text-text-faint text-[10px] tracking-[0.3em] font-light hover:text-text-muted transition-colors duration-300">← 記事一覧へ戻る</a>
