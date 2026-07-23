@@ -115,10 +115,18 @@ const videos = [
 </Layout>
 
 <!-- Movie ライトボックス -->
-<div id="movie-lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/95 px-4" role="dialog" aria-modal="true">
+<div id="movie-lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/95 px-4 md:px-20 lg:px-24" role="dialog" aria-modal="true">
   <button id="movie-lightbox-close" class="absolute top-4 right-5 text-white/70 hover:text-white text-2xl font-light z-10" aria-label="閉じる">×</button>
-  <div class="w-full max-w-4xl aspect-video" onclick="event.stopPropagation()">
-    <video id="movie-lightbox-video" src="" controls autoplay playsinline class="w-full h-full"></video>
+  <div class="relative w-full max-w-4xl" onclick="event.stopPropagation()">
+    <button id="movie-lightbox-prev" class="hidden md:flex absolute -left-12 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 border border-white/70 hover:bg-white/20 items-center justify-center text-white/70 hover:text-white transition-all" aria-label="前へ">
+      <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="aspect-video">
+      <video id="movie-lightbox-video" src="" controls autoplay playsinline class="w-full h-full"></video>
+    </div>
+    <button id="movie-lightbox-next" class="hidden md:flex absolute -right-12 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 border border-white/70 hover:bg-white/20 items-center justify-center text-white/70 hover:text-white transition-all" aria-label="次へ">
+      <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="2,2 8,8 2,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
   </div>
 </div>
 
@@ -219,14 +227,24 @@ const videos = [
   wireScrollArrows('char-movie-row', 'char-movie-prev', 'char-movie-next');
 
   // ===== Movie：サムネイルタップでライトボックス再生 =====
-  const movieThumbs = document.querySelectorAll('.movie-thumb');
+  const movieThumbs = Array.from(document.querySelectorAll('.movie-thumb'));
   const movieLightbox = document.getElementById('movie-lightbox');
   const movieLightboxVideo = document.getElementById('movie-lightbox-video');
+  let movieIndex = 0;
 
-  function openMovieLightbox(file, title) {
-    if (!movieLightbox || !movieLightboxVideo) return;
+  function showMovieLightbox() {
+    if (!movieLightboxVideo) return;
+    const thumb = movieThumbs[movieIndex];
+    const file = thumb.dataset.file;
+    movieLightboxVideo.pause();
     movieLightboxVideo.src = `/character/video/${file}.mp4`;
     movieLightboxVideo.poster = `/character/video/${file}.jpg`;
+  }
+
+  function openMovieLightbox(index) {
+    if (!movieLightbox) return;
+    movieIndex = index;
+    showMovieLightbox();
     movieLightbox.classList.remove('hidden');
     movieLightbox.classList.add('flex');
     document.body.style.overflow = 'hidden';
@@ -242,15 +260,17 @@ const videos = [
     document.body.style.overflow = '';
   }
 
-  movieThumbs.forEach(thumb => {
-    thumb.addEventListener('click', () => {
-      const file = thumb.dataset.file;
-      const title = thumb.dataset.title ?? '';
-      if (!file) return;
-      openMovieLightbox(file, title);
-    });
+  function movieGo(delta) {
+    movieIndex = (movieIndex + delta + movieThumbs.length) % movieThumbs.length;
+    showMovieLightbox();
+  }
+
+  movieThumbs.forEach((thumb, i) => {
+    thumb.addEventListener('click', () => openMovieLightbox(i));
   });
 
+  document.getElementById('movie-lightbox-prev')?.addEventListener('click', () => movieGo(-1));
+  document.getElementById('movie-lightbox-next')?.addEventListener('click', () => movieGo(1));
   document.getElementById('movie-lightbox-close')?.addEventListener('click', closeMovieLightbox);
   movieLightbox?.addEventListener('click', (e) => {
     if (e.target === movieLightbox) closeMovieLightbox();
@@ -382,8 +402,10 @@ const videos = [
       if (e.key === 'ArrowLeft') lbGo(-1);
       if (e.key === 'ArrowRight') lbGo(1);
     }
-    if (!movieLightbox.classList.contains('hidden') && e.key === 'Escape') {
-      closeMovieLightbox();
+    if (!movieLightbox.classList.contains('hidden')) {
+      if (e.key === 'Escape') closeMovieLightbox();
+      if (e.key === 'ArrowLeft') movieGo(-1);
+      if (e.key === 'ArrowRight') movieGo(1);
     }
   });
 </script>
