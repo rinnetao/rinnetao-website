@@ -39,11 +39,20 @@ const news = [
   .map(n => ({ ...n, date: formatDate(n.date) }));
 
 
-// 直近のお知らせ用サムネイルはオープニング演出直後に見てもらえるよう先頭に配置。タップでニュース詳細へ
+// 表示順は自動でシャッフルしない。変更する場合はここを直接編集する
 const heroImages = [
   { file: 'hero-12.webp', href: '/news/parallax-agency' },
   { file: 'hero-11.webp', href: '/news/tenrock-2026' },
-  ...Array.from({ length: 10 }, (_, i) => ({ file: `hero-${i + 1}.webp` })),
+  { file: 'hero-1.webp' },
+  { file: 'hero-2.webp' },
+  { file: 'hero-3.webp' },
+  { file: 'hero-4.webp' },
+  { file: 'hero-5.webp' },
+  { file: 'hero-6.webp' },
+  { file: 'hero-7.webp' },
+  { file: 'hero-8.webp' },
+  { file: 'hero-9.webp' },
+  { file: 'hero-10.webp' },
 ];
 const heroSlideTotal = heroImages.length;
 
