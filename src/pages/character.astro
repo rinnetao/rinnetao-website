@@ -85,23 +85,7 @@ const videos = [
         <h2 class="char-heading">Movie</h2>
         <div class="relative">
           <button id="char-movie-prev" class="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/50 border border-white items-center justify-center text-white/70 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="前へ"><svg width="8" height="13" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-          <div id="char-movie-row" class="flex gap-3 overflow-x-auto snap-x snap-mandatory no-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
-            {videos.map((v, i) => (
-              <button data-file={v.file} data-title={v.title}
-                class="movie-thumb group relative aspect-square overflow-hidden rounded-md bg-[#1e1c18] cursor-pointer shrink-0 snap-start w-[42%] sm:w-[32%] md:w-[calc(25%-15px)]"
-                aria-label={`${v.title}を再生`}>
-                <img
-                  src={`/character/video/${v.file}.jpg`}
-                  alt={v.title}
-                  loading={i === 0 ? 'eager' : 'lazy'}
-                  class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div class="absolute inset-0 bg-black/10 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center">
-                  <svg class="w-9 h-9 text-white opacity-90 group-hover:opacity-100 transition-opacity duration-300" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                </div>
-              </button>
-            ))}
-          </div>
+          <div id="char-movie-row" class="flex gap-3 overflow-x-auto snap-x snap-mandatory no-scrollbar -mx-4 px-4 md:mx-0 md:px-0"></div>
           <button id="char-movie-next" class="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/50 border border-white items-center justify-center text-white/70 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="次へ"><svg width="8" height="13" viewBox="0 0 10 16" fill="none"><polyline points="2,2 8,8 2,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         </div>
       </div>
@@ -210,7 +194,7 @@ const videos = [
   }
 </style>
 
-<script define:vars={{ illustrations }}>
+<script define:vars={{ illustrations, videos }}>
   // ===== 見出しのスクロール出現演出 =====
   const charHeadings = document.querySelectorAll('.char-heading');
   const headingObserver = new IntersectionObserver((entries) => {
@@ -237,6 +221,34 @@ const videos = [
     });
   }
   wireScrollArrows('char-movie-row', 'char-movie-prev', 'char-movie-next');
+
+  // ===== Movie：並び順をランダムにして表示 =====
+  const shuffledVideos = shuffleArr(videos);
+  const movieRow = document.getElementById('char-movie-row');
+
+  function movieItemMarkup(v, i) {
+    const btn = document.createElement('button');
+    btn.dataset.file = v.file;
+    btn.dataset.title = v.title;
+    btn.className = 'movie-thumb group relative aspect-square overflow-hidden rounded-md bg-[#1e1c18] cursor-pointer shrink-0 snap-start w-[42%] sm:w-[32%] md:w-[calc(25%-15px)]';
+    btn.setAttribute('aria-label', `${v.title}を再生`);
+
+    const img = document.createElement('img');
+    img.src = `/character/video/${v.file}.jpg`;
+    img.alt = v.title;
+    img.loading = i === 0 ? 'eager' : 'lazy';
+    img.className = 'w-full h-full object-cover transition-transform duration-500 group-hover:scale-105';
+
+    const overlay = document.createElement('div');
+    overlay.className = 'absolute inset-0 bg-black/10 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center';
+    overlay.innerHTML = '<svg class="w-9 h-9 text-white opacity-90 group-hover:opacity-100 transition-opacity duration-300" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+
+    btn.appendChild(img);
+    btn.appendChild(overlay);
+    return btn;
+  }
+
+  shuffledVideos.forEach((v, i) => movieRow.appendChild(movieItemMarkup(v, i)));
 
   // ===== Movie：サムネイルタップでライトボックス再生 =====
   const movieThumbs = Array.from(document.querySelectorAll('.movie-thumb'));
