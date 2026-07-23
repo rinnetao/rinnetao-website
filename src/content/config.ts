@@ -20,6 +20,7 @@ const news = defineCollection({
     newsText: z.string(),
     description: z.string(),
     ogImage: z.string().optional(),
+    imageLink: z.string().optional(),
   }),
 });
 
