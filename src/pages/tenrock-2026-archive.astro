@@ -1,0 +1,50 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="天 ROCK FEST 2026 × 輪廻タヲ 映像アーカイブ | 輪廻タヲ"
+  description="天 ROCK FEST 2026 The Summer Camp、輪廻タヲ出演回の映像アーカイブです。再生ボタンを押すと出演時間帯から再生されます。"
+  ogImage="/tenrock-2026-archive-cover.webp"
+>
+  <div class="pt-24 pb-16 px-5 md:px-8 min-h-screen">
+    <div class="max-w-2xl mx-auto">
+
+      <div class="py-12 mb-8">
+        <h1 class="font-mincho text-text-primary text-2xl md:text-3xl font-light tracking-[0.1em] leading-relaxed">
+          【天 ROCK FEST 2026<br />× 輪廻タヲ】映像アーカイブ
+        </h1>
+      </div>
+
+      <div class="aspect-video overflow-hidden bg-[#1e1c18] rounded-sm mb-10">
+        <img src="/tenrock-2026-archive-cover.webp" alt="天 ROCK FEST 2026 × 輪廻タヲ ARCHIVE" class="w-full h-full object-cover" />
+      </div>
+
+      <div class="text-text-muted text-[15px] font-light leading-[2] space-y-6">
+        <p>
+          再生時間指定をしているので、再生ボタンを押せば、出演時間帯から再生されます。
+        </p>
+
+        <div class="aspect-video overflow-hidden rounded-sm bg-black">
+          <iframe
+            src="https://www.youtube.com/embed/t5zAkYBM5Gc?start=7001"
+            title="天 ROCK FEST 2026 × 輪廻タヲ 映像アーカイブ"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+            allowfullscreen
+            class="w-full h-full"
+          ></iframe>
+        </div>
+
+        <p>
+          リアルタイムでライブを体験できなかった方も、ぜひご覧ください。<br />
+          ご感想などいただけると嬉しいです。
+        </p>
+
+        <div class="pt-4">
+          <a href="https://www.youtube.com/watch?v=t5zAkYBM5Gc&t=7001s" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 decoration-text-faint/40 text-text-muted hover:text-text-primary transition-colors duration-300 text-[13px]">YouTubeで見る</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</Layout>
