@@ -26,6 +26,8 @@ function formatDate(d: Date) {
   return d.toISOString().slice(0, 10).replace(/-/g, '.');
 }
 
+const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
+
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Article',
@@ -33,6 +35,7 @@ const jsonLd = {
   description: post.data.description,
   datePublished: post.data.date.toISOString(),
   author: { '@type': 'Person', name: '輪廻タヲ' },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalURL },
   ...(post.data.ogImage ? { image: new URL(post.data.ogImage, Astro.site).toString() } : {}),
 };
 ---
