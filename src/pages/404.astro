@@ -1,0 +1,35 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="ページが見つかりません | 輪廻タヲ"
+  description="お探しのページが見つかりませんでした。"
+  noindex={true}
+>
+  <div class="pt-24 pb-16 px-5 md:px-8 min-h-screen flex items-center">
+    <div class="max-w-md mx-auto text-center">
+
+      <p class="text-text-faint text-[11px] tracking-[0.4em] font-mono mb-4">404</p>
+      <h1 class="font-mincho text-text-primary text-2xl md:text-3xl font-light tracking-[0.15em] leading-relaxed mb-6">
+        ページが見つかりません
+      </h1>
+      <p class="text-text-muted text-[14px] font-light leading-[2] mb-10">
+        お探しのページは移動または削除された可能性があります。<br />
+        URLをご確認いただくか、以下からお探しください。
+      </p>
+
+      <div class="flex flex-col gap-3 max-w-[260px] mx-auto">
+        <a href="/" class="px-5 py-3 bg-white text-[#1a1a1a] text-[12px] font-sans-jp font-bold tracking-[0.15em] rounded-sm hover:bg-white/85 transition-all duration-300">
+          トップページへ戻る
+        </a>
+        <div class="flex flex-wrap justify-center gap-4 text-[11px] tracking-[0.15em] font-light mt-2">
+          <a href="/gallery" class="underline underline-offset-2 decoration-text-faint/40 text-text-muted hover:text-text-primary transition-colors duration-300">Gallery</a>
+          <a href="/character" class="underline underline-offset-2 decoration-text-faint/40 text-text-muted hover:text-text-primary transition-colors duration-300">Character</a>
+          <a href="/blog" class="underline underline-offset-2 decoration-text-faint/40 text-text-muted hover:text-text-primary transition-colors duration-300">Blog</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</Layout>
