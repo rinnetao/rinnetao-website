@@ -163,16 +163,16 @@ const jsonLd = {
 
   <!-- ===== 天ロックフェス ダイジェスト動画 ===== -->
   <section class="pt-4 md:pt-6 md:mx-16 lg:mx-24">
-    <div class="aspect-video overflow-hidden bg-[#1e1c18] rounded-sm">
-      <video
-        src="/tenrock-2026-highlights.mp4"
-        poster="/tenrock-2026-highlights.jpg"
-        controls
-        playsinline
-        preload="none"
-        class="w-full h-full"
-      ></video>
-    </div>
+    <button id="digest-thumb" class="group relative block w-full aspect-video overflow-hidden rounded-sm bg-[#1e1c18] cursor-pointer" aria-label="天ロックフェス ダイジェスト動画を再生">
+      <img
+        src="/tenrock-2026-highlights.jpg"
+        alt="天 ROCK FEST 2026 × RInne Tao Live Highlights"
+        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+      />
+      <div class="absolute inset-0 bg-black/10 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center">
+        <svg class="w-9 h-9 text-white opacity-90 group-hover:opacity-100 transition-opacity duration-300" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+      </div>
+    </button>
     <div class="mt-5 px-4 md:px-0 text-center">
       <p class="font-mincho text-text-primary text-base md:text-lg font-light tracking-[0.15em] leading-relaxed">
         【天 ROCK FEST 2026 × RInne Tao】<br />
@@ -391,6 +391,14 @@ const jsonLd = {
         <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="2,2 8,8 2,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
     </div>
+  </div>
+</div>
+
+<!-- ダイジェスト動画 ライトボックス -->
+<div id="digest-lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/95 px-4 md:px-20 lg:px-24" role="dialog" aria-modal="true">
+  <button id="digest-lightbox-close" class="absolute top-4 right-5 text-white/70 hover:text-white text-2xl font-light z-10" aria-label="閉じる">×</button>
+  <div class="w-full max-w-4xl aspect-video" onclick="event.stopPropagation()">
+    <video id="digest-lightbox-video" src="" poster="/tenrock-2026-highlights.jpg" controls autoplay playsinline class="w-full h-full"></video>
   </div>
 </div>
 
@@ -634,6 +642,39 @@ const jsonLd = {
     if (e.key === 'Escape') closeVideoLightbox();
     if (e.key === 'ArrowLeft') videoGo(-1);
     if (e.key === 'ArrowRight') videoGo(1);
+  });
+
+  // ===== ダイジェスト動画：サムネイルタップでライトボックス再生 =====
+  const digestThumb = document.getElementById('digest-thumb');
+  const digestLightbox = document.getElementById('digest-lightbox');
+  const digestLightboxVideo = document.getElementById('digest-lightbox-video') as HTMLVideoElement;
+
+  function openDigestLightbox() {
+    if (!digestLightbox || !digestLightboxVideo) return;
+    digestLightboxVideo.src = '/tenrock-2026-highlights.mp4';
+    digestLightbox.classList.remove('hidden');
+    digestLightbox.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDigestLightbox() {
+    if (!digestLightbox || !digestLightboxVideo) return;
+    digestLightboxVideo.pause();
+    digestLightboxVideo.removeAttribute('src');
+    digestLightboxVideo.load();
+    digestLightbox.classList.add('hidden');
+    digestLightbox.classList.remove('flex');
+    document.body.style.overflow = '';
+  }
+
+  digestThumb?.addEventListener('click', openDigestLightbox);
+  document.getElementById('digest-lightbox-close')?.addEventListener('click', closeDigestLightbox);
+  digestLightbox?.addEventListener('click', (e) => {
+    if (e.target === digestLightbox) closeDigestLightbox();
+  });
+  document.addEventListener('keydown', e => {
+    if (!digestLightbox || digestLightbox.classList.contains('hidden')) return;
+    if (e.key === 'Escape') closeDigestLightbox();
   });
 
   // ===== Music：サムネイルタップでプレーヤー起動 =====
