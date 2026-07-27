@@ -41,12 +41,12 @@ const news = [
 
 // 表示順は自動でシャッフルしない。変更する場合はここを直接編集する
 const heroImages = [
-  { file: 'tenrock-2026-archive-cover.webp', href: '/tenrock-2026-archive' },
   { file: 'hero-12.webp', href: '/news/parallax-agency' },
   { file: 'hero-1.webp' },
   { file: 'hero-2.webp' },
   { file: 'hero-3.webp' },
   { file: 'hero-4.webp' },
+  { file: 'tenrock-2026-archive-cover.webp', href: '/tenrock-2026-archive' },
   { file: 'hero-5.webp' },
   { file: 'hero-6.webp' },
   { file: 'hero-7.webp' },
@@ -163,7 +163,7 @@ const jsonLd = {
 
   <!-- ===== 天ロックフェス ダイジェスト動画 ===== -->
   <section class="pt-4 md:pt-6 md:mx-16 lg:mx-24">
-    <button id="digest-thumb" class="group relative block w-full aspect-video overflow-hidden rounded-sm bg-[#1e1c18] cursor-pointer" aria-label="天ロックフェス ダイジェスト動画を再生">
+    <button id="digest-thumb" class="group relative block w-2/3 mx-auto aspect-video overflow-hidden rounded-sm bg-[#1e1c18] cursor-pointer" aria-label="天ロックフェス ダイジェスト動画を再生">
       <img
         src="/tenrock-2026-highlights.jpg"
         alt="天 ROCK FEST 2026 × RInne Tao Live Highlights"
@@ -179,8 +179,7 @@ const jsonLd = {
         <span class="text-[13px] md:text-sm tracking-[0.1em] text-text-muted">Live Highlights</span>
       </p>
       <p class="text-text-muted text-[13px] font-light leading-[2] mt-4">
-        フルサイズのライブのご視聴はこちら。<br />
-        <a href="https://www.youtube.com/watch?v=t5zAkYBM5Gc&t=7001s" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 decoration-text-faint/40 text-text-primary hover:text-text-primary/80 transition-colors duration-300">こちら →</a>
+        <a href="https://www.youtube.com/watch?v=t5zAkYBM5Gc&t=7001s" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 decoration-text-faint/40 text-text-primary hover:text-text-primary/80 transition-colors duration-300">フルサイズのライブのご視聴はこちら。</a>
       </p>
     </div>
   </section>
