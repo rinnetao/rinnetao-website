@@ -114,7 +114,72 @@ const jsonLd = {
 
     </div>
   </article>
+
+  <!-- YouTube タイムスタンプ ライトボックス -->
+  <div id="yt-lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/95 px-4 md:px-20 lg:px-24" role="dialog" aria-modal="true">
+    <button id="yt-lightbox-close" class="absolute top-4 right-5 text-white/70 hover:text-white text-2xl font-light z-10" aria-label="閉じる">×</button>
+    <div class="w-full max-w-4xl aspect-video" onclick="event.stopPropagation()">
+      <iframe id="yt-lightbox-frame" src="" class="w-full h-full" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </div>
 </Layout>
+
+<script>
+  function parseYouTubeUrl(url: string) {
+    try {
+      const u = new URL(url);
+      if (!/(^|\.)youtube\.com$/.test(u.hostname) || u.pathname !== '/watch') return null;
+      const id = u.searchParams.get('v');
+      if (!id) return null;
+      const t = u.searchParams.get('t');
+      let start = 0;
+      if (t) {
+        const match = t.match(/^(\d+)/);
+        if (match) start = parseInt(match[1], 10);
+      }
+      return { id, start };
+    } catch {
+      return null;
+    }
+  }
+
+  const lightbox = document.getElementById('yt-lightbox');
+  const frame = document.getElementById('yt-lightbox-frame') as HTMLIFrameElement | null;
+
+  function openYtLightbox(id: string, start: number) {
+    if (!lightbox || !frame) return;
+    frame.src = `https://www.youtube.com/embed/${id}?start=${start}&autoplay=1&rel=0`;
+    lightbox.classList.remove('hidden');
+    lightbox.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeYtLightbox() {
+    if (!lightbox || !frame) return;
+    frame.src = '';
+    lightbox.classList.add('hidden');
+    lightbox.classList.remove('flex');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll<HTMLAnchorElement>('.blog-content a[href*="youtube.com/watch"]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const parsed = parseYouTubeUrl(a.href);
+      if (!parsed) return;
+      e.preventDefault();
+      openYtLightbox(parsed.id, parsed.start);
+    });
+  });
+
+  document.getElementById('yt-lightbox-close')?.addEventListener('click', closeYtLightbox);
+  lightbox?.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeYtLightbox();
+  });
+  document.addEventListener('keydown', e => {
+    if (!lightbox || lightbox.classList.contains('hidden')) return;
+    if (e.key === 'Escape') closeYtLightbox();
+  });
+</script>
 
 <style>
   .blog-content :global(h2) {
