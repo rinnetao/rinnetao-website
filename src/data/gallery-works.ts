@@ -10,6 +10,15 @@ export const categories = [
 
 // 新しい順
 export const works = [
+  // 新作 (2026-07-31)
+  { file: 'char_136',     cat: 'char' },
+  { file: 'char_135',     cat: 'char' },
+  { file: 'char_134',     cat: 'char' },
+  { file: 'char_133',     cat: 'char' },
+  { file: 'angel_86',     cat: 'angel' },
+  { file: 'angel_85',     cat: 'angel' },
+  { file: 'chaos_80',     cat: 'chaos' },
+  { file: 'landscape_13', cat: 'landscape' },
   // 新作 (2026-07-18)
   { file: 'char_132',     cat: 'char' },
   { file: 'angel_84',     cat: 'angel' },
