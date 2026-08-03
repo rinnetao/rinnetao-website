@@ -269,7 +269,11 @@ const jsonLd = {
     <!-- Gallery -->
     <div>
       <h2 class="section-title">Gallery</h2>
-      <div id="gallery-random-row" class="grid grid-cols-2 md:grid-cols-3 gap-3"></div>
+      <div class="relative">
+        <button id="gallery-row-prev" class="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/50 border border-white items-center justify-center text-white/70 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="前へ"><svg width="8" height="13" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div id="gallery-random-row" class="grid grid-cols-2 gap-3 md:flex md:gap-5 md:overflow-x-auto md:snap-x md:snap-mandatory md:no-scrollbar"></div>
+        <button id="gallery-row-next" class="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/50 border border-white items-center justify-center text-white/70 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="次へ"><svg width="8" height="13" viewBox="0 0 10 16" fill="none"><polyline points="2,2 8,8 2,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
       <div class="flex justify-end mt-4">
         <a href="/gallery" class="gallery-caption-link text-[10px] tracking-[0.2em] font-light transition-colors duration-300 hover:text-text-muted">すべて →</a>
       </div>
@@ -715,7 +719,7 @@ const jsonLd = {
 
   function galleryItemMarkup(w) {
     const btn = document.createElement('button');
-    btn.className = 'group relative aspect-square overflow-hidden rounded-md bg-[#1e1c18] cursor-pointer';
+    btn.className = 'group relative aspect-square overflow-hidden rounded-md bg-[#1e1c18] cursor-pointer md:shrink-0 md:snap-start md:w-[calc(25%-15px)]';
     const img = document.createElement('img');
     img.src = `/gallery/${w.file}.webp`;
     img.alt = '';
@@ -735,6 +739,14 @@ const jsonLd = {
     const item = galleryItemMarkup(w);
     item.addEventListener('click', () => openGalleryLightbox(i));
     galleryRow.appendChild(item);
+  });
+
+  // ===== PC用：横スクロール行の矢印ボタン =====
+  document.getElementById('gallery-row-prev')?.addEventListener('click', () => {
+    galleryRow.scrollBy({ left: -galleryRow.clientWidth * 0.8, behavior: 'smooth' });
+  });
+  document.getElementById('gallery-row-next')?.addEventListener('click', () => {
+    galleryRow.scrollBy({ left: galleryRow.clientWidth * 0.8, behavior: 'smooth' });
   });
 
   // ===== ライトボックス =====
