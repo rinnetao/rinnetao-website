@@ -82,18 +82,19 @@ import { categories, works } from '../data/gallery-works';
   // ===== アイテム生成 =====
   function makeItem(w) {
     const isVideo = w.type === 'video';
+    const posterSrc = w.poster ?? `/gallery/${w.file}.webp`;
     const div = document.createElement('div');
     div.className = 'gallery-item break-inside-avoid overflow-hidden group cursor-pointer relative md:aspect-square md:rounded-md md:bg-[#1e1c18]';
     div.dataset.cat = w.cat;
-    div.dataset.src = `/gallery/${w.file}.webp`;
+    div.dataset.src = posterSrc;
     div.dataset.file = w.file;
     if (isVideo) {
       div.dataset.type = 'video';
-      div.dataset.videoSrc = `/gallery/${w.file}.mp4`;
+      div.dataset.videoSrc = w.src ?? `/gallery/${w.file}.mp4`;
     }
 
     const img = document.createElement('img');
-    img.src = `/gallery/${w.file}.webp`;
+    img.src = posterSrc;
     img.alt = '';
     img.loading = 'lazy';
     img.className = 'w-full block transition-transform duration-700 group-hover:scale-[1.03] md:w-full md:h-full md:object-cover';

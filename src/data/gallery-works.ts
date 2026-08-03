@@ -15,6 +15,9 @@ export const works = [
   { file: 'video_03', cat: 'video', type: 'video' },
   { file: 'video_02', cat: 'video', type: 'video' },
   { file: 'video_01', cat: 'video', type: 'video' },
+  // Character「Movie」から流用（既存ファイルをそのまま参照、/gallery配下への複製はしない）
+  { file: 'chaotic-mystic', cat: 'video', type: 'video', src: '/character/video/chaotic-mystic.mp4', poster: '/character/video/chaotic-mystic.jpg' },
+  { file: 'hanabi-kaeri',   cat: 'video', type: 'video', src: '/character/video/hanabi-kaeri.mp4',   poster: '/character/video/hanabi-kaeri.jpg' },
   // 新作 (2026-07-31)
   { file: 'char_136',     cat: 'char' },
   { file: 'char_135',     cat: 'char' },
