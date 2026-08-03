@@ -6,10 +6,15 @@ export const categories = [
   { id: 'landscape', label: 'Landscape' },
   { id: 'jitsusya',  label: 'Photo' },
   { id: 'ipcd',      label: 'Commercial' },
+  { id: 'video',     label: 'Video' },
 ];
 
 // 新しい順
 export const works = [
+  // 新作 (2026-08-03)
+  { file: 'video_03', cat: 'video', type: 'video' },
+  { file: 'video_02', cat: 'video', type: 'video' },
+  { file: 'video_01', cat: 'video', type: 'video' },
   // 新作 (2026-07-31)
   { file: 'char_136',     cat: 'char' },
   { file: 'char_135',     cat: 'char' },

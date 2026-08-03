@@ -4,6 +4,7 @@ import { getCollection } from 'astro:content';
 import { works as galleryWorks } from '../data/gallery-works';
 
 const videos = [
+  { id: 'ZnA6l2ZGLfM', title: '平凡' },
   { id: 'ujpMwPWFooQ', title: '魔女なの花ちゃん' },
   { id: 'BzoCzRS3O7M', title: '狂宴' },
   { id: 'IVguUeSzanY', title: '羅針盤' },
@@ -15,6 +16,7 @@ const videos = [
 
 const musicWorks = [
   { title: 'TAO',              albumId: '3kHWitbxjEn6GFShKa592G', type: 'Album',  cover: 'https://i.scdn.co/image/ab67616d0000b2736d76e1041a05f1117e48fff2' },
+  { title: '平凡',              albumId: '7tX4pw8rTislnTxYLZoua4', type: 'Single', cover: 'https://i.scdn.co/image/ab67616d0000b273d17c4275d348b44d6eff3c02' },
   { title: '魔女なの花ちゃん', albumId: '2xzeTRvl5R1UZvlRsw0RFo', type: 'Single', cover: 'https://i.scdn.co/image/ab67616d0000b273ce25c3d122f4b5080fe80e78' },
   { title: '狂宴',              albumId: '5u6BawfR7TPKeXduLqwO3f', type: 'Single', cover: 'https://i.scdn.co/image/ab67616d0000b273da587e7978e15ca82287b3a0' },
   { title: 'Me No Know AI',    albumId: '3qdWJyWCBwrfUf0j7JHpKh', type: 'Single', cover: 'https://i.scdn.co/image/ab67616d0000b2733f866d7609f9da053dd42c61' },
@@ -417,6 +419,7 @@ const jsonLd = {
       </div>
       <div class="w-full h-full shrink-0 flex items-center justify-center">
         <img id="glb-img" src="" alt="" class="max-h-[90vh] max-w-[90vw] object-contain select-none" />
+        <video id="glb-video" src="" playsinline controls class="hidden max-h-[90vh] max-w-[90vw] select-none"></video>
       </div>
       <div class="w-full h-full shrink-0 flex items-center justify-center">
         <img id="glb-img-next" src="" alt="" class="max-h-[90vh] max-w-[90vw] object-contain select-none pointer-events-none" />
@@ -719,6 +722,12 @@ const jsonLd = {
     img.loading = 'lazy';
     img.className = 'w-full h-full object-cover transition-transform duration-500 group-hover:scale-105';
     btn.appendChild(img);
+    if (w.type === 'video') {
+      const playIcon = document.createElement('div');
+      playIcon.className = 'absolute inset-0 flex items-center justify-center bg-black/10 group-hover:bg-black/30 transition-colors duration-300 pointer-events-none';
+      playIcon.innerHTML = '<svg class="w-9 h-9 text-white opacity-90" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+      btn.appendChild(playIcon);
+    }
     return btn;
   }
 
@@ -733,14 +742,18 @@ const jsonLd = {
   const glbSwipeArea = document.getElementById('glb-swipe-area');
   const glbTrack = document.getElementById('glb-track');
   const glbImg = document.getElementById('glb-img');
+  const glbVideo = document.getElementById('glb-video');
   const glbImgPrev = document.getElementById('glb-img-prev');
   const glbImgNext = document.getElementById('glb-img-next');
   let glbIndex = 0;
 
-  function srcFor(idx) {
+  function workFor(idx) {
     const n = shuffledWorks.length;
-    const w = shuffledWorks[((idx % n) + n) % n];
-    return `/gallery/${w.file}.webp`;
+    return shuffledWorks[((idx % n) + n) % n];
+  }
+
+  function srcFor(idx) {
+    return `/gallery/${workFor(idx).file}.webp`;
   }
 
   function resetGlbTrack(instant) {
@@ -749,7 +762,20 @@ const jsonLd = {
   }
 
   function showGlb() {
-    glbImg.src = srcFor(glbIndex);
+    const w = workFor(glbIndex);
+    glbVideo.pause();
+    glbVideo.removeAttribute('src');
+    glbVideo.load();
+    if (w.type === 'video') {
+      glbImg.classList.add('hidden');
+      glbVideo.classList.remove('hidden');
+      glbVideo.src = `/gallery/${w.file}.mp4`;
+      glbVideo.play();
+    } else {
+      glbVideo.classList.add('hidden');
+      glbImg.classList.remove('hidden');
+      glbImg.src = srcFor(glbIndex);
+    }
     glbImgPrev.src = srcFor(glbIndex - 1);
     glbImgNext.src = srcFor(glbIndex + 1);
     resetGlbTrack(true);
@@ -767,6 +793,9 @@ const jsonLd = {
     glb.classList.add('hidden');
     glb.classList.remove('flex');
     document.body.style.overflow = '';
+    glbVideo.pause();
+    glbVideo.removeAttribute('src');
+    glbVideo.load();
   }
 
   function glbGo(delta) {

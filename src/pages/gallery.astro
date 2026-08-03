@@ -23,7 +23,7 @@ import { categories, works } from '../data/gallery-works';
     </div>
 
     <!-- ギャラリー -->
-    <div id="gallery-grid" class="columns-2 md:columns-3 lg:columns-4 gap-1 space-y-1"></div>
+    <div id="gallery-grid" class="columns-2 gap-1 space-y-1 md:columns-none md:grid md:grid-cols-3 md:gap-3 md:space-y-0 lg:grid-cols-4"></div>
 
     <!-- 無限スクロール sentinel -->
     <div id="sentinel" class="h-16"></div>
@@ -47,6 +47,7 @@ import { categories, works } from '../data/gallery-works';
     </div>
     <div class="w-full h-full shrink-0 flex items-center justify-center">
       <img id="lb-img" src="" alt="" class="max-h-[90vh] max-w-[90vw] object-contain select-none" />
+      <video id="lb-video" src="" playsinline controls class="hidden max-h-[90vh] max-w-[90vw] select-none"></video>
     </div>
     <div class="w-full h-full shrink-0 flex items-center justify-center">
       <img id="lb-img-next" src="" alt="" class="max-h-[90vh] max-w-[90vw] object-contain select-none pointer-events-none" />
@@ -79,24 +80,37 @@ import { categories, works } from '../data/gallery-works';
 
   // ===== アイテム生成 =====
   function makeItem(w) {
+    const isVideo = w.type === 'video';
     const div = document.createElement('div');
-    div.className = 'gallery-item break-inside-avoid overflow-hidden group cursor-pointer relative';
+    div.className = 'gallery-item break-inside-avoid overflow-hidden group cursor-pointer relative md:aspect-square md:rounded-md md:bg-[#1e1c18]';
     div.dataset.cat = w.cat;
     div.dataset.src = `/gallery/${w.file}.webp`;
     div.dataset.file = w.file;
+    if (isVideo) {
+      div.dataset.type = 'video';
+      div.dataset.videoSrc = `/gallery/${w.file}.mp4`;
+    }
 
     const img = document.createElement('img');
     img.src = `/gallery/${w.file}.webp`;
     img.alt = '';
     img.loading = 'lazy';
-    img.className = 'w-full block transition-transform duration-700 group-hover:scale-[1.03]';
-
-    const label = document.createElement('div');
-    label.className = 'absolute bottom-0 left-0 right-0 px-2 py-1 bg-black/60 text-white/70 text-[10px] font-mono tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none';
-    label.textContent = w.file;
+    img.className = 'w-full block transition-transform duration-700 group-hover:scale-[1.03] md:w-full md:h-full md:object-cover';
 
     div.appendChild(img);
-    div.appendChild(label);
+
+    if (isVideo) {
+      const playIcon = document.createElement('div');
+      playIcon.className = 'absolute inset-0 flex items-center justify-center bg-black/10 group-hover:bg-black/30 transition-colors duration-300 pointer-events-none';
+      playIcon.innerHTML = '<svg class="w-9 h-9 text-white opacity-90" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+      div.appendChild(playIcon);
+    } else {
+      const label = document.createElement('div');
+      label.className = 'absolute bottom-0 left-0 right-0 px-2 py-1 bg-black/60 text-white/70 text-[10px] font-mono tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none';
+      label.textContent = w.file;
+      div.appendChild(label);
+    }
+
     div.addEventListener('click', () => openLightbox(rendered > 0 ? grid.querySelectorAll('.gallery-item') : [], div));
     return div;
   }
@@ -147,6 +161,7 @@ import { categories, works } from '../data/gallery-works';
   const lbSwipeArea = document.getElementById('lb-swipe-area');
   const lbTrack = document.getElementById('lb-track');
   const lbImg = document.getElementById('lb-img');
+  const lbVideo = document.getElementById('lb-video');
   const lbImgPrev = document.getElementById('lb-img-prev');
   const lbImgNext = document.getElementById('lb-img-next');
   const lbFilename = document.getElementById('lb-filename');
@@ -178,7 +193,19 @@ import { categories, works } from '../data/gallery-works';
   }
 
   function showLb(el) {
-    lbImg.src = el.dataset.src;
+    lbVideo.pause();
+    lbVideo.removeAttribute('src');
+    lbVideo.load();
+    if (el.dataset.type === 'video') {
+      lbImg.classList.add('hidden');
+      lbVideo.classList.remove('hidden');
+      lbVideo.src = el.dataset.videoSrc;
+      lbVideo.play();
+    } else {
+      lbVideo.classList.add('hidden');
+      lbImg.classList.remove('hidden');
+      lbImg.src = el.dataset.src;
+    }
     lbFilename.textContent = el.dataset.file ?? '';
     lbImgPrev.src = neighborSrc(-1);
     lbImgNext.src = neighborSrc(1);
@@ -189,6 +216,9 @@ import { categories, works } from '../data/gallery-works';
     lb.classList.add('hidden');
     lb.classList.remove('flex');
     document.body.style.overflow = '';
+    lbVideo.pause();
+    lbVideo.removeAttribute('src');
+    lbVideo.load();
   }
 
   function lbGo(delta) {
