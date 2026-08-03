@@ -414,7 +414,8 @@ const jsonLd = {
 
 <!-- Gallery ライトボックス -->
 <div id="gallery-lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90" role="dialog" aria-modal="true">
-  <div class="absolute top-[8%] left-1/2 -translate-x-1/2 bg-black/70 px-3 py-1.5 rounded-sm text-white/70 text-[12px] tracking-wider text-center whitespace-nowrap pointer-events-none">← 左右にスワイプ →</div>
+  <button id="glb-close" class="absolute top-4 right-5 text-white/70 hover:text-white text-2xl font-light z-20" aria-label="閉じる">×</button>
+  <div id="glb-swipe-hint" class="absolute top-[8%] left-1/2 -translate-x-1/2 bg-black/70 px-3 py-1.5 rounded-sm text-white/70 text-[12px] tracking-wider text-center whitespace-nowrap pointer-events-none">← 左右にスワイプ →</div>
   <button id="glb-prev" class="hidden md:flex absolute left-[16%] top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 border border-white/70 hover:bg-white/20 items-center justify-center text-white/70 hover:text-white transition-all" aria-label="前へ">
     <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
@@ -435,7 +436,7 @@ const jsonLd = {
       </div>
     </div>
   </div>
-  <div class="absolute bottom-[8%] left-1/2 -translate-x-1/2 bg-black/70 px-3 py-1.5 rounded-sm text-white/70 text-[12px] tracking-wider text-center whitespace-nowrap pointer-events-none">画像をタップで閉じます</div>
+  <div id="glb-tap-hint" class="absolute bottom-[8%] left-1/2 -translate-x-1/2 bg-black/70 px-3 py-1.5 rounded-sm text-white/70 text-[12px] tracking-wider text-center whitespace-nowrap pointer-events-none">画像をタップで閉じます</div>
 </div>
 
 <style>
@@ -782,6 +783,8 @@ const jsonLd = {
   const glbVideo = document.getElementById('glb-video');
   const glbImgPrev = document.getElementById('glb-img-prev');
   const glbImgNext = document.getElementById('glb-img-next');
+  const glbSwipeHint = document.getElementById('glb-swipe-hint');
+  const glbTapHint = document.getElementById('glb-tap-hint');
   let glbIndex = 0;
 
   function workFor(idx) {
@@ -800,10 +803,11 @@ const jsonLd = {
 
   function showGlb() {
     const w = workFor(glbIndex);
+    const isVideo = w.type === 'video';
     glbVideo.pause();
     glbVideo.removeAttribute('src');
     glbVideo.load();
-    if (w.type === 'video') {
+    if (isVideo) {
       glbImg.classList.add('hidden');
       glbVideo.classList.remove('hidden');
       glbVideo.src = `/gallery/${w.file}.mp4`;
@@ -813,6 +817,9 @@ const jsonLd = {
       glbImg.classList.remove('hidden');
       glbImg.src = srcFor(glbIndex);
     }
+    // 動画は独自のタップ操作(再生/シークバー)を持つため、画像用のタップ案内は隠す
+    glbSwipeHint.classList.toggle('hidden', isVideo);
+    glbTapHint.classList.toggle('hidden', isVideo);
     glbImgPrev.src = srcFor(glbIndex - 1);
     glbImgNext.src = srcFor(glbIndex + 1);
     resetGlbTrack(true);
@@ -842,6 +849,7 @@ const jsonLd = {
 
   document.getElementById('glb-prev')?.addEventListener('click', () => glbGo(-1));
   document.getElementById('glb-next')?.addEventListener('click', () => glbGo(1));
+  document.getElementById('glb-close')?.addEventListener('click', closeGalleryLightbox);
   glb.addEventListener('click', e => { if (e.target === glb) closeGalleryLightbox(); });
   glbImg.addEventListener('click', closeGalleryLightbox);
   document.addEventListener('keydown', e => {
