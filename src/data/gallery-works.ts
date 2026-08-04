@@ -25,11 +25,8 @@ export const works = [
   { file: 'cosmetic',        cat: 'video', type: 'video', src: '/character/video/cosmetic.mp4',        poster: '/character/video/cosmetic.jpg' },
   { file: 'watashi-wa-tao',  cat: 'video', type: 'video', src: '/character/video/watashi-wa-tao.mp4',  poster: '/character/video/watashi-wa-tao.jpg' },
   // Characterページ「Illustration」から流用（既存ファイルをそのまま参照、Characterページ側はそのまま残す）
-  { file: 'char-guitar-bust',     cat: 'char', poster: '/character/guitar-bust.webp' },
-  { file: 'char-piano',           cat: 'char', poster: '/character/piano.webp' },
   { file: 'char-festival-snack',  cat: 'char', poster: '/character/festival-snack.webp' },
   { file: 'char-lying-down',      cat: 'char', poster: '/character/lying-down.webp' },
-  { file: 'char-sitting-profile', cat: 'char', poster: '/character/sitting-profile.webp' },
   { file: 'char-fisheye-street',  cat: 'char', poster: '/character/fisheye-street.webp' },
   { file: 'char-eye-closeup',     cat: 'char', poster: '/character/eye-closeup.webp' },
   { file: 'char-gift-box',        cat: 'char', poster: '/character/gift-box.webp' },
