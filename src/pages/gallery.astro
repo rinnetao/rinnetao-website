@@ -1,6 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { categories, catGroups, works } from '../data/gallery-works';
+
+const illustCount = works.filter(w => catGroups.illust.includes(w.cat)).length;
+const videoCount = works.filter(w => w.cat === 'video').length;
 ---
 
 <Layout title="GALLERY | 輪廻タヲ" description="輪廻タヲのイラスト・キャラクター・風景作品ギャラリー。カテゴリ別に一覧・拡大表示できます。" ogImage="/gallery-og.png">
@@ -8,6 +11,7 @@ import { categories, catGroups, works } from '../data/gallery-works';
 
     <div class="py-12 mb-8">
       <h1 class="font-mincho text-text-primary text-3xl font-light tracking-[0.3em]">Gallery</h1>
+      <p class="text-text-faint text-[11px] tracking-[0.15em] font-light mt-4">Illustration {illustCount} / Movie {videoCount}</p>
     </div>
 
     <!-- カテゴリフィルター -->
