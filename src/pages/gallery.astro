@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { categories, works } from '../data/gallery-works';
+import { categories, catGroups, works } from '../data/gallery-works';
 ---
 
 <Layout title="GALLERY | 輪廻タヲ" description="輪廻タヲのイラスト・キャラクター・風景作品ギャラリー。カテゴリ別に一覧・拡大表示できます。" ogImage="/gallery-og.png">
@@ -59,7 +59,7 @@ import { categories, works } from '../data/gallery-works';
   <div id="lb-filename" class="absolute bottom-[5%] left-1/2 -translate-x-1/2 bg-black/70 px-2 py-1 rounded-sm text-white/40 text-[10px] font-mono tracking-wider"></div>
 </div>
 
-<script define:vars={{ works }}>
+<script define:vars={{ works, catGroups }}>
   const BATCH = 48;
   const grid = document.getElementById('gallery-grid');
   const sentinel = document.getElementById('sentinel');
@@ -133,7 +133,12 @@ import { categories, works } from '../data/gallery-works';
   // ===== フィルター =====
   function applyFilter(cat) {
     currentCat = cat;
-    filtered = shuffle(cat === 'all' ? works : works.filter(w => w.cat === cat));
+    const group = catGroups[cat];
+    filtered = shuffle(
+      cat === 'all' ? works :
+      group ? works.filter(w => group.includes(w.cat)) :
+      works.filter(w => w.cat === cat)
+    );
     rendered = 0;
     grid.innerHTML = '';
     btns.forEach(b => {

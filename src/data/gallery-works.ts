@@ -1,13 +1,14 @@
 export const categories = [
-  { id: 'all',       label: 'All' },
-  { id: 'char',      label: 'Character' },
-  { id: 'angel',     label: 'Angel' },
-  { id: 'chaos',     label: 'Chaos' },
-  { id: 'landscape', label: 'Landscape' },
-  { id: 'jitsusya',  label: 'Photo' },
-  { id: 'ipcd',      label: 'Commercial' },
-  { id: 'video',     label: 'Video' },
+  { id: 'all',    label: 'All' },
+  { id: 'illust', label: 'Illustration' },
+  { id: 'video',  label: 'Movie' },
 ];
+
+// 「イラスト」タブがまとめて拾う内部カテゴリ（元のchar/angel/chaos/landscape/jitsusya/ipcdは
+// データ上の分類として維持しつつ、表示上は1タブに統合する）
+export const catGroups: Record<string, string[]> = {
+  illust: ['char', 'angel', 'chaos', 'landscape', 'jitsusya', 'ipcd'],
+};
 
 // 新しい順
 export const works = [
@@ -15,9 +16,28 @@ export const works = [
   { file: 'video_03', cat: 'video', type: 'video' },
   { file: 'video_02', cat: 'video', type: 'video' },
   { file: 'video_01', cat: 'video', type: 'video' },
-  // Character「Movie」から流用（既存ファイルをそのまま参照、/gallery配下への複製はしない）
-  { file: 'chaotic-mystic', cat: 'video', type: 'video', src: '/character/video/chaotic-mystic.mp4', poster: '/character/video/chaotic-mystic.jpg' },
-  { file: 'hanabi-kaeri',   cat: 'video', type: 'video', src: '/character/video/hanabi-kaeri.mp4',   poster: '/character/video/hanabi-kaeri.jpg' },
+  // Characterページ「Movie」から流用（既存ファイルをそのまま参照、/gallery配下への複製はしない。Characterページ側はそのまま残す）
+  { file: 'chaotic-mystic',  cat: 'video', type: 'video', src: '/character/video/chaotic-mystic.mp4',  poster: '/character/video/chaotic-mystic.jpg' },
+  { file: 'hanabi-kaeri',    cat: 'video', type: 'video', src: '/character/video/hanabi-kaeri.mp4',    poster: '/character/video/hanabi-kaeri.jpg' },
+  { file: 'mv-okinawa',      cat: 'video', type: 'video', src: '/character/video/mv-okinawa.mp4',      poster: '/character/video/mv-okinawa.jpg' },
+  { file: 'mv-first',        cat: 'video', type: 'video', src: '/character/video/mv-first.mp4',        poster: '/character/video/mv-first.jpg' },
+  { file: 'carbonara',       cat: 'video', type: 'video', src: '/character/video/carbonara.mp4',       poster: '/character/video/carbonara.jpg' },
+  { file: 'cosmetic',        cat: 'video', type: 'video', src: '/character/video/cosmetic.mp4',        poster: '/character/video/cosmetic.jpg' },
+  { file: 'watashi-wa-tao',  cat: 'video', type: 'video', src: '/character/video/watashi-wa-tao.mp4',  poster: '/character/video/watashi-wa-tao.jpg' },
+  // Characterページ「Illustration」から流用（既存ファイルをそのまま参照、Characterページ側はそのまま残す）
+  { file: 'char-guitar-bust',     cat: 'char', poster: '/character/guitar-bust.webp' },
+  { file: 'char-piano',           cat: 'char', poster: '/character/piano.webp' },
+  { file: 'char-festival-snack',  cat: 'char', poster: '/character/festival-snack.webp' },
+  { file: 'char-lying-down',      cat: 'char', poster: '/character/lying-down.webp' },
+  { file: 'char-sitting-profile', cat: 'char', poster: '/character/sitting-profile.webp' },
+  { file: 'char-fisheye-street',  cat: 'char', poster: '/character/fisheye-street.webp' },
+  { file: 'char-eye-closeup',     cat: 'char', poster: '/character/eye-closeup.webp' },
+  { file: 'char-gift-box',        cat: 'char', poster: '/character/gift-box.webp' },
+  { file: 'char-subway',          cat: 'char', poster: '/character/subway.webp' },
+  { file: 'char-okinawa',         cat: 'char', poster: '/character/okinawa.webp' },
+  { file: 'char-finger-frame',    cat: 'char', poster: '/character/finger-frame.webp' },
+  { file: 'char-studio-booth',    cat: 'char', poster: '/character/studio-booth.webp' },
+  { file: 'char-summer',          cat: 'char', poster: '/character/summer.webp' },
   // 新作 (2026-07-31)
   { file: 'char_136',     cat: 'char' },
   { file: 'char_135',     cat: 'char' },
