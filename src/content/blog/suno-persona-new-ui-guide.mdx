@@ -1,0 +1,101 @@
+---
+title: "Sunoの「Make Persona」が見当たらない？新UIの仕様変更について解説"
+date: 2026-08-05
+description: "Suno新UIで「Make Persona」ボタンが見当たらなくなった問題。実際に手順を辿って確認した、曲からPersona(Voice)を作る新しい導線をまとめました。"
+relatedSlugs: ["suno-stem-separation-update", "suno-mashup"]
+ogImage: "/blog/suno-persona-new-ui-guide-cover.jpg"
+---
+
+import CTA from '../../components/CTA.astro';
+
+!["Sunoの「Make Persona」が見当たらない？新UIの仕様変更について解説"](/blog/suno-persona-new-ui-guide-cover.jpg)
+
+「あれ、Make Personaってどこ行った?」<br />
+Suno UIをアップデートしてから、そう思った人は多いはずです。
+
+結論から言うと、消えたわけではありません。<br />
+最新のアップデートで、Persona機能がVoiceに統合され、その分だけ手順が変わりました。<br />
+今回は、その変更点を整理します。
+
+## 結論(要点だけ知りたい人向け)
+
+> ・「Voice」→「Create Voice」→「Select from library」の3クリックで、旧Make Personaと同じ場所に着く<br />
+> ・機能自体は今までのPersona運用とほぼ同じ<br />
+> ・ただし、名前入力・スタイル・Public/Privateの設定など、以前より一手間増えている
+
+## Step 1: Createを開く
+
+`suno.com/create` にアクセスします。<br />
+Simple / Advanced、どちらのタブでも導線は同じです。
+
+![Suno Create画面。Audio / Voice / Inspoの3ボタンが並ぶ](/blog/suno-persona-new-ui-step1.png)
+
+中央の**Voice**をクリックします。
+
+## Step 2: 「Voice」を開く
+
+Audio / Voice / Inspo、3つ並んだボタンの真ん中です。<br />
+クリックすると、Voiceのモーダルが開きます。
+
+既存のVoice一覧の上に、赤くグローしている**Create Voice**(New)ボタンがあります。
+
+![Voiceモーダル。上部に赤く光るCreate Voice(New)ボタン](/blog/suno-persona-new-ui-step2.png)
+
+これをクリックします。
+
+## Step 3: 「Select from library」を選ぶ
+
+「Create a Voice(Beta)」という画面に切り替わります。<br />
+選択肢は3つです。
+
+> ・Record(その場で録音)<br />
+> ・Upload Audio(音源をアップロード)<br />
+> ・Select from library(自分のライブラリの曲から作る)
+
+![Create a Voice(Beta)画面。3つの作成方法が並ぶ](/blog/suno-persona-new-ui-step3.png)
+
+旧UIの「曲からPersonaを作る」に一番近いのは、**Select from library**です。
+
+## Step 4: 曲を選ぶ
+
+自分のライブラリの曲一覧が表示されます。<br />
+各曲の右側に「Select」ボタンがあります。
+
+![Select from Library画面。曲一覧と各曲右のSelectボタン](/blog/suno-persona-new-ui-step4.png)
+
+ここで一つ、つまずきポイントがあります。<br />
+**すでに別のVoiceが作成済みの曲は選べません。**<br />
+選ぶと「A voice already exists for this song. Pick a different song.」というエラーが出て弾かれます。<br />
+その場合は、素直に別の曲を選び直してください。
+
+## Step 5: 名前をつけて保存する
+
+曲を選ぶと、「Create a Voice」というフォームに切り替わります。<br />
+ここが、旧UIにはなかった追加の工程です。
+
+![Create a Voiceフォーム。波形選択とName this Voice欄](/blog/suno-persona-new-ui-step5.png)
+
+> ・波形上で、ボーカルの気に入っている部分をドラッグ選択(秒数指定も可)<br />
+> ・「Name this Voice」に名前を入力(必須)<br />
+> ・「Styles」は、選んだ曲のスタイルタグが自動で入る(スクロール先)<br />
+> ・「Description」は任意(スクロール先)<br />
+> ・「Public」トグルは**デフォルトでON**。公開したくない場合は必ずOFFにする(スクロール先)
+
+入力できたら、**Save**を押して完了です。<br />
+数秒の処理("Processing vocal stem...")を経て、作成したVoiceがCreate画面に反映されます。
+
+<CTA />
+
+## 旧UIとの対応関係
+
+- 旧UIの「Make Persona」ボタン → 新UIでは「Voice」経由の「Create Voice」に統合された
+- 「Select from library」は、旧UIで曲からPersonaを作る動線とほぼ同じ感覚
+- 変わった点は主に2つ。**波形からボーカル範囲を選ぶ工程が明示的になったこと**、そして**Public/Privateを毎回選ぶ必要があること**
+- 同じ曲から二重にVoiceを作れない、という制限も新しく加わった仕様
+
+## まとめ
+
+ボタンの場所は変わりましたが、できることの本質は変わっていません。<br />
+迷ったら、Voice → Create Voice → Select from library、この3クリックだけ覚えておけば大丈夫です。
+
+Publicがデフォルトでオンになっている点だけ、忘れずにチェックしてください。
