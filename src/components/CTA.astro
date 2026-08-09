@@ -13,7 +13,7 @@ const {
 ---
 
 <div class="not-prose my-10 border border-accent-line px-6 py-8 text-center">
-  <p class="text-text-muted text-[13px] font-light leading-relaxed mb-4">{text}</p>
+  <p class="text-text-muted text-[13px] font-light leading-relaxed mb-4" set:html={text} />
   <a
     href={href}
     target="_blank"
