@@ -1,0 +1,38 @@
+---
+---
+<div id="blog-lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90" role="dialog" aria-modal="true">
+  <button id="blog-lightbox-close" class="absolute top-4 right-5 text-white/70 hover:text-white text-2xl font-light z-20" aria-label="閉じる">×</button>
+  <img id="blog-lightbox-img" src="" alt="" class="max-h-[90vh] max-w-[90vw] object-contain cursor-zoom-out" />
+</div>
+
+<script>
+  const lb = document.getElementById('blog-lightbox');
+  const lbImg = document.getElementById('blog-lightbox-img') as HTMLImageElement | null;
+  const lbClose = document.getElementById('blog-lightbox-close');
+
+  function openLb(src: string, alt: string) {
+    if (!lbImg || !lb) return;
+    lbImg.src = src;
+    lbImg.alt = alt;
+    lb.classList.remove('hidden');
+    lb.classList.add('flex');
+  }
+
+  function closeLb() {
+    if (!lb) return;
+    lb.classList.add('hidden');
+    lb.classList.remove('flex');
+  }
+
+  document.querySelectorAll('.blog-lightbox-trigger').forEach((el) => {
+    el.addEventListener('click', () => {
+      openLb(el.getAttribute('src') || '', el.getAttribute('alt') || '');
+    });
+  });
+
+  lb?.addEventListener('click', closeLb);
+  lbClose?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    closeLb();
+  });
+</script>
