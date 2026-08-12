@@ -1,0 +1,30 @@
+---
+---
+<div class="not-prose relative my-6 border border-accent-line">
+  <button type="button" class="prompt-copy-btn absolute top-2 right-2 z-10 text-[11px] tracking-wider px-3 py-1.5 bg-black/80 text-white/80 hover:text-white border border-white/20 rounded-sm transition-colors">
+    コピー
+  </button>
+  <div class="prompt-scroll max-h-[7.5em] overflow-auto">
+    <slot />
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.prompt-copy-btn').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const container = btn.parentElement;
+      const code = container?.querySelector('code');
+      if (!code) return;
+      try {
+        await navigator.clipboard.writeText(code.textContent || '');
+        const original = btn.textContent;
+        btn.textContent = 'コピーしました';
+        setTimeout(() => {
+          btn.textContent = original;
+        }, 1500);
+      } catch (e) {
+        // ignore
+      }
+    });
+  });
+</script>

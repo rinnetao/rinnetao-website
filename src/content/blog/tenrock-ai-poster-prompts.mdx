@@ -6,14 +6,16 @@ relatedSlugs: ["gpt-image-prompts-tao-tips"]
 ---
 
 import CTA from '../../components/CTA.astro';
+import PromptBox from '../../components/PromptBox.astro';
 
 天ROCK FEST 2026向けに使った、GPT Imageのプロンプトをまとめました。<br />
 アーティストビジュアル、Tシャツモック、対決ポスターの3事例です。
 
 このプロンプトはニュースにもなりました。
 
-> 天ROCK FEST 2026でAIポスター作成ブーム、公式が企画認定<br />
-> (2026年5月17日、[Xトレンド](https://x.com/i/trending/2056034869147263020)より)
+<a href="/blog/tenrock-ai-poster-prompts-news.jpg" target="_blank" rel="noopener noreferrer">
+  <img src="/blog/tenrock-ai-poster-prompts-news.jpg" alt="天ROCK FEST 2026でAIポスター作成ブーム、公式が企画認定(Xトレンドより)" />
+</a>
 
 そのままコピペで試せる形式にしてあります。
 
@@ -32,15 +34,15 @@ import CTA from '../../components/CTA.astro';
 
 ![天ロック アーティストビジュアル](/blog/gpt-image-prompts-tao-tips-01-poster.jpg)
 
-**使い方の説明**<br />
-イラストを1枚添付するだけで使えます。<br />
-文中の[ここにキャッチコピー1〜3行目][ここにアーティスト名][DAY○・日付]の部分を書き換えてください。<br />
-情報量が多いプロンプトなので、キャッチコピーは事前に短くしておくのがおすすめです。<br />
-「既存イラストは変えない」と「ポスター全体を再生成する」は衝突しやすく、顔や衣装を厳密に一致させたい場合は複数回生成して選んでください。<br />
-日本語文字の誤字は、生成後に必ず確認してください。
+**使い方の説明**
 
-<details>
-<summary>プロンプトを見る(コピペ用)</summary>
+1. イラストを1枚添付するだけで使えます
+2. 文中の[ここにキャッチコピー1〜3行目][ここにアーティスト名][DAY○・日付]の部分を書き換えてください
+3. 情報量が多いプロンプトなので、キャッチコピーは事前に短くしておくのがおすすめです
+4. 「既存イラストは変えない」と「ポスター全体を再生成する」は衝突しやすく、顔や衣装を厳密に一致させたい場合は複数回生成して選んでください
+5. 日本語文字の誤字は、生成後に必ず確認してください
+
+<PromptBox>
 
 ```text
 Use the attached illustration as the main visual. Do not alter the character, face, or art style in any way.
@@ -121,8 +123,7 @@ STYLE:
 Cinematic. Deep blacks. Gritty noise/grain texture overlay across the entire poster. No borders from digital framing. High contrast. The overall mood is dark, heavy, and uncompromising.
 ```
 
-</details>
-
+</PromptBox>
 
 <CTA />
 
@@ -138,14 +139,14 @@ Cinematic. Deep blacks. Gritty noise/grain texture overlay across the entire pos
   <img src="/blog/gpt-image-prompts-tao-tips-02-tshirt-worn.jpg" alt="ゆるキャラTシャツ着用例" class="w-full" loading="lazy" />
 </div>
 
-**使い方の説明**<br />
-ロゴ画像とキャラクター画像を添付してください。添付順を一言添えておくと安定します。<br />
-文中の【ここにセリフを入力】【ここにアーティスト名を入力】の部分を書き換えてください。<br />
-ロゴの正確性を優先したい場合は、ロゴ画像を別添するとより安定します。<br />
-印刷用データではなく商品モックなので、実際の入稿時は別途版下が必要です。
+**使い方の説明**
 
-<details>
-<summary>プロンプトを見る(コピペ用)</summary>
+1. ロゴ画像とキャラクター画像を添付してください。添付順を一言添えておくと安定します
+2. 文中の【ここにセリフを入力】【ここにアーティスト名を入力】の部分を書き換えてください
+3. ロゴの正確性を優先したい場合は、ロゴ画像を別添するとより安定します
+4. 印刷用データではなく商品モックなので、実際の入稿時は別途版下が必要です
+
+<PromptBox>
 
 ```text
 Create a white t-shirt product mockup (flat lay, front view, plain white background).
@@ -171,8 +172,7 @@ The artist name "【ここにアーティスト名を入力】" hand-lettered in
 Keep all elements well-spaced and balanced. Clean, minimal, no background decoration.
 ```
 
-</details>
-
+</PromptBox>
 
 ---
 
@@ -183,14 +183,14 @@ Keep all elements well-spaced and balanced. Clean, minimal, no background decora
 
 ![ライバルとのフェイスオフ作例](/blog/gpt-image-prompts-tao-tips-10-faceoff.jpg)
 
-**使い方の説明**<br />
-キャラクター画像を2枚添付してください。<br />
-文中の「ここにキャッチコピーを記入」「アーティスト名(日本語・ローマ字)」の部分を書き換えてください。<br />
-長いプロンプトなので、後半の文字組みが弱くなることがあります。その場合は先にイラストだけ生成し、あとから文字を追加する二段階方式がおすすめです。<br />
-武器・腕・手の接点は人体が破綻しやすいので、うまくいかない時は接点の種類を一つに絞ってください。
+**使い方の説明**
 
-<details>
-<summary>プロンプトを見る(コピペ用)</summary>
+1. キャラクター画像を2枚添付してください
+2. 文中の「ここにキャッチコピーを記入」「アーティスト名(日本語・ローマ字)」の部分を書き換えてください
+3. 長いプロンプトなので、後半の文字組みが弱くなることがあります。その場合は先にイラストだけ生成し、あとから文字を追加する二段階方式がおすすめです
+4. 武器・腕・手の接点は人体が破綻しやすいので、うまくいかない時は接点の種類を一つに絞ってください
+
+<PromptBox>
 
 ```text
 TWO CHARACTER ILLUSTRATIONS are provided as input.
@@ -317,8 +317,7 @@ STYLE:
 Summer daylight. Open energy. Subtle grain overlay. High contrast. White text over bright illustration.
 ```
 
-</details>
-
+</PromptBox>
 
 ## 輪廻タヲとして
 
