@@ -1,0 +1,90 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const items = await getCollection('shop');
+  return items.map(item => ({
+    params: { slug: item.slug },
+    props: { item },
+  }));
+}
+
+interface Props {
+  item: CollectionEntry<'shop'>;
+}
+
+const { item } = Astro.props;
+const { Content } = await item.render();
+const isSoldOut = item.data.status === 'soldout';
+---
+
+<Layout title={`${item.data.title} | 輪廻タヲ SHOP`} description={item.data.description} ogImage={item.data.ogImage ?? item.data.heroImage}>
+  <div class="pt-24 pb-16 px-5 md:px-8 min-h-screen">
+    <div class="max-w-xl mx-auto">
+
+      <div class="py-8 mb-8">
+        <p class="text-text-faint text-[10px] tracking-[0.4em] mb-3 font-light">SHOP</p>
+        <h1 class="font-mincho text-text-primary text-3xl font-light tracking-[0.3em]">{item.data.title}</h1>
+      </div>
+
+      <div class="relative mb-8">
+        <img src={item.data.heroImage} alt={item.data.title} class="w-full" />
+        {isSoldOut && (
+          <div class="absolute inset-0 bg-black/60 flex items-center justify-center">
+            <span class="text-text-primary text-[13px] tracking-[0.2em] border border-white/40 px-4 py-2">SOLD OUT</span>
+          </div>
+        )}
+      </div>
+
+      <div class="shop-content text-text-muted text-[14px] font-light leading-[2.2] mb-8">
+        <Content />
+      </div>
+
+      <div class="flex items-baseline justify-between border-t border-b border-accent-line py-5 mb-8">
+        <span class="font-mincho text-text-primary text-base font-light tracking-wider">価格</span>
+        <span class="text-text-primary text-xl font-sans-jp font-bold tracking-wide">
+          {item.data.price}
+          {item.data.priceNote && <span class="text-text-faint text-[12px] font-light ml-1">（{item.data.priceNote}）</span>}
+        </span>
+      </div>
+
+      {isSoldOut ? (
+        <p class="block text-center mb-16 px-5 py-4 bg-white/10 text-text-faint text-[13px] font-sans-jp font-bold tracking-[0.15em] rounded-sm">
+          SOLD OUT
+        </p>
+      ) : (
+        <>
+          <a
+            href={item.data.stripeLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="block text-center mb-4 px-5 py-4 bg-white text-[#1a1a1a] text-[13px] font-sans-jp font-bold tracking-[0.15em] rounded-sm hover:bg-white/85 transition-all duration-300"
+          >
+            購入する
+          </a>
+          {item.data.purchaseNote && (
+            <p class="text-text-faint text-[11px] font-light leading-[2] mb-16 text-center">{item.data.purchaseNote}</p>
+          )}
+        </>
+      )}
+
+      {item.data.images && item.data.images.length > 0 && (
+        <div class="space-y-6 mb-16">
+          {item.data.images.map(({ file, alt }) => (
+            <img src={file} alt={alt} class="w-full" />
+          ))}
+        </div>
+      )}
+
+      <a href="/shop" class="inline-block text-text-muted text-[12px] font-light hover:text-text-primary transition-colors duration-300">← SHOPに戻る</a>
+
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .shop-content :global(p) {
+    margin-bottom: 1.2rem;
+  }
+</style>

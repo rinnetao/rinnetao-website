@@ -26,4 +26,21 @@ const news = defineCollection({
   }),
 });
 
-export const collections = { blog, news };
+const shop = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    price: z.string(),
+    priceNote: z.string().optional(),
+    status: z.enum(['available', 'soldout']).default('available'),
+    date: z.date(),
+    description: z.string(),
+    heroImage: z.string(),
+    ogImage: z.string().optional(),
+    stripeLink: z.string().optional(),
+    purchaseNote: z.string().optional(),
+    images: z.array(z.object({ file: z.string(), alt: z.string() })).optional(),
+  }),
+});
+
+export const collections = { blog, news, shop };
