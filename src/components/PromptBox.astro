@@ -1,8 +1,9 @@
 ---
 ---
 <div class="not-prose relative my-6 border border-accent-line">
-  <button type="button" class="prompt-copy-btn absolute top-2 right-2 z-10 text-[11px] tracking-wider px-3 py-1.5 bg-black/80 text-white/80 hover:text-white border border-white/20 rounded-sm transition-colors">
-    コピー
+  <button type="button" aria-label="コピー" class="prompt-copy-btn absolute top-2 right-2 z-10 w-8 h-8 flex items-center justify-center bg-black/80 text-white/80 hover:text-white border border-white/20 rounded-sm transition-colors">
+    <svg class="prompt-copy-icon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+    <svg class="prompt-check-icon hidden" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
   </button>
   <div class="prompt-scroll max-h-[7.5em] overflow-auto">
     <slot />
@@ -11,16 +12,19 @@
 
 <script>
   document.querySelectorAll<HTMLButtonElement>('.prompt-copy-btn').forEach((btn) => {
+    const copyIcon = btn.querySelector('.prompt-copy-icon');
+    const checkIcon = btn.querySelector('.prompt-check-icon');
     btn.addEventListener('click', async () => {
       const container = btn.parentElement;
       const code = container?.querySelector('code');
       if (!code) return;
       try {
         await navigator.clipboard.writeText(code.textContent || '');
-        const original = btn.textContent;
-        btn.textContent = 'コピーしました';
+        copyIcon?.classList.add('hidden');
+        checkIcon?.classList.remove('hidden');
         setTimeout(() => {
-          btn.textContent = original;
+          copyIcon?.classList.remove('hidden');
+          checkIcon?.classList.add('hidden');
         }, 1500);
       } catch (e) {
         // ignore
