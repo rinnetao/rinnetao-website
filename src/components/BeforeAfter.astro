@@ -1,0 +1,19 @@
+---
+interface Props {
+  beforeSrc: string;
+  afterSrc: string;
+  beforeAlt: string;
+  afterAlt: string;
+}
+const { beforeSrc, afterSrc, beforeAlt, afterAlt } = Astro.props;
+---
+<div class="not-prose grid grid-cols-2 gap-3 my-6">
+  <div>
+    <p class="text-center text-[11px] tracking-[0.2em] text-text-muted mb-2">BEFORE</p>
+    <img src={beforeSrc} alt={beforeAlt} class="w-full" loading="lazy" />
+  </div>
+  <div>
+    <p class="text-center text-[11px] tracking-[0.2em] text-text-muted mb-2">AFTER</p>
+    <img src={afterSrc} alt={afterAlt} class="w-full" loading="lazy" />
+  </div>
+</div>

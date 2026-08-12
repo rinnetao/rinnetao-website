@@ -1,0 +1,584 @@
+---
+title: "GPT Imageプロンプト集「Tao Tips」まとめ"
+date: 2026-08-14
+description: "@TaoRInneが#TaoTipsで公開してきたGPT Imageプロンプトを7テーマでまとめました。ロゴ、カメラワーク、コラージュ、文字デザインまで、コピペで試せる実践プロンプト集です。"
+relatedSlugs: ["tenrock-ai-poster-prompts"]
+---
+
+import CTA from '../../components/CTA.astro';
+import BeforeAfter from '../../components/BeforeAfter.astro';
+
+**1枚のイラストが、まったく別のカメラで撮った写真にも、決定的瞬間のスナップにもなる。**
+
+GPT Imageの強みは、ゼロから絵を出すことだけではありません。<br />
+既存イラストの世界観を読み取り、カメラ位置を変え、物語の決定的瞬間をつくり、文字やロゴをデザインとして組み込む。<br />
+[@TaoRInne](https://x.com/TaoRInne)が`#TaoTips`で公開してきたプロンプトを追うと、画像生成を「一発ガチャ」から「編集工程」へ変えるための、具体的な設計原則が見えてきます。
+
+この記事では、そのうち7事例を、実際に使えるプロンプトごとまとめました。<br />
+気になる項目だけ読んでもらえるように、目次から飛べるようにしてあります。
+
+## 目次
+
+1. [古代文字風のモダンなアーティストロゴ](#01-古代文字風のモダンなアーティストロゴ)
+2. [作成したロゴをイラストに埋め込む](#02-作成したロゴをイラストに埋め込む)
+3. [足元からの視点(Worm's eye view)](#03-足元からの視点worms-eye-view)
+4. [コラージュアート](#04-コラージュアート複数作品を1枚に融合)
+5. [刹那の一瞬(運命の瞬間を切り取る)](#05-刹那の一瞬運命の瞬間を切り取る)
+6. [ダイナミックな文字入れ](#06-ダイナミックな文字入れ)
+7. [振り返る君、刹那の瞬間](#07-振り返る君刹那の瞬間)
+8. [7事例に共通する設計原則](#7事例に共通する設計原則)
+
+---
+
+## 01. 古代文字風のモダンなアーティストロゴ
+
+用途:アーティスト名を、文字と紋章の中間にあるシジル風ロゴへ変換
+
+<div class="not-prose grid grid-cols-2 md:grid-cols-4 gap-3 my-6">
+  <img src="/blog/gpt-image-prompts-tao-tips-03-logo-a.jpg" alt="古代文字風ロゴ作例1" class="w-full" loading="lazy" />
+  <img src="/blog/gpt-image-prompts-tao-tips-03-logo-b.jpg" alt="古代文字風ロゴ作例2" class="w-full" loading="lazy" />
+  <img src="/blog/gpt-image-prompts-tao-tips-03-logo-c.jpg" alt="古代文字風ロゴ作例3" class="w-full" loading="lazy" />
+  <img src="/blog/gpt-image-prompts-tao-tips-03-logo-d.jpg" alt="古代文字風ロゴ作例4" class="w-full" loading="lazy" />
+</div>
+
+文字を読ませるロゴではなく、名前の痕跡を残しながら儀式記号やシジルへ溶かす設計です。<br />
+黒地、細い白線、塗りなし、画面占有率15%以下という強い制約により、意味の読めなさと余白の緊張感をつくっています。
+
+**効いている設計**
+
+- 白黒二値、細線、塗り・グラデーションなし
+- 「written character」と「drawn symbol」の中間と定義
+- 元の文字を完全には消さず、痕跡として埋め込む
+- ロゴを画面の15%以下に抑え、周囲を暗闇にする
+- 「混沌」ではなく、静かで精密な不穏さを指定
+
+**注意点**
+
+- 日本語名は、ローマ字表記を入力した方が文字の痕跡を残しやすい
+- 可読性が必要な企業ロゴには不向き。音楽・映像作品の象徴マーク向け
+- 生成結果はバリエーション差が大きいため、複数案から選ぶ
+
+<details>
+<summary>プロンプトを見る(コピペ用)</summary>
+
+```text
+A logo design for "【ここにアーティスト名（英語）】" centered on a completely black background.
+
+The logo is small, isolated, and surrounded by vast darkness. It is rendered exclusively in thin white lines on pure black — no fills, no gradients, no color.
+
+The design exists somewhere between a written character and a drawn symbol — it reads as both text and image simultaneously, resisting easy interpretation.
+
+The letterforms of the name are abstracted to the point of ambiguity: faint traces of the original letters remain embedded in the design, but they have dissolved into something closer to a ritual mark, a glyph, or a sigil.
+
+The lines are precise and unhurried — not chaotic, but deeply unsettling in their stillness. The overall feeling is of something that should not be looked at for too long.
+
+Minimalist avant-garde art. The logo occupies no more than 15% of the total frame. The rest is absolute darkness.
+```
+
+</details>
+
+[元ポスト](https://x.com/TaoRInne/status/2065037699690680432)
+
+---
+
+## 02. 作成したロゴをイラストに埋め込む
+
+用途:ロゴを後載せのステッカーではなく、絵に直接描かれたサインとして統合(前章のロゴとセットで使う手法)
+
+![ロゴ埋め込み作例](/blog/gpt-image-prompts-tao-tips-04-logo-embed.jpg)
+
+1枚目にイラスト、2枚目に黒背景のロゴを添付し、イラスト内の最も空いた場所へロゴを配置します。<br />
+背景色に応じてロゴ色を途中で切り替えるルールが特徴で、単純な白ロゴ・黒ロゴでは消えてしまう問題を防いでいます。
+
+**効いている設計**
+
+- 入力画像の役割を「1枚目／2枚目」で固定
+- 配置先を「最も線・形・要素が少ない場所」と定義
+- 太いマーカーで直接描いたような質感を指定
+- 背景が明るければ暗線、暗ければ明線にする
+- ロゴ以外は変更しないと明示
+
+**注意点**
+
+- `[※ここに配置場所を一言追記]` は毎回書き換える。自動選択だけに任せると、顔や重要要素に重なる場合がある
+- GPT Imageは画像全体を再生成するため、「一切変更しない」は完全保証ではない。細部の差分を確認する
+
+<details>
+<summary>プロンプトを見る(コピペ用)</summary>
+
+```text
+The first image is an illustration. The second image contains a logo design on a black background.
+
+Place the logo in the largest open, uncluttered area of the illustration — the zone with the fewest lines, shapes, and visual elements. [※ここに配置場所を一言追記]
+
+Reproduce the exact logo design from the second image. Render it bold and large, with rough hand-drawn strokes — as if signed directly onto the surface with a thick marker. Allow it to overflow slightly beyond the open area into adjacent illustrated content.
+
+Color rule: The logo color must always contrast against the background directly beneath it. Use dark lines over light backgrounds, light lines over dark backgrounds. Shift color mid-stroke if the logo crosses multiple background tones. Never let the logo blend into the surrounding color.
+
+Do not alter the illustration in any other way. Preserve all original colors, lines, and composition exactly.
+```
+
+</details>
+
+[元ポスト](https://x.com/TaoRInne/status/2065359703270715662)
+
+<CTA />
+
+---
+
+## 03. 足元からの視点(Worm's eye view)
+
+用途:既存イラストを地面すれすれの超ローアングルへ変換
+
+<BeforeAfter
+  beforeSrc="/blog/gpt-image-prompts-tao-tips-05-before-a.jpg"
+  afterSrc="/blog/gpt-image-prompts-tao-tips-05-after-a.jpg"
+  beforeAlt="ワームズアイ適用前"
+  afterAlt="ワームズアイ適用後"
+/>
+
+<BeforeAfter
+  beforeSrc="/blog/gpt-image-prompts-tao-tips-05-before-b.jpg"
+  afterSrc="/blog/gpt-image-prompts-tao-tips-05-after-b.jpg"
+  beforeAlt="ワームズアイ適用前"
+  afterAlt="ワームズアイ適用後"
+/>
+
+「見上げる」ではなく、カメラを床から15〜20cmに置き、広角レンズ、近い前景、上部を支配する空や天井、内側へ倒れ込む建築物まで指定します。<br />
+専門用語を、カメラ位置・レンズ・被写界深度へ分解した好例です。
+
+**効いている設計**
+
+- カメラ高を数値指定
+- 何を前景・中景・背景に置くかを定義
+- 広角の樽型歪みを自然に適用
+- 全身を維持し、接写やトリミングを禁止
+- 光源・空気感・キャラクターデザインを固定
+
+**注意点**
+
+- 元絵に足元や地面の情報が少ない場合、モデルが新しい要素を補う
+- 「look up」を単独で使うと顔の接写になりやすいため、全身と距離の条件を残す
+
+<details>
+<summary>プロンプトを見る(コピペ用)</summary>
+
+```text
+Apply a worm's eye view (ground-level perspective) to this image.
+
+[Camera & Angle]
+- Camera position: ground level, approximately 15–20cm from the floor
+- Looking straight up toward the subject
+- Wide-angle lens distortion applied naturally
+
+[Composition]
+- Subject towers upward, occupying the vertical axis
+- Foreground: ground surface, feet, or low objects close to the lens
+- Upper frame: sky or ceiling dominates
+- Buildings or structures lean inward dramatically
+
+[Lens & Atmosphere]
+- Natural wide-angle barrel distortion
+- Depth of field: foreground slightly soft, mid-subject sharp, background expansive
+- Existing light sources and atmosphere preserved
+
+[Style Preservation]
+- Maintain original art style, color grading, and character design exactly
+- Do not alter character appearance, clothing, or details
+- Do not zoom in or crop the subject
+- Maintain full-body composition from a distance
+```
+
+</details>
+
+[元ポスト](https://x.com/TaoRInne/status/2065722090825920886)
+
+---
+
+## 04. コラージュアート(複数作品を1枚に融合)
+
+用途:4枚のイラストと1枚のロゴを、ポートフォリオ的な一枚へ融合
+
+![コラージュアート作例](/blog/gpt-image-prompts-tao-tips-06-collage.jpg)
+
+4作品を均等なグリッドへ並べるのではなく、顔やキー要素だけを断片として見せ、境界を自然に溶かします。<br />
+中央のロゴをアンカーにし、直下にだけ暗い負の空間をつくることで、情報量が多くても視線の中心を失いません。
+
+**効いている設計**
+
+- 5枚の入力画像の役割を明示
+- 各作品は全景ではなく「partial glimpse」に限定
+- グリッド・硬い境界線・継ぎ目を避ける
+- 中央ロゴを構図のアンカーにする
+- 暗い領域をロゴ直下だけに制限し、周囲の彩度と明度を上げる
+
+**注意点**
+
+- 入力4作品の画風が大きく異なると、統一時に細部が簡略化される
+- ロゴが黒背景の場合、黒い領域が全体へ広がらないよう制限文を残す
+- 元作品にない人物や背景を増やさない条件が重要
+
+<details>
+<summary>プロンプトを見る(コピペ用)</summary>
+
+```text
+Five images are attached. Images 1–4 are illustrations by the same artist. Image 5 is a logo design on a black background.
+
+Merge the four illustrations into a single unified composition, with the logo from Image 5 placed at the visual center as the anchor element.
+
+[Fusion Rules]
+- Each illustration appears as a partial glimpse — show faces and key elements only, not full compositions
+- Blend the boundaries between illustrations naturally — no hard edges or visible seams
+- Each illustration remains recognizable but flows into the next
+- Generous negative space between elements — let the composition breathe
+- The result should feel elegant, curated, and intentional — not busy or cluttered
+
+[Composition]
+- The logo occupies the center of the frame as the dominant focal point
+- The four illustrations are distributed around the logo with natural visual balance
+- No grid layout — the arrangement should feel painterly and intentional
+- Clean, minimal background between the illustrations to create breathing room
+
+[Color & Brightness]
+- The illustrations surrounding the logo must be vivid and fully saturated
+- Boost the brightness and chromatic richness of all illustration areas outside the logo zone
+- Colors should feel alive, warm, and luminous — not muted or dark
+- The contrast between the dark logo zone and the bright surrounding illustrations is intentional and dramatic
+
+[Logo Integration]
+- Reproduce the exact logo design from Image 5
+- Place it at the center of the composition, large and prominent
+- The logo should feel embedded in the artwork — not floating on top
+- Create a subtle dark void or negative space directly behind the logo
+- The dark zone is strictly limited to the immediate area behind the logo — it must not bleed into the surrounding illustrations
+
+[Style Preservation]
+- Maintain the original art style of the source illustrations exactly
+- Do not introduce new elements, characters, or backgrounds not present in the originals
+- Preserve the color palette and line quality of the source images
+```
+
+</details>
+
+[元ポスト](https://x.com/TaoRInne/status/2066446867261509849)
+
+---
+
+## 05. 刹那の一瞬(運命の瞬間を切り取る)
+
+用途:イラストの物語を分析し、最も決定的な瞬間をスナップ写真のように再構成
+
+<BeforeAfter
+  beforeSrc="/blog/gpt-image-prompts-tao-tips-07-before-a.jpg"
+  afterSrc="/blog/gpt-image-prompts-tao-tips-07-after-a.jpg"
+  beforeAlt="刹那の一瞬 適用前"
+  afterAlt="刹那の一瞬 適用後"
+/>
+
+<BeforeAfter
+  beforeSrc="/blog/gpt-image-prompts-tao-tips-07-before-b.jpg"
+  afterSrc="/blog/gpt-image-prompts-tao-tips-07-after-b.jpg"
+  beforeAlt="刹那の一瞬 適用前"
+  afterAlt="刹那の一瞬 適用後"
+/>
+
+入力イラストの物語から「運命が変わる一瞬」をモデル自身に選ばせ、演出された決めポーズではなく、偶然カメラに入ったような不完全なフレーミングへ変換します。<br />
+前景のボケ、浅い被写界深度、周辺のモーションブラー、中心を外した構図が、静止画へ時間軸を加えます。
+
+**効いている設計**
+
+- 先に物語を分析し、変換する瞬間を選ばせる
+- 被写体を動作途中、撮られていることに気づかない状態にする
+- 前景・焦点・背景の三層をつくる
+- 完璧な写真ではなく「1秒前か1秒後」を狙う
+- 人の手や身体を前景に出さない
+
+**注意点**
+
+- 「物語の決定的瞬間」はモデル解釈に依存する。狙う事件や感情がある場合は、1文だけ補足する
+- 前景要素を強くしすぎると主役を隠すため、画面端に小さく制限すると安定する
+- 元画風の保持条件は残す
+
+<details>
+<summary>プロンプトを見る(コピペ用)</summary>
+
+```text
+Analyze the narrative of this illustration and identify the single most critical moment of fate within the story.
+
+[Scene Construction]
+- Recreate that decisive moment as a new illustration
+- The scene should feel candid and unposed — as if captured accidentally by a camera
+- The subject is caught mid-action, unaware of being observed
+- The composition is slightly off-balance, as if the photographer moved suddenly
+
+[Depth & Lens]
+- Place an out-of-focus object in the foreground close to the lens — a branch, fabric, foliage, architectural element, or any environmental object native to the scene
+- Human hands or body parts must never appear in the foreground
+- This foreground element creates strong depth separation
+- Apply shallow depth of field: the focal point is sharp, everything else falls into natural bokeh
+- Slight motion blur on peripheral elements suggests a fleeting moment
+
+[Imperfection]
+- The framing is imperfect — subject may be slightly off-center or partially cropped
+- Focus is not perfectly locked — the sharpest point is close but not clinical
+- The image feels like it was taken one second before or after the "perfect" shot
+
+[Atmosphere]
+- The emotional weight of the story's turning point must be felt in the image
+- Light and shadow reflect the tension of the moment
+- Preserve the original art style and color palette of the source illustration
+```
+
+</details>
+
+[元ポスト](https://x.com/TaoRInne/status/2066809255081157116)
+
+---
+
+## 06. ダイナミックな文字入れ
+
+用途:既存イラストへ、主役の背後に回り込む大きなタイトル文字を追加
+
+<BeforeAfter
+  beforeSrc="/blog/gpt-image-prompts-tao-tips-08-before-a.jpg"
+  afterSrc="/blog/gpt-image-prompts-tao-tips-08-after-a.jpg"
+  beforeAlt="文字入れ適用前"
+  afterAlt="文字入れ適用後"
+/>
+
+<BeforeAfter
+  beforeSrc="/blog/gpt-image-prompts-tao-tips-08-before-b.jpg"
+  afterSrc="/blog/gpt-image-prompts-tao-tips-08-after-b.jpg"
+  beforeAlt="文字入れ適用前"
+  afterAlt="文字入れ適用後"
+/>
+
+文字を「読ませる情報」ではなく、人物の後ろに存在する大きな造形として扱います。<br />
+背景 → 既存文字 → 新しいタイトル → 主役、というレイヤー順を明記することで、人物が文字を自然に遮るポスター的な奥行きをつくります。
+
+**効いている設計**
+
+- 英語・ローマ字と日本語で筆致を分ける
+- 主役がタイトルを隠すことを成功条件にする
+- 可読性より構図統合を優先
+- 文字がフレーム外へはみ出すことを許可
+- 指定タイトル以外のランダム文字を禁止
+
+**注意点**
+
+- 背景に余白があり、主役が中央寄りの画像と相性が良い
+- 色は「読みやすさ」より背景との調和を優先する指定。情報伝達が必要なサムネイルでは別途コントラストを調整する
+- 小さな既存文字が多い画像では、文字化けや余計な文字が増えやすい
+
+<details>
+<summary>プロンプトを見る(コピペ用)</summary>
+
+```text
+Add a title text to this image with intentional layer depth.
+
+[Text to Add]
+- The phrase to add: "[ここにタイトルを入力]"
+
+[Typography]
+- If the text is in English or romaji: handwritten brush script style — loose, expressive, confident strokes, imperfect and alive
+- If the text is in Japanese: calligraphic brushwork by a master — rough, bold, spontaneous ink strokes with natural variation in pressure and thickness
+- Scale: large and dominant — the text is a visual element, not a label
+- Color: choose a color that does not clash with or duplicate the background — prioritize visual harmony over legibility
+
+[Layer Depth — Critical Rule]
+- The text must appear BEHIND the main subject (person, figure, or foreground object)
+- The main subject occludes the text naturally — as if the subject is standing in front of the text
+- The background remains behind both the text and the subject
+- If any other text elements exist in the image (watermarks, captions, body copy, small text), the title must appear in front of all of them
+- Layer order from back to front: background → existing text elements → title text → subject
+
+[Legibility — Important]
+- Do not force the text to be readable
+- It is acceptable — even desirable — for portions of the text to be hidden behind the subject
+- The text exists as a design element and compositional layer, not as information to be read
+- Layout and aesthetic integration take priority over legibility at all times
+
+[Placement]
+- The text spans large across the image, partially hidden behind the subject
+- Placement feels cinematic and intentional — like a movie poster or editorial cover
+- Allow the text to bleed beyond the frame edges naturally
+- Do not generate random text blocks, body copy, or filler text anywhere in the image
+- Only the specified title text should appear as a new addition
+
+[Style Preservation]
+- Do not alter the subject, colors, or composition of the original image
+- Add only the text layer — nothing else
+```
+
+</details>
+
+[元ポスト](https://x.com/TaoRInne/status/2067171642846093366)
+
+<CTA />
+
+---
+
+## 07. 振り返る君、刹那の瞬間
+
+用途:後ろから呼ばれ、振り向き終わる前の一瞬を写真として切り取る
+
+<div class="not-prose grid grid-cols-2 md:grid-cols-4 gap-3 my-6">
+  <img src="/blog/gpt-image-prompts-tao-tips-09-a.jpg" alt="振り返る瞬間 作例1" class="w-full" loading="lazy" />
+  <img src="/blog/gpt-image-prompts-tao-tips-09-b.jpg" alt="振り返る瞬間 作例2" class="w-full" loading="lazy" />
+  <img src="/blog/gpt-image-prompts-tao-tips-09-c.jpg" alt="振り返る瞬間 作例3" class="w-full" loading="lazy" />
+  <img src="/blog/gpt-image-prompts-tao-tips-09-d.jpg" alt="振り返る瞬間 作例4" class="w-full" loading="lazy" />
+</div>
+
+前章の「決定的瞬間」を、振り返る動作へ特化した発展版です。<br />
+上半身の回転を30〜45度に制限し、髪、裾、ネックレス、イヤリングの遅れまで指定します。<br />
+顔だけでなく、身体にかかる回転運動を描くことで「ポーズ」ではなく「時間の途中」に見せています。
+
+**効いている設計**
+
+- 生成前に衣装、画風、性格を内部分析
+- 振り向き完了前の角度を数値化
+- キャラクターらしい反応を選ばせ、笑顔を初期値にしない
+- 視線はレンズへ固定し、目を絶対焦点にする
+- 髪・衣服・アクセサリーに回転の慣性を適用
+- 光源を一つに絞り、頬骨・鼻筋・顎へ斜めに当てる
+
+**注意点**
+
+- 元絵が全身でも、腰上までの構図へ寄る指定になっている
+- 画風は保持しつつ、照明だけは写真物理を要求するため、セル画的な光を残したい場合は照明段落を調整する
+- すべての装飾品を保持させると、動きと忠実度が競合する場合がある
+
+<details>
+<summary>プロンプトを見る(コピペ用)</summary>
+
+```text
+Analyze the character in this image, then generate a new scene.
+
+[Character Analysis]
+Examine internally before generating:
+- Catalog every costume detail: construction, fabric, color, accessories, held objects — reproduce with full fidelity
+- Art style, line quality, rendering technique, color palette
+- Personality and emotional disposition inferred from visual cues
+
+[Scene]
+The character has just been called from behind.
+They are mid-turn.
+This is a caught moment — the fraction of a second between hearing the voice and processing it.
+Body reacted before the mind did.
+Hair still moving. Weight still shifting.
+
+Upper body rotating no more than 30–45 degrees toward the viewer — the turn is still in progress, not complete.
+The character has not yet fully faced forward.
+They are caught between away and toward — the face is partially visible, the far shoulder still angled back.
+The viewer catches them before the turn finishes.
+
+[Reaction & Gaze]
+Select the expression most authentic to this character.
+Do not default to a smile.
+
+Gaze: always direct into the camera lens. No averted eyes.
+
+If the character's authentic reaction is calm or composed:
+- Eyes cool, slightly lidded, looking down the line of sight at the viewer
+- Expression does not soften — it assesses
+- Faint contempt: the viewer has interrupted something. The character has already decided what they think of that
+- Beautiful and cold in equal measure
+
+[Physics of the Turn]
+Apply natural physics with slight expressive exaggeration — cinematic, not cartoon.
+
+- Hair lifts and trails behind the turn, mid-arc, strands separating unevenly
+- Loose outer layers swing outward, hem lifts slightly
+- Tie, collar, loose elements shift off-center with rotational momentum
+- Necklace or pendant lifts from the chest; earrings swing out
+- All accessories and carried objects are mid-motion — not yet settled
+
+Goal: make the viewer feel the speed of the turn, not just see the position.
+
+[Photographic Technique — Decisive Moment]
+This image is conceived as a single frame captured by a professional photographer at the peak of an unrepeatable instant.
+
+Focus:
+- Sharp focus locked on the eyes — the eyes are the absolute focal point
+- Hair in motion falls slightly outside the focal plane — the tips of moving strands are soft, the roots near the face remain sharp
+- This selective focus separates the stillness of the face from the motion of everything around it
+
+Light:
+- The lighting must follow photographic realism — not anime cel shading, not illustrated lighting
+- One dominant light source, directional and deliberate — always physically motivated
+- The light rakes across the turning face at an oblique angle — catching the cheekbone, the bridge of the nose, the edge of the jaw
+- Specular highlights are small, precise, placed according to real light physics
+- Shadow is deep where light does not reach — no ambient fill that flattens everything
+- Moving hair catches and loses the light physically — lit where it faces the source, dark where it turns away, occasionally rim-lit at the very edge
+- The overall lighting reads as a real photograph, not a rendered illustration
+
+Overall:
+- The image should feel like a photograph a great photographer would frame, print, and hang
+- Beautiful because it could not have been planned
+
+[Framing — Non-negotiable]
+- Bust-up to three-quarter shot — frame cuts at waist or above, never lower
+- Full-body output is incorrect
+- If the original is a wide or full-body shot, ignore that distance and move in to bust-up
+- Face, upper body, and turning motion must fill the frame
+
+[Foreground Object]
+- One small object, out of focus, at a narrow edge or corner of the frame
+- No more than 10–15% of frame width — subtle, never competing with the character
+- Not a human body part
+- Belongs naturally to this character's world — infer from character analysis
+- Carries quiet meaning — not random
+
+[Composition]
+- Body at three-quarter angle, face turning toward viewer
+- Three depth layers: soft foreground object / sharp character / atmospheric background
+- Background carries meaning — not decorative
+
+[Design Fidelity — Critical]
+- Reproduce every costume element with complete accuracy
+- All accessories, weapons, jewelry, and held objects must appear
+- Maintain original art style, line quality, and color palette without exception
+- Do not simplify or reinterpret any element
+- Preserve the visual world entirely — genre, atmosphere, aesthetic rules unchanged
+
+[Atmosphere]
+- Light and shadow carry all emotional weight — nothing stated explicitly
+- Restraint over drama
+- Whatever the character is feeling, the environment already knows
+```
+
+</details>
+
+[元ポスト](https://x.com/TaoRInne/status/2068284982058234367)
+
+---
+
+## 7事例に共通する設計原則
+
+7事例をまとめて振り返ると、いくつか共通する設計原則が見えてきます。
+
+**最初に「何を読むか」を指定する**<br />
+キャラクターの衣装、配色、持ち物、画風、性格、物語を先に分析させます。これにより、入力画像の内容を無視した汎用的な変換になりにくくなります。
+
+**変更点と固定点を分ける**<br />
+カメラ位置や文字だけを変えたい場合は、キャラクター、色、画風、構図のどこを維持するかを明記します。GPT Imageは部分編集でも画像全体を再生成するため、固定条件が重要になります。
+
+**抽象語を物理的な条件に落とす**<br />
+「映画的」「ダイナミック」とだけ書かず、カメラ高15〜20cm、上半身の回転30〜45度、前景10〜15%など、画面上で検証できる条件に変換しています。
+
+**レイヤー順を言語化する**<br />
+背景 → 既存文字 → 追加タイトル → 主役、というように前後関係を明示すると、文字が人物に重なる事故を減らせます。これはポスターやサムネイルで特に効きます。
+
+**成功条件だけでなく失敗条件を書く**<br />
+全身にしない、人体をエフェクトで崩さない、グリッドにしない、文字を情報として読ませすぎない、など「不正解」を具体化しています。
+
+## 輪廻タヲとして
+
+改めて並べてみて、共通していたのは、生成AIへ雰囲気だけを伝えていないことでした。<br />
+どの画像を参照し、何を分析し、何を変え、何を固定するかを分離する。<br />
+結果を安定させる鍵は、形容詞の多さではなく、画面を構成する条件の明確さにあると思います。
+
+気に入ったプロンプトがあれば、そのまま自分の画像で試してみてください。<br />
+プレースホルダー部分を書き換えるだけで動くように作ってあります。
+
+天ロックのポスター制作テンプレートは、[こちらの記事](/blog/tenrock-ai-poster-prompts)にまとめています。
