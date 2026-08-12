@@ -339,6 +339,13 @@ const jsonLd = {
               <button id="music-single-next" class="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/50 border border-white items-center justify-center text-white/70 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="次へ"><svg width="8" height="13" viewBox="0 0 10 16" fill="none"><polyline points="2,2 8,8 2,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
             )}
           </div>
+          {groupType === 'Album' && (
+            <p class="text-center mt-4">
+              <a href="/book" class="inline-block text-text-muted text-[12px] font-light underline underline-offset-2 decoration-text-faint/40 hover:text-text-primary transition-colors duration-300">
+                「TAO」の書籍版（音楽7曲+イラスト40P、数量限定）はこちら
+              </a>
+            </p>
+          )}
         </div>
       ))}
     </div>
