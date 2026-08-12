@@ -34,6 +34,7 @@ function formatDate(d: Date) {
 }
 
 const newsPosts = await getCollection('news');
+const shopItems = (await getCollection('shop')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
 const news = [
   { date: new Date('2026-07-05'), text: 'サイトを公開しました。' },
@@ -369,16 +370,36 @@ const jsonLd = {
       </div>
     </div>
 
+    <!-- Shop -->
+    <div id="shop" class="scroll-mt-[72px] md:scroll-mt-[86px]">
+      <h2 class="section-title">Shop</h2>
+      <div class="flex flex-wrap justify-center gap-5">
+        {shopItems.map(item => (
+          <a href={`/shop/${item.slug}`} class="group block w-[calc(50%-10px)] md:w-[calc(25%-15px)]">
+            <div class="relative aspect-square overflow-hidden rounded-md bg-[#1e1c18] mb-2">
+              <img
+                src={item.data.heroImage}
+                alt={item.data.title}
+                loading="lazy"
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              {item.data.status === 'soldout' && (
+                <div class="absolute inset-0 bg-black/60 flex items-center justify-center">
+                  <span class="text-text-primary text-[10px] tracking-[0.2em] border border-white/40 px-2 py-1">SOLD OUT</span>
+                </div>
+              )}
+            </div>
+            <p class="text-text-muted text-[12px] font-light leading-snug mb-0.5">{item.data.title}</p>
+            <p class="text-text-faint text-[11px] font-light">{item.data.price}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+
     <!-- 依頼 -->
     <div>
       <a href="/commission" class="block text-center px-5 py-3 bg-white text-[#1a1a1a] text-[12px] font-sans-jp font-bold tracking-[0.15em] rounded-sm hover:bg-white/85 transition-all duration-300">
         お問合せ・お仕事のご依頼はこちら
-      </a>
-    </div>
-
-    <div class="text-center">
-      <a href="/shop" class="inline-block text-text-faint text-[11px] font-light underline underline-offset-2 decoration-text-faint/40 hover:text-text-primary transition-colors duration-300">
-        SHOP（グッズ・作品集の販売）
       </a>
     </div>
 
