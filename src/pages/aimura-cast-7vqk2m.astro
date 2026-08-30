@@ -4,7 +4,7 @@
 ---
 
 <!doctype html>
-<html lang="ja">
+<html lang="ja" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -39,8 +39,22 @@
         </p>
       </header>
 
+      <!-- 目次 -->
+      <nav class="mb-14 border border-[#d8d2c6] bg-[#f3efe6] px-6 py-5">
+        <p class="f-mincho font-medium text-[15px] text-[#221f1b] mb-3">目次</p>
+        <ol class="grid grid-cols-1 md:grid-cols-2 gap-x-8 text-[13.5px] leading-[2.2] text-[#3a3733]">
+          <li><a href="#sec-1" class="hover:text-[#8a1f1f] transition-colors"><span class="f-mincho text-[#8a1f1f] mr-2">一</span>企画コンセプト</a></li>
+          <li><a href="#sec-2" class="hover:text-[#8a1f1f] transition-colors"><span class="f-mincho text-[#8a1f1f] mr-2">二</span>募集と出演形式</a></li>
+          <li><a href="#sec-3" class="hover:text-[#8a1f1f] transition-colors"><span class="f-mincho text-[#8a1f1f] mr-2">三</span>公開形式について</a></li>
+          <li><a href="#sec-4" class="hover:text-[#8a1f1f] transition-colors"><span class="f-mincho text-[#8a1f1f] mr-2">四</span>お約束</a></li>
+          <li><a href="#sec-5" class="hover:text-[#8a1f1f] transition-colors"><span class="f-mincho text-[#8a1f1f] mr-2">五</span>応募方法と採用通知</a></li>
+          <li><a href="#sec-6" class="hover:text-[#8a1f1f] transition-colors"><span class="f-mincho text-[#8a1f1f] mr-2">六</span>お願い</a></li>
+          <li><a href="#sec-7" class="hover:text-[#8a1f1f] transition-colors"><span class="f-mincho text-[#8a1f1f] mr-2">七</span>制作者より</a></li>
+        </ol>
+      </nav>
+
       <!-- 01 企画コンセプト -->
-      <section class="mb-14">
+      <section id="sec-1" class="mb-14 scroll-mt-8">
         <h2 class="flex items-baseline gap-3 border-b border-[#d8d2c6] pb-3 mb-6">
           <span class="f-mincho text-[13px] text-[#8a1f1f] tracking-wider">一</span>
           <span class="f-mincho text-xl font-medium tracking-[0.08em] text-[#221f1b]">企画コンセプト</span>
@@ -68,7 +82,7 @@
       </section>
 
       <!-- 02 募集と出演形式 -->
-      <section class="mb-14">
+      <section id="sec-2" class="mb-14 scroll-mt-8">
         <h2 class="flex items-baseline gap-3 border-b border-[#d8d2c6] pb-3 mb-6">
           <span class="f-mincho text-[13px] text-[#8a1f1f] tracking-wider">二</span>
           <span class="f-mincho text-xl font-medium tracking-[0.08em] text-[#221f1b]">募集と出演形式</span>
@@ -99,7 +113,7 @@
       </section>
 
       <!-- 03 公開形式について -->
-      <section class="mb-14">
+      <section id="sec-3" class="mb-14 scroll-mt-8">
         <h2 class="flex items-baseline gap-3 border-b border-[#d8d2c6] pb-3 mb-6">
           <span class="f-mincho text-[13px] text-[#8a1f1f] tracking-wider">三</span>
           <span class="f-mincho text-xl font-medium tracking-[0.08em] text-[#221f1b]">公開形式について</span>
@@ -119,7 +133,7 @@
       </section>
 
       <!-- 04 お約束 -->
-      <section class="mb-14">
+      <section id="sec-4" class="mb-14 scroll-mt-8">
         <h2 class="flex items-baseline gap-3 border-b border-[#d8d2c6] pb-3 mb-6">
           <span class="f-mincho text-[13px] text-[#8a1f1f] tracking-wider">四</span>
           <span class="f-mincho text-xl font-medium tracking-[0.08em] text-[#221f1b]">お約束</span>
@@ -132,7 +146,7 @@
       </section>
 
       <!-- 05 応募方法と採用通知 -->
-      <section class="mb-14">
+      <section id="sec-5" class="mb-14 scroll-mt-8">
         <h2 class="flex items-baseline gap-3 border-b border-[#d8d2c6] pb-3 mb-6">
           <span class="f-mincho text-[13px] text-[#8a1f1f] tracking-wider">五</span>
           <span class="f-mincho text-xl font-medium tracking-[0.08em] text-[#221f1b]">応募方法と採用通知</span>
@@ -173,7 +187,7 @@
       </section>
 
       <!-- 06 お願い -->
-      <section class="mb-14">
+      <section id="sec-6" class="mb-14 scroll-mt-8">
         <h2 class="flex items-baseline gap-3 border-b border-[#d8d2c6] pb-3 mb-6">
           <span class="f-mincho text-[13px] text-[#8a1f1f] tracking-wider">六</span>
           <span class="f-mincho text-xl font-medium tracking-[0.08em] text-[#221f1b]">お願い</span>
@@ -184,7 +198,7 @@
       </section>
 
       <!-- 07 制作者より -->
-      <section class="mb-14">
+      <section id="sec-7" class="mb-14 scroll-mt-8">
         <h2 class="flex items-baseline gap-3 border-b border-[#d8d2c6] pb-3 mb-6">
           <span class="f-mincho text-[13px] text-[#8a1f1f] tracking-wider">七</span>
           <span class="f-mincho text-xl font-medium tracking-[0.08em] text-[#221f1b]">制作者より</span>
@@ -210,5 +224,22 @@
       </footer>
 
     </main>
+
+    <!-- トップへ戻る -->
+    <button
+      id="to-top"
+      aria-label="トップへ戻る"
+      class="fixed bottom-6 right-6 w-11 h-11 rounded-full border border-[#c9bfae] bg-[#faf8f3]/95 text-[#8a1f1f] shadow-md opacity-0 pointer-events-none transition-opacity duration-300 text-lg leading-none"
+    >↑</button>
+
+    <script>
+      const btn = document.getElementById('to-top');
+      btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+      window.addEventListener('scroll', () => {
+        const show = window.scrollY > 400;
+        btn.classList.toggle('opacity-0', !show);
+        btn.classList.toggle('pointer-events-none', !show);
+      }, { passive: true });
+    </script>
   </body>
 </html>
