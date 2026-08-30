@@ -1,195 +1,181 @@
 ---
-import Layout from '../layouts/Layout.astro';
+// 応募者向け限定公開ページ。サイト本体とは意図的に切り離した独立文書
+// (ナビ・フッターなし、サイトへのリンクなし、noindex・サイトマップ除外)
 ---
 
-<Layout
-  title="ご出演のご案内 | AI村(仮題)"
-  description="映像作品(仮題「AI村」)へご応募いただいた方への限定公開ページです。"
-  noindex={true}
->
-  <main class="max-w-2xl mx-auto px-5 md:px-8 pt-32 md:pt-40 pb-24">
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>出演者募集のご案内 | AI村(仮題)</title>
+    <meta name="description" content="映像作品(仮題「AI村」)へご応募いただいた方への限定公開ページです。" />
+  </head>
+  <body class="bg-white text-gray-800 font-sans antialiased">
+    <main class="max-w-3xl mx-auto px-5 md:px-8 py-12 md:py-16">
 
-    <!-- ヘッダー -->
-    <header class="mb-16 animate-fade-in">
-      <p class="text-[11px] tracking-[0.35em] text-accent-red mb-6">CASTING GUIDE</p>
-      <h1 class="font-mincho text-3xl md:text-4xl tracking-[0.15em] text-text-primary mb-8">
-        「AI村」<span class="text-lg md:text-xl text-text-muted tracking-[0.1em]">(仮題)</span>
-      </h1>
-      <p class="text-sm leading-loose text-text-muted">
-        ご応募いただき、ありがとうございます。<br />
-        本ページは、ご応募いただいた方への限定公開ページです。
-      </p>
-    </header>
+      <!-- ヘッダー -->
+      <header class="mb-10 border-b-2 border-gray-800 pb-6">
+        <p class="text-xs tracking-widest text-gray-500 mb-2">出演者募集のご案内</p>
+        <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+          「AI村」<span class="text-base font-normal text-gray-500">(仮題)</span>
+        </h1>
+        <p class="text-sm leading-relaxed text-gray-700">
+          ご応募いただき、ありがとうございます。<br />
+          本ページは、ご応募いただいた方への限定公開ページです。
+        </p>
+      </header>
 
-    <!-- 01 企画コンセプト -->
-    <section class="mb-16">
-      <h2 class="flex items-baseline gap-3 border-b border-accent-line pb-3 mb-7">
-        <span class="text-[11px] tracking-[0.25em] text-accent-red">01</span>
-        <span class="font-mincho text-xl tracking-[0.15em] text-text-primary">企画コンセプト</span>
-      </h2>
-      <div class="text-sm leading-loose text-text-muted space-y-5">
-        <p>
-          都会の生活に疲れ果て、「廻哀村」(えあいむら)へ自分の居場所を求め引っ越してきた主人公A。
-        </p>
-        <p>
-          そこでは、超高性能人工知能AI「廻哀様」が、村の信仰心を集め、全てを統べていた。
-        </p>
-        <p>
-          暖かく村民に迎えられるA。<br />
-          田舎の暖かさに安らぎを覚えつつ、その端々に感じられる「廻哀様」への過度な信仰心に、Aは徐々に疑念を持ち始める。
-        </p>
-        <p>
-          ある時、村で謎の変死体が発見される。<br />
-          廻哀様の指示により、その死が村民により滞りなく隠蔽される現実。
-        </p>
-        <p>
-          謎を解き明かそうとするA。<br />
-          それが大きな災いを呼ぶことになることを、まだ本人は知る由もなかった。
-        </p>
-      </div>
-    </section>
-
-    <!-- 02 募集と出演形式 -->
-    <section class="mb-16">
-      <h2 class="flex items-baseline gap-3 border-b border-accent-line pb-3 mb-7">
-        <span class="text-[11px] tracking-[0.25em] text-accent-red">02</span>
-        <span class="font-mincho text-xl tracking-[0.15em] text-text-primary">募集と出演形式</span>
-      </h2>
-      <ol class="text-sm leading-loose text-text-muted space-y-6 list-none">
-        <li>
+      <!-- 01 企画コンセプト -->
+      <section class="mb-10">
+        <h2 class="text-lg font-bold text-gray-900 border-l-4 border-gray-800 pl-3 mb-4">1. 企画コンセプト</h2>
+        <div class="text-sm leading-relaxed text-gray-800 space-y-4">
           <p>
-            現在、キャスティングは白紙です。脚本も確定していません。<br />
-            募集するのは、物語に登場する<strong class="text-text-primary font-normal">すべてのキャラクター</strong>です。
+            都会の生活に疲れ果て、「廻哀村」(えあいむら)へ自分の居場所を求め引っ越してきた主人公A。
           </p>
-        </li>
-        <li>
           <p>
-            キャスティングは、製作者・輪廻タヲの独断と偏見で決定します。<br />
-            YouTubeに投稿する作品のため、同プラットフォームに準拠したコンプライアンスの中で制作しますが、キャラクター同士が争う場面や滑稽に描かれる場面、劇中で命を落とす役など、望まない役柄や言動をキャラクターにさせてしまうことがあるかもしれません。<br />
-            NGな要素がある場合は、あらかじめお伝えください。制限が多い場合は、ご辞退いただいて構いません。<br />
-            <span class="text-text-faint">(世界観に合わせて、衣装や雰囲気に調整が入る場合もあります)</span>
+            そこでは、超高性能人工知能AI「廻哀様」が、村の信仰心を集め、全てを統べていた。
           </p>
-        </li>
-        <li>
           <p>
-            応募キャラクターは、ご自身が普段の活動で使用しているキャラクターに限定します。<br />
-            フォロワー数や活動状況は問いません。<br />
-            単純なキャラクターデザインではなく、実際にIPとして活動しているキャラクターに出演いただくことが、この作品に重みを与えると考えています。
+            暖かく村民に迎えられるA。<br />
+            田舎の暖かさに安らぎを覚えつつ、その端々に感じられる「廻哀様」への過度な信仰心に、Aは徐々に疑念を持ち始める。
           </p>
-        </li>
-      </ol>
-    </section>
+          <p>
+            ある時、村で謎の変死体が発見される。<br />
+            廻哀様の指示により、その死が村民により滞りなく隠蔽される現実。
+          </p>
+          <p>
+            謎を解き明かそうとするA。<br />
+            それが大きな災いを呼ぶことになることを、まだ本人は知る由もなかった。
+          </p>
+        </div>
+      </section>
 
-    <!-- 03 公開形式について -->
-    <section class="mb-16">
-      <h2 class="flex items-baseline gap-3 border-b border-accent-line pb-3 mb-7">
-        <span class="text-[11px] tracking-[0.25em] text-accent-red">03</span>
-        <span class="font-mincho text-xl tracking-[0.15em] text-text-primary">公開形式について</span>
-      </h2>
-      <ul class="text-sm leading-loose text-text-muted space-y-3">
-        <li>・作品本体は、YouTubeでのプレミア公開を予定しています</li>
-        <li>
-          ・公開チャンネルは、輪廻タヲのYouTubeチャンネルを予定しています<br />
-          <a href="https://www.youtube.com/@TaoRInne" target="_blank" rel="noopener" class="ml-4 text-text-faint underline underline-offset-4 hover:text-text-primary transition-colors duration-300">youtube.com/@TaoRInne</a>
-        </li>
-        <li>・公開時期は、2026年12月初旬を想定しています</li>
-        <li>・作品の長さは1時間前後を想定しています(前後する可能性があります)</li>
-        <li>・プロモーションは、本編からダイジェストを切り取る形でX上で公開し、訴求を集めます</li>
-        <li>・目標視聴数は、プレミア公開の同時視聴100名以上です</li>
-        <li>・本作品はインディー作品で、営利利用の予定はありません。出演者へのギャランティーや報酬、経費のお支払いも一切行いません</li>
-        <li>・YouTubeが動画を収益化の対象とした場合のみ、視聴が営利化の対象となってしまうことをご理解ください</li>
-      </ul>
-    </section>
+      <!-- 02 募集と出演形式 -->
+      <section class="mb-10">
+        <h2 class="text-lg font-bold text-gray-900 border-l-4 border-gray-800 pl-3 mb-4">2. 募集と出演形式</h2>
+        <ol class="text-sm leading-relaxed text-gray-800 space-y-5">
+          <li>
+            <p>
+              (1) 現在、キャスティングは白紙です。脚本も確定していません。<br />
+              募集するのは、物語に登場する<strong>すべてのキャラクター</strong>です。
+            </p>
+          </li>
+          <li>
+            <p>
+              (2) キャスティングは、製作者・輪廻タヲの独断と偏見で決定します。<br />
+              YouTubeに投稿する作品のため、同プラットフォームに準拠したコンプライアンスの中で制作しますが、キャラクター同士が争う場面や滑稽に描かれる場面、劇中で命を落とす役など、望まない役柄や言動をキャラクターにさせてしまうことがあるかもしれません。<br />
+              NGな要素がある場合は、あらかじめお伝えください。制限が多い場合は、ご辞退いただいて構いません。<br />
+              <span class="text-gray-500">(世界観に合わせて、衣装や雰囲気に調整が入る場合もあります)</span>
+            </p>
+          </li>
+          <li>
+            <p>
+              (3) 応募キャラクターは、ご自身が普段の活動で使用しているキャラクターに限定します。<br />
+              フォロワー数や活動状況は問いません。<br />
+              単純なキャラクターデザインではなく、実際にIPとして活動しているキャラクターに出演いただくことが、この作品に重みを与えると考えています。
+            </p>
+          </li>
+        </ol>
+      </section>
 
-    <!-- 04 お約束 -->
-    <section class="mb-16">
-      <h2 class="flex items-baseline gap-3 border-b border-accent-line pb-3 mb-7">
-        <span class="text-[11px] tracking-[0.25em] text-accent-red">04</span>
-        <span class="font-mincho text-xl tracking-[0.15em] text-text-primary">お約束</span>
-      </h2>
-      <ul class="text-sm leading-loose text-text-muted space-y-3">
-        <li>・出演キャラクターはクレジットを明記し、公開時は相互に拡散します</li>
-        <li>・キャラクターの使用範囲は、本作に関わるもの(本編・予告・ダイジェスト・キービジュアル等の宣伝物)に限ります</li>
-        <li>・脚本・映像制作は、輪廻タヲが個人で行います</li>
-      </ul>
-    </section>
+      <!-- 03 公開形式について -->
+      <section class="mb-10">
+        <h2 class="text-lg font-bold text-gray-900 border-l-4 border-gray-800 pl-3 mb-4">3. 公開形式について</h2>
+        <ul class="text-sm leading-relaxed text-gray-800 space-y-2 list-disc pl-5">
+          <li>作品本体は、YouTubeでのプレミア公開を予定しています</li>
+          <li>
+            公開チャンネルは、輪廻タヲのYouTubeチャンネルを予定しています<br />
+            <a href="https://www.youtube.com/@TaoRInne" target="_blank" rel="noopener" class="text-blue-700 underline underline-offset-2 break-all">https://www.youtube.com/@TaoRInne</a>
+          </li>
+          <li>公開時期は、2026年12月初旬を想定しています</li>
+          <li>作品の長さは1時間前後を想定しています(前後する可能性があります)</li>
+          <li>プロモーションは、本編からダイジェストを切り取る形でX上で公開し、訴求を集めます</li>
+          <li>目標視聴数は、プレミア公開の同時視聴100名以上です</li>
+          <li>本作品はインディー作品で、営利利用の予定はありません。出演者へのギャランティーや報酬、経費のお支払いも一切行いません</li>
+          <li>YouTubeが動画を収益化の対象とした場合のみ、視聴が営利化の対象となってしまうことをご理解ください</li>
+        </ul>
+      </section>
 
-    <!-- 05 応募方法と採用通知 -->
-    <section class="mb-16">
-      <h2 class="flex items-baseline gap-3 border-b border-accent-line pb-3 mb-7">
-        <span class="text-[11px] tracking-[0.25em] text-accent-red">05</span>
-        <span class="font-mincho text-xl tracking-[0.15em] text-text-primary">応募方法と採用通知</span>
-      </h2>
-      <p class="text-sm leading-loose text-text-muted mb-6">応募にあたり、以下の提供をお願いします。</p>
-      <ol class="text-sm leading-loose text-text-muted space-y-6 list-none">
-        <li>
-          <p class="text-text-primary mb-1">1. キャラクターの三面図</p>
-          <p>
-            ほか、キャラクターの造形保持に使えそうな画像資料。<br />
-            ギガファイル便を使用してお送りください。
+      <!-- 04 お約束 -->
+      <section class="mb-10">
+        <h2 class="text-lg font-bold text-gray-900 border-l-4 border-gray-800 pl-3 mb-4">4. お約束</h2>
+        <ul class="text-sm leading-relaxed text-gray-800 space-y-2 list-disc pl-5">
+          <li>出演キャラクターはクレジットを明記し、公開時は相互に拡散します</li>
+          <li>キャラクターの使用範囲は、本作に関わるもの(本編・予告・ダイジェスト・キービジュアル等の宣伝物)に限ります</li>
+          <li>脚本・映像制作は、輪廻タヲが個人で行います</li>
+        </ul>
+      </section>
+
+      <!-- 05 応募方法と採用通知 -->
+      <section class="mb-10">
+        <h2 class="text-lg font-bold text-gray-900 border-l-4 border-gray-800 pl-3 mb-4">5. 応募方法と採用通知</h2>
+        <p class="text-sm leading-relaxed text-gray-800 mb-4">応募にあたり、以下の提供をお願いします。</p>
+        <ol class="text-sm leading-relaxed text-gray-800 space-y-5">
+          <li>
+            <p class="font-bold mb-1">(1) キャラクターの三面図</p>
+            <p>
+              ほか、キャラクターの造形保持に使えそうな画像資料。<br />
+              ギガファイル便を使用してお送りください。
+            </p>
+          </li>
+          <li>
+            <p class="font-bold mb-1">(2) キャラクターの活動事例</p>
+            <p>
+              そのキャラクターが実際にコンテンツ内で活動している、動画やポストの事例を、URLでお送りください。<br />
+              動画、イラスト、音楽など、形式・プラットフォームは問いません。
+            </p>
+          </li>
+          <li>
+            <p class="font-bold mb-1">(3) 募集要項への同意</p>
+            <p>
+              トラブルを回避するため、<br />
+              「本募集の内容に同意し、応募いたします」<br />
+              とご記載ください。
+            </p>
+          </li>
+        </ol>
+        <div class="mt-6 bg-gray-50 border border-gray-300 rounded px-5 py-4">
+          <p class="font-bold text-sm text-gray-900 mb-2">採用通知について</p>
+          <p class="text-sm leading-relaxed text-gray-800">
+            採用の如何については、「採用者にのみ」DMでご連絡をさせていただきます。<br />
+            なるべく多くの方に出演いただきたいと考えていますが、構成の都合でそうならないことがございます。<br />
+            あらかじめご了承ください。
           </p>
-        </li>
-        <li>
-          <p class="text-text-primary mb-1">2. キャラクターの活動事例</p>
+        </div>
+      </section>
+
+      <!-- 06 お願い -->
+      <section class="mb-10">
+        <h2 class="text-lg font-bold text-gray-900 border-l-4 border-gray-800 pl-3 mb-4">6. お願い</h2>
+        <ul class="text-sm leading-relaxed text-gray-800 space-y-2 list-disc pl-5">
+          <li>企画内容は公開までの楽しみとして伏せているため、本ページのURL共有・内容の口外はお控えください</li>
+        </ul>
+      </section>
+
+      <!-- 07 制作者より -->
+      <section class="mb-10">
+        <h2 class="text-lg font-bold text-gray-900 border-l-4 border-gray-800 pl-3 mb-4">7. 制作者より</h2>
+        <div class="text-sm leading-relaxed text-gray-800 space-y-4">
           <p>
-            そのキャラクターが実際にコンテンツ内で活動している、動画やポストの事例を、URLでお送りください。<br />
-            動画、イラスト、音楽など、形式・プラットフォームは問いません。
+            本作品は、AIというテーマを主軸に置きながら、それを色物にせず、一つのエンタメコンテンツとして勝負すること。そして、AIによって作られたIPが、ただの生成物ではない、"生きているキャラクター"として存在することに意味があると考えています。
           </p>
-        </li>
-        <li>
-          <p class="text-text-primary mb-1">3. 募集要項への同意</p>
           <p>
-            トラブルを回避するため、<br />
-            「本募集の内容に同意し、応募いたします」<br />
-            とご記載ください。
+            アマチュア作品ですが、私の長編作品の金字塔となるものを作る意気込みです。
           </p>
-        </li>
-      </ol>
-      <div class="mt-8 border border-accent-line rounded px-5 py-4">
-        <p class="text-text-primary text-sm mb-2">採用通知について</p>
-        <p class="text-sm leading-loose text-text-muted">
-          採用の如何については、「採用者にのみ」DMでご連絡をさせていただきます。<br />
-          なるべく多くの方に出演いただきたいと考えていますが、構成の都合でそうならないことがございます。<br />
-          あらかじめご了承ください。
+        </div>
+      </section>
+
+      <!-- 結び -->
+      <footer class="border-t border-gray-300 pt-6">
+        <p class="text-sm leading-relaxed text-gray-800 mb-6">
+          上記をご確認のうえ、イメージと合わないと感じられた場合は、お断りいただいて全く問題ありません。<br />
+          ご出演を希望される場合は、「5. 応募方法」に沿ってDMでご応募ください。
         </p>
-      </div>
-    </section>
+        <p class="text-sm font-bold text-gray-900">輪廻タヲ</p>
+      </footer>
 
-    <!-- 06 お願い -->
-    <section class="mb-16">
-      <h2 class="flex items-baseline gap-3 border-b border-accent-line pb-3 mb-7">
-        <span class="text-[11px] tracking-[0.25em] text-accent-red">06</span>
-        <span class="font-mincho text-xl tracking-[0.15em] text-text-primary">お願い</span>
-      </h2>
-      <ul class="text-sm leading-loose text-text-muted space-y-3">
-        <li>・企画内容は公開までの楽しみとして伏せているため、本ページのURL共有・内容の口外はお控えください</li>
-      </ul>
-    </section>
-
-    <!-- 07 制作者より -->
-    <section class="mb-16">
-      <h2 class="flex items-baseline gap-3 border-b border-accent-line pb-3 mb-7">
-        <span class="text-[11px] tracking-[0.25em] text-accent-red">07</span>
-        <span class="font-mincho text-xl tracking-[0.15em] text-text-primary">制作者より</span>
-      </h2>
-      <div class="text-sm leading-loose text-text-muted space-y-5">
-        <p>
-          本作品は、AIというテーマを主軸に置きながら、それを色物にせず、一つのエンタメコンテンツとして勝負すること。そして、AIによって作られたIPが、ただの生成物ではない、"生きているキャラクター"として存在することに意味があると考えています。
-        </p>
-        <p>
-          アマチュア作品ですが、私の長編作品の金字塔となるものを作る意気込みです。
-        </p>
-      </div>
-    </section>
-
-    <!-- 結び -->
-    <footer class="border-t border-accent-line pt-10">
-      <p class="text-sm leading-loose text-text-muted mb-8">
-        上記をご確認のうえ、イメージと合わないと感じられた場合は、お断りいただいて全く問題ありません。<br />
-        ご出演を希望される場合は、「05 応募方法」に沿ってDMでご応募ください。
-      </p>
-      <p class="font-mincho text-base tracking-[0.2em] text-text-primary">輪廻タヲ</p>
-    </footer>
-
-  </main>
-</Layout>
+    </main>
+  </body>
+</html>
