@@ -1,38 +1,5 @@
 ---
 import Layout from '../layouts/Layout.astro';
-
-const sections = [
-  {
-    num: '01',
-    title: '企画コンセプト',
-    type: 'concept',
-  },
-  {
-    num: '02',
-    title: '募集と出演形式',
-    type: 'cast',
-  },
-  {
-    num: '03',
-    title: '公開形式について',
-    type: 'release',
-  },
-  {
-    num: '04',
-    title: 'お約束',
-    type: 'promise',
-  },
-  {
-    num: '05',
-    title: 'お願い',
-    type: 'request',
-  },
-  {
-    num: '06',
-    title: '制作者より',
-    type: 'message',
-  },
-];
 ---
 
 <Layout
@@ -147,22 +114,62 @@ const sections = [
       </ul>
     </section>
 
-    <!-- 05 お願い -->
+    <!-- 05 応募方法と採用通知 -->
     <section class="mb-16">
       <h2 class="flex items-baseline gap-3 border-b border-accent-line pb-3 mb-7">
         <span class="text-[11px] tracking-[0.25em] text-accent-red">05</span>
+        <span class="font-mincho text-xl tracking-[0.15em] text-text-primary">応募方法と採用通知</span>
+      </h2>
+      <p class="text-sm leading-loose text-text-muted mb-6">応募にあたり、以下の提供をお願いします。</p>
+      <ol class="text-sm leading-loose text-text-muted space-y-6 list-none">
+        <li>
+          <p class="text-text-primary mb-1">1. キャラクターの三面図</p>
+          <p>
+            ほか、キャラクターの造形保持に使えそうな画像資料。<br />
+            ギガファイル便を使用してお送りください。
+          </p>
+        </li>
+        <li>
+          <p class="text-text-primary mb-1">2. キャラクターの活動事例</p>
+          <p>
+            そのキャラクターが実際にコンテンツ内で活動している、動画やポストの事例を、URLでお送りください。<br />
+            動画、イラスト、音楽など、形式・プラットフォームは問いません。
+          </p>
+        </li>
+        <li>
+          <p class="text-text-primary mb-1">3. 募集要項への同意</p>
+          <p>
+            トラブルを回避するため、<br />
+            「本募集の内容に同意し、応募いたします」<br />
+            とご記載ください。
+          </p>
+        </li>
+      </ol>
+      <div class="mt-8 border border-accent-line rounded px-5 py-4">
+        <p class="text-text-primary text-sm mb-2">採用通知について</p>
+        <p class="text-sm leading-loose text-text-muted">
+          採用の如何については、「採用者にのみ」DMでご連絡をさせていただきます。<br />
+          なるべく多くの方に出演いただきたいと考えていますが、構成の都合でそうならないことがございます。<br />
+          あらかじめご了承ください。
+        </p>
+      </div>
+    </section>
+
+    <!-- 06 お願い -->
+    <section class="mb-16">
+      <h2 class="flex items-baseline gap-3 border-b border-accent-line pb-3 mb-7">
+        <span class="text-[11px] tracking-[0.25em] text-accent-red">06</span>
         <span class="font-mincho text-xl tracking-[0.15em] text-text-primary">お願い</span>
       </h2>
       <ul class="text-sm leading-loose text-text-muted space-y-3">
-        <li>・ご出演いただける場合、キャラクターの三面図(または全身と顔が分かる画像数枚)をDMでお送りください</li>
         <li>・企画内容は公開までの楽しみとして伏せているため、本ページのURL共有・内容の口外はお控えください</li>
       </ul>
     </section>
 
-    <!-- 06 制作者より -->
+    <!-- 07 制作者より -->
     <section class="mb-16">
       <h2 class="flex items-baseline gap-3 border-b border-accent-line pb-3 mb-7">
-        <span class="text-[11px] tracking-[0.25em] text-accent-red">06</span>
+        <span class="text-[11px] tracking-[0.25em] text-accent-red">07</span>
         <span class="font-mincho text-xl tracking-[0.15em] text-text-primary">制作者より</span>
       </h2>
       <div class="text-sm leading-loose text-text-muted space-y-5">
@@ -179,7 +186,7 @@ const sections = [
     <footer class="border-t border-accent-line pt-10">
       <p class="text-sm leading-loose text-text-muted mb-8">
         上記をご確認のうえ、イメージと合わないと感じられた場合は、お断りいただいて全く問題ありません。<br />
-        ご出演いただける場合は、その旨DMでお返事ください。
+        ご出演を希望される場合は、「05 応募方法」に沿ってDMでご応募ください。
       </p>
       <p class="font-mincho text-base tracking-[0.2em] text-text-primary">輪廻タヲ</p>
     </footer>
