@@ -63,7 +63,6 @@ export const works = [
   { file: 'jitsusya_22',  cat: 'jitsusya' },
   // 新作 (2026-09-03)：輪廻タヲのキャラクターが写っているもの → Character Movie
   { file: 'rinne-tao-mv',         cat: 'charmovie', type: 'video', src: '/character/video/rinne-tao-mv.mp4',         poster: '/character/video/rinne-tao-mv.jpg' },
-  { file: 'paradox-mv',           cat: 'charmovie', type: 'video', src: '/character/video/paradox-mv.mp4',           poster: '/character/video/paradox-mv.jpg' },
   { file: 'indication',           cat: 'charmovie', type: 'video', src: '/character/video/indication.mp4',           poster: '/character/video/indication.jpg' },
   { file: 'candlelight',          cat: 'charmovie', type: 'video', src: '/character/video/candlelight.mp4',          poster: '/character/video/candlelight.jpg' },
   { file: 'the-current',          cat: 'charmovie', type: 'video', src: '/character/video/the-current.mp4',          poster: '/character/video/the-current.jpg' },
@@ -71,6 +70,7 @@ export const works = [
   { file: 'rinne-tao-title',      cat: 'charmovie', type: 'video', src: '/character/video/rinne-tao-title.mp4',      poster: '/character/video/rinne-tao-title.jpg' },
   // 新作 (2026-09-03)：輪廻タヲのキャラクターと意匠が一致しないもの → Movie
   { file: 'video_04',             cat: 'movie', type: 'video' },
+  { file: 'paradox-mv',           cat: 'movie', type: 'video', src: '/character/video/paradox-mv.mp4',           poster: '/character/video/paradox-mv.jpg' },
   { file: 'desire',               cat: 'movie', type: 'video', src: '/character/video/desire.mp4',               poster: '/character/video/desire.jpg' },
   { file: 'angel-morning',        cat: 'movie', type: 'video', src: '/character/video/angel-morning.mp4',        poster: '/character/video/angel-morning.jpg' },
   { file: 'unforgettable-summer', cat: 'movie', type: 'video', src: '/character/video/unforgettable-summer.mp4', poster: '/character/video/unforgettable-summer.jpg' },
