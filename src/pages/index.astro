@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
-import { works as galleryWorks } from '../data/gallery-works';
+import { works as galleryWorks, illustCatGroup } from '../data/gallery-works';
 
 const musicWorks = [
   { title: 'ZANZO',            albumId: '4Pa3ZtTp0DNMRHecnPNX6M', type: 'Single', cover: 'https://i.scdn.co/image/ab67616d0000b2734f50f1a14a841e9225915ccc' },
@@ -563,7 +563,7 @@ const jsonLd = {
 
 </script>
 
-<script define:vars={{ galleryWorks }}>
+<script define:vars={{ galleryWorks, illustCatGroup }}>
   // ===== Gallery：ランダム表示+ライトボックス =====
   function shuffleGallery(arr) {
     const a = arr.slice();
@@ -579,7 +579,7 @@ const jsonLd = {
   const VIDEO_COUNT = isDesktopGallery ? 6 : 4;
 
   const videoWorks = shuffleGallery(galleryWorks.filter(w => w.type === 'video')).slice(0, VIDEO_COUNT);
-  const illustWorks = shuffleGallery(galleryWorks.filter(w => w.type !== 'video')).slice(0, ILLUST_COUNT);
+  const illustWorks = shuffleGallery(galleryWorks.filter(w => illustCatGroup.includes(w.cat))).slice(0, ILLUST_COUNT);
   const renderedWorks = [...videoWorks, ...illustWorks];
 
   const galleryVideoRow = document.getElementById('gallery-video-row');
