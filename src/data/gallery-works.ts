@@ -64,10 +64,10 @@ export const works = [
   // 新作 (2026-09-03)：輪廻タヲのキャラクターが写っているもの → Character Movie
   { file: 'rinne-tao-mv',         cat: 'charmovie', type: 'video', src: '/character/video/rinne-tao-mv.mp4',         poster: '/character/video/rinne-tao-mv.jpg' },
   { file: 'indication',           cat: 'charmovie', type: 'video', src: '/character/video/indication.mp4',           poster: '/character/video/indication.jpg' },
-  { file: 'candlelight',          cat: 'charmovie', type: 'video', src: '/character/video/candlelight.mp4',          poster: '/character/video/candlelight.jpg' },
-  { file: 'the-current',          cat: 'charmovie', type: 'video', src: '/character/video/the-current.mp4',          poster: '/character/video/the-current.jpg' },
-  { file: 'scenery',              cat: 'charmovie', type: 'video', src: '/character/video/scenery.mp4',              poster: '/character/video/scenery.jpg' },
-  { file: 'rinne-tao-title',      cat: 'charmovie', type: 'video', src: '/character/video/rinne-tao-title.mp4',      poster: '/character/video/rinne-tao-title.jpg' },
+  { file: 'candlelight',          cat: 'movie', type: 'video', src: '/character/video/candlelight.mp4',          poster: '/character/video/candlelight.jpg' },
+  { file: 'the-current',          cat: 'movie', type: 'video', src: '/character/video/the-current.mp4',          poster: '/character/video/the-current.jpg' },
+  { file: 'scenery',              cat: 'movie', type: 'video', src: '/character/video/scenery.mp4',              poster: '/character/video/scenery.jpg' },
+  { file: 'rinne-tao-title',      cat: 'movie', type: 'video', src: '/character/video/rinne-tao-title.mp4',      poster: '/character/video/rinne-tao-title.jpg' },
   // 新作 (2026-09-03)：輪廻タヲのキャラクターと意匠が一致しないもの → Movie
   { file: 'video_04',             cat: 'movie', type: 'video' },
   { file: 'paradox-mv',           cat: 'movie', type: 'video', src: '/character/video/paradox-mv.mp4',           poster: '/character/video/paradox-mv.jpg' },
@@ -76,8 +76,8 @@ export const works = [
   { file: 'unforgettable-summer', cat: 'movie', type: 'video', src: '/character/video/unforgettable-summer.mp4', poster: '/character/video/unforgettable-summer.jpg' },
   // 新作 (2026-08-03)
   { file: 'video_03', cat: 'movie', type: 'video' },
-  { file: 'video_02', cat: 'charmovie', type: 'video' },
-  { file: 'video_01', cat: 'charmovie', type: 'video' },
+  { file: 'video_02', cat: 'movie', type: 'video' },
+  { file: 'video_01', cat: 'movie', type: 'video' },
   // Characterページ「Movie」から流用（既存ファイルをそのまま参照、/gallery配下への複製はしない。Characterページ側はそのまま残す）
   { file: 'chaotic-mystic',  cat: 'charmovie', type: 'video', src: '/character/video/chaotic-mystic.mp4',  poster: '/character/video/chaotic-mystic.jpg' },
   { file: 'hanabi-kaeri',    cat: 'charmovie', type: 'video', src: '/character/video/hanabi-kaeri.mp4',    poster: '/character/video/hanabi-kaeri.jpg' },
