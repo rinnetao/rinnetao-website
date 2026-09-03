@@ -13,6 +13,12 @@ const illustWorks = works.filter(w => illustCatGroup.includes(w.cat));
       <p class="text-text-faint text-[11px] tracking-[0.15em] font-light mt-4">{illustWorks.length} works</p>
     </div>
 
+    <!-- 並び替え -->
+    <div class="flex gap-6 mb-8 text-[11px] tracking-[0.25em] font-light">
+      <button data-sort="random" class="sort-btn pb-px transition-colors duration-300 text-text-primary border-b border-text-primary">ランダム</button>
+      <button data-sort="new" class="sort-btn pb-px transition-colors duration-300 text-text-faint hover:text-text-muted">新着順</button>
+    </div>
+
     <!-- ギャラリー -->
     <div id="gallery-grid" class="columns-2 gap-1 space-y-1 md:columns-none md:grid md:grid-cols-3 md:gap-3 md:space-y-0 lg:grid-cols-4"></div>
 
@@ -105,12 +111,37 @@ const illustWorks = works.filter(w => illustCatGroup.includes(w.cat));
     rendered += batch.length;
   }
 
-  filtered = shuffle(works);
+  // ===== 並び替え =====
+  let sortMode = 'random';
+  const sortBtns = document.querySelectorAll('.sort-btn');
+
+  function applySort() {
+    filtered = sortMode === 'new' ? works.slice() : shuffle(works);
+    rendered = 0;
+    grid.innerHTML = '';
+    sortBtns.forEach(b => {
+      const active = b.dataset.sort === sortMode;
+      b.classList.toggle('text-text-primary', active);
+      b.classList.toggle('border-b', active);
+      b.classList.toggle('border-text-primary', active);
+      b.classList.toggle('text-text-faint', !active);
+    });
+    // 既にobserve中のターゲットへの再observe()は仕様上ノーオペレーションで発火しない。
+    // 並び替えのたびに毎回「新規observe」扱いにして初回発火を保証する。
+    io.unobserve(sentinel);
+    io.observe(sentinel);
+  }
+
+  sortBtns.forEach(btn => btn.addEventListener('click', () => {
+    sortMode = btn.dataset.sort;
+    applySort();
+  }));
+
   // ===== IntersectionObserver =====
   const io = new IntersectionObserver(entries => {
     if (entries[0].isIntersecting) loadMore();
   }, { rootMargin: '200px' });
-  io.observe(sentinel);
+  applySort();
 
   // ===== Lightbox =====
   const lb = document.getElementById('lightbox');

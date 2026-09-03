@@ -17,7 +17,7 @@ const charMovieCount = videoWorks.filter(w => w.cat === 'charmovie').length;
     </div>
 
     <!-- カテゴリフィルター -->
-    <div class="flex flex-wrap gap-x-6 gap-y-2 mb-10 text-[11px] tracking-[0.25em] font-light">
+    <div class="flex flex-wrap gap-x-6 gap-y-2 mb-6 text-[11px] tracking-[0.25em] font-light">
       {movieCategories.map((cat, i) => (
         <button
           data-cat={cat.id}
@@ -26,6 +26,12 @@ const charMovieCount = videoWorks.filter(w => w.cat === 'charmovie').length;
           {cat.label}
         </button>
       ))}
+    </div>
+
+    <!-- 並び替え -->
+    <div class="flex gap-6 mb-10 text-[11px] tracking-[0.25em] font-light">
+      <button data-sort="random" class="sort-btn pb-px transition-colors duration-300 text-text-primary border-b border-text-primary">ランダム</button>
+      <button data-sort="new" class="sort-btn pb-px transition-colors duration-300 text-text-faint hover:text-text-muted">新着順</button>
     </div>
 
     <!-- ギャラリー -->
@@ -69,9 +75,12 @@ const charMovieCount = videoWorks.filter(w => w.cat === 'charmovie').length;
   const grid = document.getElementById('gallery-grid');
   const sentinel = document.getElementById('sentinel');
   const btns = document.querySelectorAll('.filter-btn');
+  const sortBtns = document.querySelectorAll('.sort-btn');
 
   let filtered = [];
   let rendered = 0;
+  let currentCat = 'all';
+  let sortMode = 'random';
 
   // ===== シャッフル（Fisher-Yates） =====
   function shuffle(arr) {
@@ -132,22 +141,28 @@ const charMovieCount = videoWorks.filter(w => w.cat === 'charmovie').length;
     rendered += batch.length;
   }
 
-  // ===== フィルター =====
-  function applyFilter(cat) {
-    filtered = shuffle(
-      cat === 'all' ? works : works.filter(w => w.cat === cat)
-    );
+  // ===== フィルター・並び替え =====
+  function render() {
+    const base = currentCat === 'all' ? works : works.filter(w => w.cat === currentCat);
+    filtered = sortMode === 'new' ? base.slice() : shuffle(base);
     rendered = 0;
     grid.innerHTML = '';
     btns.forEach(b => {
-      const active = b.dataset.cat === cat;
+      const active = b.dataset.cat === currentCat;
+      b.classList.toggle('text-text-primary', active);
+      b.classList.toggle('border-b', active);
+      b.classList.toggle('border-text-primary', active);
+      b.classList.toggle('text-text-faint', !active);
+    });
+    sortBtns.forEach(b => {
+      const active = b.dataset.sort === sortMode;
       b.classList.toggle('text-text-primary', active);
       b.classList.toggle('border-b', active);
       b.classList.toggle('border-text-primary', active);
       b.classList.toggle('text-text-faint', !active);
     });
     // 既にobserve中のターゲットへの再observe()は仕様上ノーオペレーションで発火しない。
-    // フィルター切替のたびに毎回「新規observe」扱いにして初回発火を保証する。
+    // 切替のたびに毎回「新規observe」扱いにして初回発火を保証する。
     io.unobserve(sentinel);
     io.observe(sentinel);
   }
@@ -157,10 +172,11 @@ const charMovieCount = videoWorks.filter(w => w.cat === 'charmovie').length;
     if (entries[0].isIntersecting) loadMore();
   }, { rootMargin: '200px' });
 
-  btns.forEach(btn => btn.addEventListener('click', () => applyFilter(btn.dataset.cat)));
+  btns.forEach(btn => btn.addEventListener('click', () => { currentCat = btn.dataset.cat; render(); }));
+  sortBtns.forEach(btn => btn.addEventListener('click', () => { sortMode = btn.dataset.sort; render(); }));
 
-  const initCat = new URLSearchParams(window.location.search).get('cat') ?? 'all';
-  applyFilter(initCat);
+  currentCat = new URLSearchParams(window.location.search).get('cat') ?? 'all';
+  render();
 
   // ===== Lightbox =====
   const lb = document.getElementById('lightbox');
