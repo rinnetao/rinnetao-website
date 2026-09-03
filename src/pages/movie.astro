@@ -1,16 +1,31 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { illustCatGroup, works } from '../data/gallery-works';
+import { movieCategories, movieCatGroup, works } from '../data/gallery-works';
 
-const illustWorks = works.filter(w => illustCatGroup.includes(w.cat));
+const videoWorks = works.filter(w => movieCatGroup.includes(w.cat));
+const movieCount = videoWorks.filter(w => w.cat === 'movie').length;
+const mvCount = videoWorks.filter(w => w.cat === 'mv').length;
+const charMovieCount = videoWorks.filter(w => w.cat === 'charmovie').length;
 ---
 
-<Layout title="ILLUSTRATION | 輪廻タヲ" description="輪廻タヲのイラスト・キャラクター・風景作品ギャラリー。拡大表示できます。" ogImage="/gallery-og.png">
+<Layout title="MOVIE | 輪廻タヲ" description="輪廻タヲの映像作品ギャラリー。Music Video・Character Movieなどカテゴリ別に一覧・再生できます。" ogImage="/gallery-og.png">
   <div class="pt-24 pb-16 px-5 md:px-16 lg:px-24 min-h-screen">
 
     <div class="py-12 mb-8">
-      <h1 class="font-mincho text-text-primary text-3xl font-light tracking-[0.3em]">Illustration</h1>
-      <p class="text-text-faint text-[11px] tracking-[0.15em] font-light mt-4">{illustWorks.length} works</p>
+      <h1 class="font-mincho text-text-primary text-3xl font-light tracking-[0.3em]">Movie</h1>
+      <p class="text-text-faint text-[11px] tracking-[0.15em] font-light mt-4">Movie {movieCount} / Music Video {mvCount} / Character Movie {charMovieCount}</p>
+    </div>
+
+    <!-- カテゴリフィルター -->
+    <div class="flex flex-wrap gap-x-6 gap-y-2 mb-10 text-[11px] tracking-[0.25em] font-light">
+      {movieCategories.map((cat, i) => (
+        <button
+          data-cat={cat.id}
+          class:list={['filter-btn pb-px transition-colors duration-300', i === 0 ? 'text-text-primary border-b border-text-primary' : 'text-text-faint hover:text-text-muted']}
+        >
+          {cat.label}
+        </button>
+      ))}
     </div>
 
     <!-- ギャラリー -->
@@ -25,7 +40,7 @@ const illustWorks = works.filter(w => illustCatGroup.includes(w.cat));
 <!-- Lightbox -->
 <div id="lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90" role="dialog" aria-modal="true">
   <button id="lb-close" class="absolute top-4 right-5 text-white/70 hover:text-white text-2xl font-light z-20" aria-label="閉じる">×</button>
-  <div id="lb-swipe-hint" class="absolute top-[8%] left-1/2 -translate-x-1/2 bg-black/70 px-3 py-1.5 rounded-sm text-white/70 text-[12px] tracking-wider text-center whitespace-nowrap pointer-events-none">← 左右にスワイプ →</div>
+  <div id="lb-swipe-hint" class="absolute top-[8%] left-1/2 -translate-x-1/2 bg-black/70 px-3 py-1.5 rounded-sm text-white/70 text-[12px] tracking-wider text-center whitespace-nowrap pointer-events-none hidden">← 左右にスワイプ →</div>
   <button id="lb-prev" class="hidden md:flex absolute left-[16%] top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 border border-white/70 hover:bg-white/20 items-center justify-center text-white/70 hover:text-white transition-all" aria-label="前へ">
     <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
@@ -38,21 +53,22 @@ const illustWorks = works.filter(w => illustCatGroup.includes(w.cat));
       <img id="lb-img-prev" src="" alt="" class="max-h-[90vh] max-w-[90vw] object-contain select-none pointer-events-none" />
     </div>
     <div class="w-full h-full shrink-0 flex items-center justify-center">
-      <img id="lb-img" src="" alt="" class="max-h-[90vh] max-w-[90vw] object-contain select-none" />
+      <video id="lb-video" src="" playsinline controls class="hidden max-h-[90vh] max-w-[90vw] select-none"></video>
+      <iframe id="lb-youtube" src="" title="" class="hidden w-full max-w-4xl aspect-video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>
     </div>
     <div class="w-full h-full shrink-0 flex items-center justify-center">
       <img id="lb-img-next" src="" alt="" class="max-h-[90vh] max-w-[90vw] object-contain select-none pointer-events-none" />
     </div>
   </div>
   </div>
-  <div id="lb-tap-hint" class="absolute bottom-[10%] left-1/2 -translate-x-1/2 bg-black/70 px-3 py-1.5 rounded-sm text-white/70 text-[12px] tracking-wider text-center whitespace-nowrap pointer-events-none">画像をタップで一覧に戻ります</div>
   <div id="lb-filename" class="absolute bottom-[5%] left-1/2 -translate-x-1/2 bg-black/70 px-2 py-1 rounded-sm text-white/40 text-[10px] font-mono tracking-wider"></div>
 </div>
 
-<script define:vars={{ works: illustWorks }}>
+<script define:vars={{ works: videoWorks, movieCatGroup }}>
   const BATCH = 48;
   const grid = document.getElementById('gallery-grid');
   const sentinel = document.getElementById('sentinel');
+  const btns = document.querySelectorAll('.filter-btn');
 
   let filtered = [];
   let rendered = 0;
@@ -69,24 +85,35 @@ const illustWorks = works.filter(w => illustCatGroup.includes(w.cat));
 
   // ===== アイテム生成 =====
   function makeItem(w) {
-    const posterSrc = w.poster ?? `/gallery/${w.file}.webp`;
+    const isYoutube = w.type === 'youtube';
+    const posterSrc = isYoutube
+      ? `https://img.youtube.com/vi/${w.youtubeId}/hqdefault.jpg`
+      : (w.poster ?? `/gallery/${w.file}.webp`);
     const div = document.createElement('div');
     div.className = 'gallery-item break-inside-avoid overflow-hidden group cursor-pointer relative md:aspect-square md:rounded-md md:bg-[#1e1c18]';
     div.dataset.cat = w.cat;
     div.dataset.src = posterSrc;
     div.dataset.file = w.file;
+    if (isYoutube) {
+      div.dataset.type = 'youtube';
+      div.dataset.youtubeId = w.youtubeId;
+    } else {
+      div.dataset.type = 'video';
+      div.dataset.videoSrc = w.src ?? `/gallery/${w.file}.mp4`;
+    }
 
     const img = document.createElement('img');
     img.src = posterSrc;
     img.alt = '';
     img.loading = 'lazy';
     img.className = 'w-full block transition-transform duration-700 group-hover:scale-[1.03] md:w-full md:h-full md:object-cover';
+
     div.appendChild(img);
 
-    const label = document.createElement('div');
-    label.className = 'absolute bottom-0 left-0 right-0 px-2 py-1 bg-black/60 text-white/70 text-[10px] font-mono tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none';
-    label.textContent = w.file;
-    div.appendChild(label);
+    const playIcon = document.createElement('div');
+    playIcon.className = 'absolute inset-0 flex items-center justify-center bg-black/10 group-hover:bg-black/30 transition-colors duration-300 pointer-events-none';
+    playIcon.innerHTML = '<svg class="w-9 h-9 text-white opacity-90" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+    div.appendChild(playIcon);
 
     div.addEventListener('click', () => openLightbox(div));
     return div;
@@ -105,18 +132,41 @@ const illustWorks = works.filter(w => illustCatGroup.includes(w.cat));
     rendered += batch.length;
   }
 
-  filtered = shuffle(works);
+  // ===== フィルター =====
+  function applyFilter(cat) {
+    filtered = shuffle(
+      cat === 'all' ? works : works.filter(w => w.cat === cat)
+    );
+    rendered = 0;
+    grid.innerHTML = '';
+    btns.forEach(b => {
+      const active = b.dataset.cat === cat;
+      b.classList.toggle('text-text-primary', active);
+      b.classList.toggle('border-b', active);
+      b.classList.toggle('border-text-primary', active);
+      b.classList.toggle('text-text-faint', !active);
+    });
+    // observe()はターゲットが既に画面内にある場合、直後に自動で一度発火するため
+    // ここでloadMore()を明示的に呼ぶと二重ロードになる。発火に任せる。
+    io.observe(sentinel);
+  }
+
   // ===== IntersectionObserver =====
   const io = new IntersectionObserver(entries => {
     if (entries[0].isIntersecting) loadMore();
   }, { rootMargin: '200px' });
-  io.observe(sentinel);
+
+  btns.forEach(btn => btn.addEventListener('click', () => applyFilter(btn.dataset.cat)));
+
+  const initCat = new URLSearchParams(window.location.search).get('cat') ?? 'all';
+  applyFilter(initCat);
 
   // ===== Lightbox =====
   const lb = document.getElementById('lightbox');
   const lbSwipeArea = document.getElementById('lb-swipe-area');
   const lbTrack = document.getElementById('lb-track');
-  const lbImg = document.getElementById('lb-img');
+  const lbVideo = document.getElementById('lb-video');
+  const lbYoutube = document.getElementById('lb-youtube');
   const lbImgPrev = document.getElementById('lb-img-prev');
   const lbImgNext = document.getElementById('lb-img-next');
   const lbFilename = document.getElementById('lb-filename');
@@ -148,7 +198,21 @@ const illustWorks = works.filter(w => illustCatGroup.includes(w.cat));
   }
 
   function showLb(el) {
-    lbImg.src = el.dataset.src;
+    lbVideo.pause();
+    lbVideo.removeAttribute('src');
+    lbVideo.load();
+    lbYoutube.src = '';
+    const isYoutube = el.dataset.type === 'youtube';
+    lbVideo.classList.add('hidden');
+    lbYoutube.classList.add('hidden');
+    if (isYoutube) {
+      lbYoutube.classList.remove('hidden');
+      lbYoutube.src = `https://www.youtube.com/embed/${el.dataset.youtubeId}?autoplay=1`;
+    } else {
+      lbVideo.classList.remove('hidden');
+      lbVideo.src = el.dataset.videoSrc;
+      lbVideo.play();
+    }
     lbFilename.textContent = el.dataset.file ?? '';
     lbImgPrev.src = neighborSrc(-1);
     lbImgNext.src = neighborSrc(1);
@@ -159,6 +223,10 @@ const illustWorks = works.filter(w => illustCatGroup.includes(w.cat));
     lb.classList.add('hidden');
     lb.classList.remove('flex');
     document.body.style.overflow = '';
+    lbVideo.pause();
+    lbVideo.removeAttribute('src');
+    lbVideo.load();
+    lbYoutube.src = '';
   }
 
   function lbGo(delta) {
@@ -175,7 +243,6 @@ const illustWorks = works.filter(w => illustCatGroup.includes(w.cat));
   document.getElementById('lb-next')?.addEventListener('click', () => lbGo(1));
   document.getElementById('lb-close')?.addEventListener('click', closeLightbox);
   lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
-  lbImg.addEventListener('click', closeLightbox);
   document.addEventListener('keydown', e => {
     if (lb.classList.contains('hidden')) return;
     if (e.key === 'Escape') closeLightbox();

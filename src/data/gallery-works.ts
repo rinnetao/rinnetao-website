@@ -1,18 +1,17 @@
-export const categories = [
+// イラストと動画は別ページ（/illustration, /movie）で完全に分けて管理する。
+// works配列自体は一つの正本として保持し、各ページが自分の担当catだけを取り出す。
+
+// イラストの内部カテゴリ（/illustrationページはこれらを合算して1つの一覧として出す）
+export const illustCatGroup = ['char', 'angel', 'chaos', 'landscape', 'jitsusya', 'ipcd'];
+
+// /movieページのフィルタータブ
+export const movieCategories = [
   { id: 'all',       label: 'All' },
-  { id: 'illust',    label: 'Illustration' },
   { id: 'movie',     label: 'Movie' },
   { id: 'mv',        label: 'Music Video' },
   { id: 'charmovie', label: 'Character Movie' },
 ];
-
-// 「イラスト」タブがまとめて拾う内部カテゴリ（元のchar/angel/chaos/landscape/jitsusya/ipcdは
-// データ上の分類として維持しつつ、表示上は1タブに統合する）
-// 動画は movie / mv / charmovie の3カテゴリで最初から分かれているため、
-// こちらは統合グループを持たない（catの値がそのままカテゴリID）。
-export const catGroups: Record<string, string[]> = {
-  illust: ['char', 'angel', 'chaos', 'landscape', 'jitsusya', 'ipcd'],
-};
+export const movieCatGroup = ['movie', 'mv', 'charmovie'];
 
 import { youtubeVideos } from './youtube-videos';
 

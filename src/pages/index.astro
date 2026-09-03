@@ -2,7 +2,6 @@
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import { works as galleryWorks } from '../data/gallery-works';
-import { youtubeVideos as videos } from '../data/youtube-videos';
 
 const musicWorks = [
   { title: 'ZANZO',            albumId: '4Pa3ZtTp0DNMRHecnPNX6M', type: 'Single', cover: 'https://i.scdn.co/image/ab67616d0000b2734f50f1a14a841e9225915ccc' },
@@ -258,14 +257,22 @@ const jsonLd = {
       </div>
     </div>
 
-    <!-- Gallery -->
+    <!-- Movie -->
     <div>
-      <h2 class="section-title"><a href="/gallery" class="hover:opacity-70 transition-opacity duration-300">Gallery</a></h2>
-      <div class="relative mb-3 md:mb-5">
+      <h2 class="section-title"><a href="/movie" class="hover:opacity-70 transition-opacity duration-300">Movie</a></h2>
+      <div class="relative">
         <button id="gallery-video-row-prev" class="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/50 border border-white items-center justify-center text-white/70 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="前へ"><svg width="8" height="13" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <div id="gallery-video-row" class="no-scrollbar grid grid-cols-2 gap-3 md:flex md:gap-5 md:overflow-x-auto md:snap-x md:snap-mandatory"></div>
         <button id="gallery-video-row-next" class="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/50 border border-white items-center justify-center text-white/70 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="次へ"><svg width="8" height="13" viewBox="0 0 10 16" fill="none"><polyline points="2,2 8,8 2,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </div>
+      <div class="flex justify-end mt-4">
+        <a href="/movie" class="gallery-caption-link text-[10px] tracking-[0.2em] font-light transition-colors duration-300 hover:text-text-muted">すべて →</a>
+      </div>
+    </div>
+
+    <!-- Illustration -->
+    <div>
+      <h2 class="section-title"><a href="/gallery" class="hover:opacity-70 transition-opacity duration-300">Illustration</a></h2>
       <div class="relative">
         <button id="gallery-row-prev" class="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/50 border border-white items-center justify-center text-white/70 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="前へ"><svg width="8" height="13" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <div id="gallery-random-row" class="no-scrollbar grid grid-cols-2 gap-3 md:flex md:gap-5 md:overflow-x-auto md:snap-x md:snap-mandatory"></div>
@@ -333,31 +340,6 @@ const jsonLd = {
       ))}
     </div>
 
-    <!-- Video -->
-    <div id="video" class="scroll-mt-[72px] md:scroll-mt-[86px]">
-      <h2 class="section-title">Video</h2>
-      <div class="relative">
-        <button id="video-row-prev" class="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/50 border border-white items-center justify-center text-white/70 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="前へ"><svg width="8" height="13" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-        <div id="video-row" class="flex gap-3 overflow-x-auto snap-x snap-mandatory no-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
-          {videos.map((v, i) => (
-            <button data-id={v.id} data-title={v.title}
-              class="video-thumb group relative aspect-square overflow-hidden rounded-md bg-[#1e1c18] cursor-pointer shrink-0 snap-start w-[42%] sm:w-[32%] md:w-[calc(25%-15px)]"
-              aria-label={`${v.title}を再生`}>
-              <img
-                src={`https://img.youtube.com/vi/${v.id}/hqdefault.jpg`}
-                alt={v.title}
-                loading={i === 0 ? 'eager' : 'lazy'}
-                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div class="absolute inset-0 bg-black/10 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center">
-                <svg class="w-9 h-9 text-white opacity-90 group-hover:opacity-100 transition-opacity duration-300" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-              </div>
-            </button>
-          ))}
-        </div>
-        <button id="video-row-next" class="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/50 border border-white items-center justify-center text-white/70 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="次へ"><svg width="8" height="13" viewBox="0 0 10 16" fill="none"><polyline points="2,2 8,8 2,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-      </div>
-    </div>
 
     <!-- Shop -->
     <div id="shop" class="scroll-mt-[72px] md:scroll-mt-[86px]">
@@ -396,31 +378,6 @@ const jsonLd = {
 
 </Layout>
 
-<!-- Video ライトボックス -->
-<div id="video-lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/95 px-4 md:px-20 lg:px-24" role="dialog" aria-modal="true">
-  <button id="video-lightbox-close" class="absolute top-4 right-5 text-white/70 hover:text-white text-2xl font-light z-10" aria-label="閉じる">×</button>
-  <div class="flex flex-col items-center gap-5 w-full max-w-4xl" onclick="event.stopPropagation()">
-    <div class="relative w-full">
-      <button id="video-lightbox-prev" class="hidden md:flex absolute -left-12 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 border border-white/70 hover:bg-white/20 items-center justify-center text-white/70 hover:text-white transition-all" aria-label="前へ">
-        <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-      <div class="aspect-video">
-        <iframe id="video-lightbox-iframe" src="" title="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen class="w-full h-full"></iframe>
-      </div>
-      <button id="video-lightbox-next" class="hidden md:flex absolute -right-12 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 border border-white/70 hover:bg-white/20 items-center justify-center text-white/70 hover:text-white transition-all" aria-label="次へ">
-        <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="2,2 8,8 2,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-    </div>
-    <div class="flex md:hidden items-center gap-8">
-      <button id="video-lightbox-prev-mobile" class="w-11 h-11 rounded-full bg-white/10 border border-white/70 flex items-center justify-center text-white/70 hover:text-white transition-all" aria-label="前へ">
-        <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-      <button id="video-lightbox-next-mobile" class="w-11 h-11 rounded-full bg-white/10 border border-white/70 flex items-center justify-center text-white/70 hover:text-white transition-all" aria-label="次へ">
-        <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="2,2 8,8 2,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-    </div>
-  </div>
-</div>
 
 <!-- ダイジェスト動画 ライトボックス -->
 <div id="digest-lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/95 px-4 md:px-20 lg:px-24" role="dialog" aria-modal="true">
@@ -616,63 +573,6 @@ const jsonLd = {
     });
   }
   wireScrollArrows('music-single-row', 'music-single-prev', 'music-single-next');
-  wireScrollArrows('video-row', 'video-row-prev', 'video-row-next');
-
-  // ===== Video：サムネイルタップでライトボックス再生（ギャラリー拡大表示と同じ挙動） =====
-  const videoThumbs = Array.from(document.querySelectorAll<HTMLButtonElement>('.video-thumb'));
-  const videoLightbox = document.getElementById('video-lightbox');
-  const videoLightboxIframe = document.getElementById('video-lightbox-iframe') as HTMLIFrameElement;
-  let videoIndex = 0;
-
-  function showVideoLightbox() {
-    if (!videoLightboxIframe) return;
-    const thumb = videoThumbs[videoIndex];
-    const id = thumb.dataset.id;
-    const title = thumb.dataset.title ?? '';
-    videoLightboxIframe.src = `https://www.youtube.com/embed/${id}?rel=0&autoplay=1`;
-    videoLightboxIframe.title = title;
-  }
-
-  function openVideoLightbox(index: number) {
-    if (!videoLightbox) return;
-    videoIndex = index;
-    showVideoLightbox();
-    videoLightbox.classList.remove('hidden');
-    videoLightbox.classList.add('flex');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeVideoLightbox() {
-    if (!videoLightbox || !videoLightboxIframe) return;
-    videoLightbox.classList.add('hidden');
-    videoLightbox.classList.remove('flex');
-    videoLightboxIframe.src = '';
-    document.body.style.overflow = '';
-  }
-
-  function videoGo(delta: number) {
-    videoIndex = (videoIndex + delta + videoThumbs.length) % videoThumbs.length;
-    showVideoLightbox();
-  }
-
-  videoThumbs.forEach((thumb, i) => {
-    thumb.addEventListener('click', () => openVideoLightbox(i));
-  });
-
-  document.getElementById('video-lightbox-prev')?.addEventListener('click', () => videoGo(-1));
-  document.getElementById('video-lightbox-next')?.addEventListener('click', () => videoGo(1));
-  document.getElementById('video-lightbox-prev-mobile')?.addEventListener('click', () => videoGo(-1));
-  document.getElementById('video-lightbox-next-mobile')?.addEventListener('click', () => videoGo(1));
-  document.getElementById('video-lightbox-close')?.addEventListener('click', closeVideoLightbox);
-  videoLightbox?.addEventListener('click', (e) => {
-    if (e.target === videoLightbox) closeVideoLightbox();
-  });
-  document.addEventListener('keydown', e => {
-    if (!videoLightbox || videoLightbox.classList.contains('hidden')) return;
-    if (e.key === 'Escape') closeVideoLightbox();
-    if (e.key === 'ArrowLeft') videoGo(-1);
-    if (e.key === 'ArrowRight') videoGo(1);
-  });
 
   // ===== ダイジェスト動画：サムネイルタップでライトボックス再生 =====
   const digestThumb = document.getElementById('digest-thumb');
