@@ -68,10 +68,10 @@ const ogImageURL = new URL(ogImage, Astro.site);
     <!-- ナビゲーション -->
     <nav class="fixed top-0 left-0 right-0 z-50 bg-[#0a0d0b]/80 backdrop-blur-sm">
       <div class="max-w-6xl mx-auto px-5 md:px-8 py-4 md:py-5 flex items-center justify-between">
-        <a href="/" class="shrink-0 whitespace-nowrap text-[11px] font-light tracking-[0.25em] text-text-muted hover:text-text-primary transition-colors duration-300">RINNE TAO'S WEB</a>
+        <a href="/" class="shrink-0 whitespace-nowrap text-[11px] font-light tracking-[0.15em] text-text-muted hover:text-text-primary transition-colors duration-300">RINNE TAO'S WEB</a>
 
         <!-- デスクトップメニュー -->
-        <ul class="hidden md:flex items-center gap-5 lg:gap-7 shrink-0 whitespace-nowrap text-[11px] font-light tracking-[0.25em] text-text-muted">
+        <ul class="hidden lg:flex items-center gap-4 xl:gap-6 shrink-0 whitespace-nowrap text-[11px] font-light tracking-[0.2em] text-text-muted">
           <li><a href="/#about" class="hover:text-text-primary transition-colors duration-300">ABOUT</a></li>
           <li><a href="/character" class:list={['hover:text-text-primary transition-colors duration-300', currentPath.startsWith('/character') && 'text-text-primary']}>CHARACTER</a></li>
           <li><a href="/movie" class:list={['hover:text-text-primary transition-colors duration-300', currentPath.startsWith('/movie') && 'text-text-primary']}>MOVIE</a></li>
@@ -79,11 +79,11 @@ const ogImageURL = new URL(ogImage, Astro.site);
           <li><a href="/#music" class="hover:text-text-primary transition-colors duration-300">MUSIC</a></li>
           <li><a href="/blog" class:list={['hover:text-text-primary transition-colors duration-300', currentPath.startsWith('/blog') && 'text-text-primary']}>BLOG</a></li>
           <li><a href="/shop" class:list={['hover:text-text-primary transition-colors duration-300', currentPath.startsWith('/shop') && 'text-text-primary']}>SHOP</a></li>
-          <li><a href="/commission" class="inline-block whitespace-nowrap px-4 py-[5px] bg-white text-[#1a1a1a] text-[11px] font-sans-jp font-bold tracking-[0.15em] rounded-sm hover:bg-white/85 transition-all duration-300">お仕事のご依頼はこちら</a></li>
+          <li><a href="/commission" class="inline-block whitespace-nowrap px-4 py-[5px] bg-white text-[#1a1a1a] text-[11px] font-sans-jp font-bold tracking-[0.15em] rounded-sm hover:bg-white/85 transition-all duration-300">お仕事のご依頼</a></li>
         </ul>
 
         <!-- SNSアイコン＋ハンバーガー -->
-        <div class="flex items-center gap-4 ml-4 shrink-0">
+        <div class="flex items-center gap-3 ml-3 lg:ml-4 shrink-0">
           <a href="https://x.com/TaoRInne" target="_blank" rel="noopener" aria-label="X" class="text-text-muted hover:text-text-primary transition-colors duration-300">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
           </a>
@@ -94,8 +94,8 @@ const ogImageURL = new URL(ogImage, Astro.site);
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.48.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
           </a>
 
-          <!-- ハンバーガーボタン（モバイルのみ） -->
-          <button id="menu-btn" class="md:hidden flex flex-col gap-1.5 p-2" aria-label="メニューを開く">
+          <!-- ハンバーガーボタン（デスクトップメニューが折りたたまれる幅） -->
+          <button id="menu-btn" class="lg:hidden flex flex-col gap-1.5 p-2" aria-label="メニューを開く">
             <span class="menu-bar block w-5 h-px bg-text-muted/70 transition-all duration-300"></span>
             <span class="menu-bar block w-5 h-px bg-text-muted/70 transition-all duration-300"></span>
           </button>
@@ -104,7 +104,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
     </nav>
 
     <!-- モバイルメニュー：全画面オーバーレイ -->
-    <div id="mobile-menu" class="hidden md:hidden fixed inset-0 bg-[#0d110e]/[.97] z-[60] flex flex-col items-center justify-center gap-10">
+    <div id="mobile-menu" class="hidden lg:hidden fixed inset-0 bg-[#0d110e]/[.97] z-[60] flex flex-col items-center justify-center gap-10">
       <button id="menu-close" class="absolute top-4 right-5 text-text-muted text-2xl font-light">×</button>
       <ul class="flex flex-col items-center gap-10 text-[13px] font-light tracking-[0.4em] text-text-muted">
         <li><a href="/#about" class="hover:text-text-primary transition-colors duration-300">ABOUT</a></li>
