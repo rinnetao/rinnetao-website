@@ -672,8 +672,7 @@ const jsonLd = {
       glbImg.classList.remove('hidden');
       glbImg.src = srcFor(glbIndex);
     }
-    // 動画は独自のタップ操作(再生/シークバー)を持つため、画像用のタップ案内は隠す
-    glbSwipeHint.classList.toggle('hidden', isVideo);
+    // 動画は独自のタップ操作(再生/シークバー)を持つため、画像用のタップ案内のみ隠す(スワイプ操作自体は動画でも有効)
     glbTapHint.classList.toggle('hidden', isVideo);
     glbImgPrev.src = srcFor(glbIndex - 1);
     glbImgNext.src = srcFor(glbIndex + 1);
