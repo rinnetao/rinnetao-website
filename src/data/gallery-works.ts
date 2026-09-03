@@ -46,6 +46,18 @@ export const works = [
   { file: 'jitsusya_24',  cat: 'jitsusya' },
   { file: 'jitsusya_23',  cat: 'jitsusya' },
   { file: 'jitsusya_22',  cat: 'jitsusya' },
+  // 新作 (2026-09-03)
+  { file: 'video_04', cat: 'video', type: 'video' },
+  { file: 'rinne-tao-mv',         cat: 'video', type: 'video', src: '/character/video/rinne-tao-mv.mp4',         poster: '/character/video/rinne-tao-mv.jpg' },
+  { file: 'paradox-mv',           cat: 'video', type: 'video', src: '/character/video/paradox-mv.mp4',           poster: '/character/video/paradox-mv.jpg' },
+  { file: 'unforgettable-summer', cat: 'video', type: 'video', src: '/character/video/unforgettable-summer.mp4', poster: '/character/video/unforgettable-summer.jpg' },
+  { file: 'indication',           cat: 'video', type: 'video', src: '/character/video/indication.mp4',           poster: '/character/video/indication.jpg' },
+  { file: 'candlelight',          cat: 'video', type: 'video', src: '/character/video/candlelight.mp4',          poster: '/character/video/candlelight.jpg' },
+  { file: 'the-current',          cat: 'video', type: 'video', src: '/character/video/the-current.mp4',          poster: '/character/video/the-current.jpg' },
+  { file: 'scenery',              cat: 'video', type: 'video', src: '/character/video/scenery.mp4',              poster: '/character/video/scenery.jpg' },
+  { file: 'desire',               cat: 'video', type: 'video', src: '/character/video/desire.mp4',               poster: '/character/video/desire.jpg' },
+  { file: 'angel-morning',        cat: 'video', type: 'video', src: '/character/video/angel-morning.mp4',        poster: '/character/video/angel-morning.jpg' },
+  { file: 'rinne-tao-title',      cat: 'video', type: 'video', src: '/character/video/rinne-tao-title.mp4',      poster: '/character/video/rinne-tao-title.jpg' },
   // 新作 (2026-08-03)
   { file: 'video_03', cat: 'video', type: 'video' },
   { file: 'video_02', cat: 'video', type: 'video' },
