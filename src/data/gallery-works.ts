@@ -64,6 +64,8 @@ export const works = [
   // 新作 (2026-09-03)：輪廻タヲのキャラクターが写っているもの → Character Movie
   { file: 'rinne-tao-mv',         cat: 'charmovie', type: 'video', src: '/character/video/rinne-tao-mv.mp4',         poster: '/character/video/rinne-tao-mv.jpg' },
   { file: 'indication',           cat: 'charmovie', type: 'video', src: '/character/video/indication.mp4',           poster: '/character/video/indication.jpg' },
+  // 新作 (2026-09-03)
+  { file: 'self-introduction',    cat: 'charmovie', type: 'video', src: '/character/video/self-introduction.mp4',    poster: '/character/video/self-introduction.jpg' },
   { file: 'candlelight',          cat: 'movie', type: 'video', src: '/character/video/candlelight.mp4',          poster: '/character/video/candlelight.jpg' },
   { file: 'the-current',          cat: 'movie', type: 'video', src: '/character/video/the-current.mp4',          poster: '/character/video/the-current.jpg' },
   { file: 'scenery',              cat: 'movie', type: 'video', src: '/character/video/scenery.mp4',              poster: '/character/video/scenery.jpg' },
