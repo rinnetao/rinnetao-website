@@ -28,6 +28,7 @@ const news = [
   { date: new Date('2026-07-05'), text: 'サイトを公開しました。' },
   ...newsPosts.map(p => ({ date: p.data.date, text: p.data.newsText, href: `/news/${p.slug}` })),
 ]
+  .filter(n => n.date >= new Date('2026-08-01'))
   .sort((a, b) => b.date.valueOf() - a.date.valueOf())
   .map(n => ({ ...n, date: formatDate(n.date) }));
 
@@ -575,7 +576,7 @@ const jsonLd = {
 
   const isDesktopGallery = window.matchMedia('(min-width: 768px)').matches;
   const ILLUST_COUNT = isDesktopGallery ? 6 : 4;
-  const VIDEO_COUNT = isDesktopGallery ? 6 : 2;
+  const VIDEO_COUNT = isDesktopGallery ? 6 : 4;
 
   const videoWorks = shuffleGallery(galleryWorks.filter(w => w.type === 'video')).slice(0, VIDEO_COUNT);
   const illustWorks = shuffleGallery(galleryWorks.filter(w => w.type !== 'video')).slice(0, ILLUST_COUNT);

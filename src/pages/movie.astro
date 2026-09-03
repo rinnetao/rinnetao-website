@@ -146,8 +146,9 @@ const charMovieCount = videoWorks.filter(w => w.cat === 'charmovie').length;
       b.classList.toggle('border-text-primary', active);
       b.classList.toggle('text-text-faint', !active);
     });
-    // observe()はターゲットが既に画面内にある場合、直後に自動で一度発火するため
-    // ここでloadMore()を明示的に呼ぶと二重ロードになる。発火に任せる。
+    // 既にobserve中のターゲットへの再observe()は仕様上ノーオペレーションで発火しない。
+    // フィルター切替のたびに毎回「新規observe」扱いにして初回発火を保証する。
+    io.unobserve(sentinel);
     io.observe(sentinel);
   }
 
