@@ -2,18 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import { works as galleryWorks } from '../data/gallery-works';
-
-const videos = [
-  { id: 'VkuZSjjWIRE', title: 'ZANZO' },
-  { id: 'ZnA6l2ZGLfM', title: '平凡' },
-  { id: 'ujpMwPWFooQ', title: '魔女なの花ちゃん' },
-  { id: 'BzoCzRS3O7M', title: '狂宴' },
-  { id: 'IVguUeSzanY', title: '羅針盤' },
-  { id: '2B4xwbvZxTE', title: '深海' },
-  { id: 'w5nOl6GVUq8', title: 'PARADOX' },
-  { id: 'DstG8uTv8yY', title: 'ANGEL' },
-  { id: 'R4Z2pZkx7Gw', title: '【M3-2026春】輪廻タヲ_AI作品「TAO」クロスフェード' },
-];
+import { youtubeVideos as videos } from '../data/youtube-videos';
 
 const musicWorks = [
   { title: 'ZANZO',            albumId: '4Pa3ZtTp0DNMRHecnPNX6M', type: 'Single', cover: 'https://i.scdn.co/image/ab67616d0000b2734f50f1a14a841e9225915ccc' },

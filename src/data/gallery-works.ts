@@ -1,17 +1,33 @@
 export const categories = [
-  { id: 'all',    label: 'All' },
-  { id: 'illust', label: 'Illustration' },
-  { id: 'video',  label: 'Movie' },
+  { id: 'all',       label: 'All' },
+  { id: 'illust',    label: 'Illustration' },
+  { id: 'movie',     label: 'Movie' },
+  { id: 'mv',        label: 'Music Video' },
+  { id: 'charmovie', label: 'Character Movie' },
 ];
 
 // 「イラスト」タブがまとめて拾う内部カテゴリ（元のchar/angel/chaos/landscape/jitsusya/ipcdは
 // データ上の分類として維持しつつ、表示上は1タブに統合する）
+// 動画は movie / mv / charmovie の3カテゴリで最初から分かれているため、
+// こちらは統合グループを持たない（catの値がそのままカテゴリID）。
 export const catGroups: Record<string, string[]> = {
   illust: ['char', 'angel', 'chaos', 'landscape', 'jitsusya', 'ipcd'],
 };
 
+import { youtubeVideos } from './youtube-videos';
+
+// YouTube掲載のMusic Video（youtube-videos.tsが正本。ここではcat:'mv'として展開するだけ）
+const musicVideos = youtubeVideos.map(v => ({
+  file: v.id,
+  cat: 'mv',
+  type: 'youtube',
+  youtubeId: v.id,
+  title: v.title,
+}));
+
 // 新しい順
 export const works = [
+  ...musicVideos,
   // 新作 (2026-09-03)
   { file: 'angel_99',     cat: 'angel' },
   { file: 'angel_98',     cat: 'angel' },
@@ -46,30 +62,31 @@ export const works = [
   { file: 'jitsusya_24',  cat: 'jitsusya' },
   { file: 'jitsusya_23',  cat: 'jitsusya' },
   { file: 'jitsusya_22',  cat: 'jitsusya' },
-  // 新作 (2026-09-03)
-  { file: 'video_04', cat: 'video', type: 'video' },
-  { file: 'rinne-tao-mv',         cat: 'video', type: 'video', src: '/character/video/rinne-tao-mv.mp4',         poster: '/character/video/rinne-tao-mv.jpg' },
-  { file: 'paradox-mv',           cat: 'video', type: 'video', src: '/character/video/paradox-mv.mp4',           poster: '/character/video/paradox-mv.jpg' },
-  { file: 'unforgettable-summer', cat: 'video', type: 'video', src: '/character/video/unforgettable-summer.mp4', poster: '/character/video/unforgettable-summer.jpg' },
-  { file: 'indication',           cat: 'video', type: 'video', src: '/character/video/indication.mp4',           poster: '/character/video/indication.jpg' },
-  { file: 'candlelight',          cat: 'video', type: 'video', src: '/character/video/candlelight.mp4',          poster: '/character/video/candlelight.jpg' },
-  { file: 'the-current',          cat: 'video', type: 'video', src: '/character/video/the-current.mp4',          poster: '/character/video/the-current.jpg' },
-  { file: 'scenery',              cat: 'video', type: 'video', src: '/character/video/scenery.mp4',              poster: '/character/video/scenery.jpg' },
-  { file: 'desire',               cat: 'video', type: 'video', src: '/character/video/desire.mp4',               poster: '/character/video/desire.jpg' },
-  { file: 'angel-morning',        cat: 'video', type: 'video', src: '/character/video/angel-morning.mp4',        poster: '/character/video/angel-morning.jpg' },
-  { file: 'rinne-tao-title',      cat: 'video', type: 'video', src: '/character/video/rinne-tao-title.mp4',      poster: '/character/video/rinne-tao-title.jpg' },
+  // 新作 (2026-09-03)：輪廻タヲのキャラクターが写っているもの → Character Movie
+  { file: 'rinne-tao-mv',         cat: 'charmovie', type: 'video', src: '/character/video/rinne-tao-mv.mp4',         poster: '/character/video/rinne-tao-mv.jpg' },
+  { file: 'paradox-mv',           cat: 'charmovie', type: 'video', src: '/character/video/paradox-mv.mp4',           poster: '/character/video/paradox-mv.jpg' },
+  { file: 'indication',           cat: 'charmovie', type: 'video', src: '/character/video/indication.mp4',           poster: '/character/video/indication.jpg' },
+  { file: 'candlelight',          cat: 'charmovie', type: 'video', src: '/character/video/candlelight.mp4',          poster: '/character/video/candlelight.jpg' },
+  { file: 'the-current',          cat: 'charmovie', type: 'video', src: '/character/video/the-current.mp4',          poster: '/character/video/the-current.jpg' },
+  { file: 'scenery',              cat: 'charmovie', type: 'video', src: '/character/video/scenery.mp4',              poster: '/character/video/scenery.jpg' },
+  { file: 'rinne-tao-title',      cat: 'charmovie', type: 'video', src: '/character/video/rinne-tao-title.mp4',      poster: '/character/video/rinne-tao-title.jpg' },
+  // 新作 (2026-09-03)：輪廻タヲのキャラクターと意匠が一致しないもの → Movie
+  { file: 'video_04',             cat: 'movie', type: 'video' },
+  { file: 'desire',               cat: 'movie', type: 'video', src: '/character/video/desire.mp4',               poster: '/character/video/desire.jpg' },
+  { file: 'angel-morning',        cat: 'movie', type: 'video', src: '/character/video/angel-morning.mp4',        poster: '/character/video/angel-morning.jpg' },
+  { file: 'unforgettable-summer', cat: 'movie', type: 'video', src: '/character/video/unforgettable-summer.mp4', poster: '/character/video/unforgettable-summer.jpg' },
   // 新作 (2026-08-03)
-  { file: 'video_03', cat: 'video', type: 'video' },
-  { file: 'video_02', cat: 'video', type: 'video' },
-  { file: 'video_01', cat: 'video', type: 'video' },
+  { file: 'video_03', cat: 'movie', type: 'video' },
+  { file: 'video_02', cat: 'charmovie', type: 'video' },
+  { file: 'video_01', cat: 'charmovie', type: 'video' },
   // Characterページ「Movie」から流用（既存ファイルをそのまま参照、/gallery配下への複製はしない。Characterページ側はそのまま残す）
-  { file: 'chaotic-mystic',  cat: 'video', type: 'video', src: '/character/video/chaotic-mystic.mp4',  poster: '/character/video/chaotic-mystic.jpg' },
-  { file: 'hanabi-kaeri',    cat: 'video', type: 'video', src: '/character/video/hanabi-kaeri.mp4',    poster: '/character/video/hanabi-kaeri.jpg' },
-  { file: 'mv-okinawa',      cat: 'video', type: 'video', src: '/character/video/mv-okinawa.mp4',      poster: '/character/video/mv-okinawa.jpg' },
-  { file: 'mv-first',        cat: 'video', type: 'video', src: '/character/video/mv-first.mp4',        poster: '/character/video/mv-first.jpg' },
-  { file: 'carbonara',       cat: 'video', type: 'video', src: '/character/video/carbonara.mp4',       poster: '/character/video/carbonara.jpg' },
-  { file: 'cosmetic',        cat: 'video', type: 'video', src: '/character/video/cosmetic.mp4',        poster: '/character/video/cosmetic.jpg' },
-  { file: 'watashi-wa-tao',  cat: 'video', type: 'video', src: '/character/video/watashi-wa-tao.mp4',  poster: '/character/video/watashi-wa-tao.jpg' },
+  { file: 'chaotic-mystic',  cat: 'charmovie', type: 'video', src: '/character/video/chaotic-mystic.mp4',  poster: '/character/video/chaotic-mystic.jpg' },
+  { file: 'hanabi-kaeri',    cat: 'charmovie', type: 'video', src: '/character/video/hanabi-kaeri.mp4',    poster: '/character/video/hanabi-kaeri.jpg' },
+  { file: 'mv-okinawa',      cat: 'charmovie', type: 'video', src: '/character/video/mv-okinawa.mp4',      poster: '/character/video/mv-okinawa.jpg' },
+  { file: 'mv-first',        cat: 'charmovie', type: 'video', src: '/character/video/mv-first.mp4',        poster: '/character/video/mv-first.jpg' },
+  { file: 'carbonara',       cat: 'charmovie', type: 'video', src: '/character/video/carbonara.mp4',       poster: '/character/video/carbonara.jpg' },
+  { file: 'cosmetic',        cat: 'charmovie', type: 'video', src: '/character/video/cosmetic.mp4',        poster: '/character/video/cosmetic.jpg' },
+  { file: 'watashi-wa-tao',  cat: 'charmovie', type: 'video', src: '/character/video/watashi-wa-tao.mp4',  poster: '/character/video/watashi-wa-tao.jpg' },
   // Characterページ「Illustration」から流用（既存ファイルをそのまま参照、Characterページ側はそのまま残す）
   { file: 'char-festival-snack',  cat: 'char', poster: '/character/festival-snack.webp' },
   { file: 'char-lying-down',      cat: 'char', poster: '/character/lying-down.webp' },

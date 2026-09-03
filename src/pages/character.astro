@@ -14,22 +14,6 @@ const illustrations = [
   { file: 'summer' },
 ];
 
-const videos = [
-  { file: 'rinne-tao-mv', title: 'RINNE TAO MV' },
-  { file: 'paradox-mv', title: 'MV「PARADOX」' },
-  { file: 'indication', title: 'インディケーション' },
-  { file: 'candlelight', title: '灯火' },
-  { file: 'the-current', title: 'the current pulls me down' },
-  { file: 'scenery', title: 'Then we turn to scenery' },
-  { file: 'rinne-tao-title', title: 'RINNE TAO タイトルムービー' },
-  { file: 'mv-okinawa', title: 'MV「沖縄」' },
-  { file: 'mv-first', title: 'MV 第一弾' },
-  { file: 'carbonara', title: 'カルボナーラを作ろう' },
-  { file: 'cosmetic', title: 'コスメティック' },
-  { file: 'watashi-wa-tao', title: '私はタヲ' },
-  { file: 'hanabi-kaeri', title: '花火の帰り' },
-  { file: 'chaotic-mystic', title: 'CHAOTIC MYSTIC' },
-];
 ---
 
 <Layout
@@ -84,14 +68,11 @@ const videos = [
         </div>
       </div>
 
-      <!-- Movie -->
-      <div class="mb-16 md:mb-24">
-        <h2 class="char-heading">Movie</h2>
-        <div class="relative">
-          <button id="char-movie-prev" class="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/50 border border-white items-center justify-center text-white/70 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="前へ"><svg width="8" height="13" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-          <div id="char-movie-row" class="flex gap-3 overflow-x-auto snap-x snap-mandatory no-scrollbar -mx-4 px-4 md:mx-0 md:px-0"></div>
-          <button id="char-movie-next" class="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/50 border border-white items-center justify-center text-white/70 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="次へ"><svg width="8" height="13" viewBox="0 0 10 16" fill="none"><polyline points="2,2 8,8 2,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-        </div>
+      <!-- Movie（一覧はGalleryのCharacter Movieに統合） -->
+      <div class="mb-16 md:mb-24 text-center">
+        <a href="/gallery?cat=charmovie" class="inline-block text-text-muted text-[12px] font-light underline underline-offset-2 decoration-text-faint/40 hover:text-text-primary transition-colors duration-300">
+          動画作品はGalleryの「Character Movie」でご覧いただけます →
+        </a>
       </div>
 
       <!-- Illustration -->
@@ -104,31 +85,6 @@ const videos = [
   </div>
 </Layout>
 
-<!-- Movie ライトボックス -->
-<div id="movie-lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/95 px-4 md:px-20 lg:px-24" role="dialog" aria-modal="true">
-  <button id="movie-lightbox-close" class="absolute top-4 right-5 text-white/70 hover:text-white text-2xl font-light z-10" aria-label="閉じる">×</button>
-  <div class="flex flex-col items-center gap-5 w-full max-w-4xl" onclick="event.stopPropagation()">
-    <div class="relative w-full">
-      <button id="movie-lightbox-prev" class="hidden md:flex absolute -left-12 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 border border-white/70 hover:bg-white/20 items-center justify-center text-white/70 hover:text-white transition-all" aria-label="前へ">
-        <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-      <div class="aspect-video">
-        <video id="movie-lightbox-video" src="" controls autoplay playsinline class="w-full h-full"></video>
-      </div>
-      <button id="movie-lightbox-next" class="hidden md:flex absolute -right-12 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 border border-white/70 hover:bg-white/20 items-center justify-center text-white/70 hover:text-white transition-all" aria-label="次へ">
-        <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="2,2 8,8 2,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-    </div>
-    <div class="flex md:hidden items-center gap-8">
-      <button id="movie-lightbox-prev-mobile" class="w-11 h-11 rounded-full bg-white/10 border border-white/70 flex items-center justify-center text-white/70 hover:text-white transition-all" aria-label="前へ">
-        <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-      <button id="movie-lightbox-next-mobile" class="w-11 h-11 rounded-full bg-white/10 border border-white/70 flex items-center justify-center text-white/70 hover:text-white transition-all" aria-label="次へ">
-        <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="2,2 8,8 2,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-    </div>
-  </div>
-</div>
 
 <!-- Illustration Lightbox -->
 <div id="lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90" role="dialog" aria-modal="true">
@@ -198,7 +154,7 @@ const videos = [
   }
 </style>
 
-<script define:vars={{ illustrations, videos }}>
+<script define:vars={{ illustrations }}>
   // ===== 見出しのスクロール出現演出 =====
   const charHeadings = document.querySelectorAll('.char-heading');
   const headingObserver = new IntersectionObserver((entries) => {
@@ -210,101 +166,6 @@ const videos = [
     });
   }, { threshold: 0.4, rootMargin: '0px 0px -10% 0px' });
   charHeadings.forEach(el => headingObserver.observe(el));
-
-  // ===== PC用：横スクロール行の矢印ボタン =====
-  function wireScrollArrows(rowId, prevId, nextId) {
-    const row = document.getElementById(rowId);
-    const prevBtn = document.getElementById(prevId);
-    const nextBtn = document.getElementById(nextId);
-    if (!row) return;
-    prevBtn?.addEventListener('click', () => {
-      row.scrollBy({ left: -row.clientWidth * 0.8, behavior: 'smooth' });
-    });
-    nextBtn?.addEventListener('click', () => {
-      row.scrollBy({ left: row.clientWidth * 0.8, behavior: 'smooth' });
-    });
-  }
-  wireScrollArrows('char-movie-row', 'char-movie-prev', 'char-movie-next');
-
-  // ===== Movie：並び順をランダムにして表示 =====
-  const shuffledVideos = shuffleArr(videos);
-  const movieRow = document.getElementById('char-movie-row');
-
-  function movieItemMarkup(v, i) {
-    const btn = document.createElement('button');
-    btn.dataset.file = v.file;
-    btn.dataset.title = v.title;
-    btn.className = 'movie-thumb group relative aspect-square overflow-hidden rounded-md bg-[#1e1c18] cursor-pointer shrink-0 snap-start w-[42%] sm:w-[32%] md:w-[calc(25%-15px)]';
-    btn.setAttribute('aria-label', `${v.title}を再生`);
-
-    const img = document.createElement('img');
-    img.src = `/character/video/${v.file}.jpg`;
-    img.alt = v.title;
-    img.loading = i === 0 ? 'eager' : 'lazy';
-    img.className = 'w-full h-full object-cover transition-transform duration-500 group-hover:scale-105';
-
-    const overlay = document.createElement('div');
-    overlay.className = 'absolute inset-0 bg-black/10 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center';
-    overlay.innerHTML = '<svg class="w-9 h-9 text-white opacity-90 group-hover:opacity-100 transition-opacity duration-300" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
-
-    btn.appendChild(img);
-    btn.appendChild(overlay);
-    return btn;
-  }
-
-  shuffledVideos.forEach((v, i) => movieRow.appendChild(movieItemMarkup(v, i)));
-
-  // ===== Movie：サムネイルタップでライトボックス再生 =====
-  const movieThumbs = Array.from(document.querySelectorAll('.movie-thumb'));
-  const movieLightbox = document.getElementById('movie-lightbox');
-  const movieLightboxVideo = document.getElementById('movie-lightbox-video');
-  let movieIndex = 0;
-
-  function showMovieLightbox() {
-    if (!movieLightboxVideo) return;
-    const thumb = movieThumbs[movieIndex];
-    const file = thumb.dataset.file;
-    movieLightboxVideo.pause();
-    movieLightboxVideo.src = `/character/video/${file}.mp4`;
-    movieLightboxVideo.poster = `/character/video/${file}.jpg`;
-  }
-
-  function openMovieLightbox(index) {
-    if (!movieLightbox) return;
-    movieIndex = index;
-    showMovieLightbox();
-    movieLightbox.classList.remove('hidden');
-    movieLightbox.classList.add('flex');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeMovieLightbox() {
-    if (!movieLightbox || !movieLightboxVideo) return;
-    movieLightboxVideo.pause();
-    movieLightboxVideo.removeAttribute('src');
-    movieLightboxVideo.load();
-    movieLightbox.classList.add('hidden');
-    movieLightbox.classList.remove('flex');
-    document.body.style.overflow = '';
-  }
-
-  function movieGo(delta) {
-    movieIndex = (movieIndex + delta + movieThumbs.length) % movieThumbs.length;
-    showMovieLightbox();
-  }
-
-  movieThumbs.forEach((thumb, i) => {
-    thumb.addEventListener('click', () => openMovieLightbox(i));
-  });
-
-  document.getElementById('movie-lightbox-prev')?.addEventListener('click', () => movieGo(-1));
-  document.getElementById('movie-lightbox-next')?.addEventListener('click', () => movieGo(1));
-  document.getElementById('movie-lightbox-prev-mobile')?.addEventListener('click', () => movieGo(-1));
-  document.getElementById('movie-lightbox-next-mobile')?.addEventListener('click', () => movieGo(1));
-  document.getElementById('movie-lightbox-close')?.addEventListener('click', closeMovieLightbox);
-  movieLightbox?.addEventListener('click', (e) => {
-    if (e.target === movieLightbox) closeMovieLightbox();
-  });
 
   // ===== Illustration：ランダム表示+ライトボックス =====
   function shuffleArr(arr) {
@@ -431,11 +292,6 @@ const videos = [
       if (e.key === 'Escape') closeLightbox();
       if (e.key === 'ArrowLeft') lbGo(-1);
       if (e.key === 'ArrowRight') lbGo(1);
-    }
-    if (!movieLightbox.classList.contains('hidden')) {
-      if (e.key === 'Escape') closeMovieLightbox();
-      if (e.key === 'ArrowLeft') movieGo(-1);
-      if (e.key === 'ArrowRight') movieGo(1);
     }
   });
 </script>
