@@ -1,5 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { works } from '../data/gallery-works';
+
+const charMovies = works
+  .filter(w => w.cat === 'charmovie')
+  .map(w => ({
+    file: w.file,
+    src: w.src ?? `/gallery/${w.file}.mp4`,
+    poster: w.poster ?? `/gallery/${w.file}.webp`,
+  }));
 
 const illustrations = [
   { file: 'festival-snack' },
@@ -68,11 +77,40 @@ const illustrations = [
         </div>
       </div>
 
-      <!-- Movie（一覧はGalleryのCharacter Movieに統合） -->
-      <div class="mb-16 md:mb-24 text-center">
-        <a href="/movie?cat=charmovie" class="inline-block text-text-muted text-[12px] font-light underline underline-offset-2 decoration-text-faint/40 hover:text-text-primary transition-colors duration-300">
-          動画作品はGalleryの「Character Movie」でご覧いただけます →
-        </a>
+      <!-- Movie -->
+      <div class="mb-16 md:mb-24">
+        <h2 class="char-heading">Movie</h2>
+        <div class="relative">
+          <button id="char-movie-prev" class="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/50 border border-white items-center justify-center text-white/70 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="前へ"><svg width="8" height="13" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div id="char-movie-row" class="flex gap-3 overflow-x-auto snap-x snap-mandatory no-scrollbar -mx-4 px-4 md:mx-0 md:px-0"></div>
+          <button id="char-movie-next" class="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/50 border border-white items-center justify-center text-white/70 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="次へ"><svg width="8" height="13" viewBox="0 0 10 16" fill="none"><polyline points="2,2 8,8 2,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+        <div class="flex justify-end mt-4">
+          <a href="/movie?cat=charmovie" class="text-text-faint text-[10px] tracking-[0.2em] font-light hover:text-text-muted transition-colors duration-300">すべて →</a>
+        </div>
+      </div>
+
+      <!-- 天ロックフェス ダイジェスト動画 -->
+      <div class="mb-16 md:mb-24">
+        <button id="digest-thumb" class="group relative block w-2/3 mx-auto aspect-video overflow-hidden rounded-sm bg-[#1e1c18] cursor-pointer" aria-label="天ロックフェス ダイジェスト動画を再生">
+          <img
+            src="/tenrock-2026-highlights.jpg"
+            alt="天 ROCK FEST 2026 × RInne Tao Live Highlights"
+            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          <div class="absolute inset-0 bg-black/10 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center">
+            <svg class="w-9 h-9 text-white opacity-90 group-hover:opacity-100 transition-opacity duration-300" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </button>
+        <div class="mt-5 text-center">
+          <p class="font-mincho text-text-primary text-base md:text-lg font-light tracking-[0.15em] leading-relaxed">
+            【天 ROCK FEST 2026 × RInne Tao】<br />
+            <span class="text-[13px] md:text-sm tracking-[0.1em] text-text-muted">Live Highlights</span>
+          </p>
+          <p class="text-text-muted text-[13px] font-light leading-[2] mt-4">
+            <a href="https://www.youtube.com/watch?v=t5zAkYBM5Gc&t=7001s" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 decoration-text-faint/40 text-text-primary hover:text-text-primary/80 transition-colors duration-300">フルサイズのライブのご視聴はこちら。</a>
+          </p>
+        </div>
       </div>
 
       <!-- Illustration -->
@@ -85,6 +123,40 @@ const illustrations = [
   </div>
 </Layout>
 
+
+<!-- Movie ライトボックス -->
+<div id="movie-lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/95 px-4 md:px-20 lg:px-24" role="dialog" aria-modal="true">
+  <button id="movie-lightbox-close" class="absolute top-4 right-5 text-white/70 hover:text-white text-2xl font-light z-10" aria-label="閉じる">×</button>
+  <div class="flex flex-col items-center gap-5 w-full max-w-4xl" onclick="event.stopPropagation()">
+    <div class="relative w-full">
+      <button id="movie-lightbox-prev" class="hidden md:flex absolute -left-12 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 border border-white/70 hover:bg-white/20 items-center justify-center text-white/70 hover:text-white transition-all" aria-label="前へ">
+        <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="aspect-video">
+        <video id="movie-lightbox-video" src="" controls autoplay playsinline class="w-full h-full"></video>
+      </div>
+      <button id="movie-lightbox-next" class="hidden md:flex absolute -right-12 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 border border-white/70 hover:bg-white/20 items-center justify-center text-white/70 hover:text-white transition-all" aria-label="次へ">
+        <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="2,2 8,8 2,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+    <div class="flex md:hidden items-center gap-8">
+      <button id="movie-lightbox-prev-mobile" class="w-11 h-11 rounded-full bg-white/10 border border-white/70 flex items-center justify-center text-white/70 hover:text-white transition-all" aria-label="前へ">
+        <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button id="movie-lightbox-next-mobile" class="w-11 h-11 rounded-full bg-white/10 border border-white/70 flex items-center justify-center text-white/70 hover:text-white transition-all" aria-label="次へ">
+        <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="2,2 8,8 2,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ダイジェスト動画 ライトボックス -->
+<div id="digest-lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/95 px-4 md:px-20 lg:px-24" role="dialog" aria-modal="true">
+  <button id="digest-lightbox-close" class="absolute top-4 right-5 text-white/70 hover:text-white text-2xl font-light z-10" aria-label="閉じる">×</button>
+  <div class="w-full max-w-4xl aspect-video" onclick="event.stopPropagation()">
+    <video id="digest-lightbox-video" src="" poster="/tenrock-2026-highlights.jpg" controls autoplay playsinline class="w-full h-full"></video>
+  </div>
+</div>
 
 <!-- Illustration Lightbox -->
 <div id="lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90" role="dialog" aria-modal="true">
@@ -154,7 +226,7 @@ const illustrations = [
   }
 </style>
 
-<script define:vars={{ illustrations }}>
+<script define:vars={{ illustrations, charMovies }}>
   // ===== 見出しのスクロール出現演出 =====
   const charHeadings = document.querySelectorAll('.char-heading');
   const headingObserver = new IntersectionObserver((entries) => {
@@ -166,6 +238,148 @@ const illustrations = [
     });
   }, { threshold: 0.4, rootMargin: '0px 0px -10% 0px' });
   charHeadings.forEach(el => headingObserver.observe(el));
+
+  // ===== PC用：横スクロール行の矢印ボタン =====
+  function wireScrollArrows(rowId, prevId, nextId) {
+    const row = document.getElementById(rowId);
+    const prevBtn = document.getElementById(prevId);
+    const nextBtn = document.getElementById(nextId);
+    if (!row) return;
+    prevBtn?.addEventListener('click', () => {
+      row.scrollBy({ left: -row.clientWidth * 0.8, behavior: 'smooth' });
+    });
+    nextBtn?.addEventListener('click', () => {
+      row.scrollBy({ left: row.clientWidth * 0.8, behavior: 'smooth' });
+    });
+  }
+  wireScrollArrows('char-movie-row', 'char-movie-prev', 'char-movie-next');
+
+  // ===== Movie：並び順をランダムにして表示 =====
+  function shuffleArr0(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+  const shuffledMovies = shuffleArr0(charMovies);
+  const movieRow = document.getElementById('char-movie-row');
+
+  function movieItemMarkup(v, i) {
+    const btn = document.createElement('button');
+    btn.dataset.src = v.src;
+    btn.dataset.poster = v.poster;
+    btn.className = 'movie-thumb group relative aspect-square overflow-hidden rounded-md bg-[#1e1c18] cursor-pointer shrink-0 snap-start w-[42%] sm:w-[32%] md:w-[calc(25%-15px)]';
+    btn.setAttribute('aria-label', `${v.file}を再生`);
+
+    const img = document.createElement('img');
+    img.src = v.poster;
+    img.alt = '';
+    img.loading = i === 0 ? 'eager' : 'lazy';
+    img.className = 'w-full h-full object-cover transition-transform duration-500 group-hover:scale-105';
+
+    const overlay = document.createElement('div');
+    overlay.className = 'absolute inset-0 bg-black/10 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center';
+    overlay.innerHTML = '<svg class="w-9 h-9 text-white opacity-90 group-hover:opacity-100 transition-opacity duration-300" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+
+    btn.appendChild(img);
+    btn.appendChild(overlay);
+    return btn;
+  }
+
+  shuffledMovies.forEach((v, i) => movieRow.appendChild(movieItemMarkup(v, i)));
+
+  // ===== Movie：サムネイルタップでライトボックス再生 =====
+  const movieThumbs = Array.from(document.querySelectorAll('.movie-thumb'));
+  const movieLightbox = document.getElementById('movie-lightbox');
+  const movieLightboxVideo = document.getElementById('movie-lightbox-video');
+  let movieIndex = 0;
+
+  function showMovieLightbox() {
+    if (!movieLightboxVideo) return;
+    const thumb = movieThumbs[movieIndex];
+    movieLightboxVideo.pause();
+    movieLightboxVideo.src = thumb.dataset.src;
+    movieLightboxVideo.poster = thumb.dataset.poster;
+  }
+
+  function openMovieLightbox(index) {
+    if (!movieLightbox) return;
+    movieIndex = index;
+    showMovieLightbox();
+    movieLightbox.classList.remove('hidden');
+    movieLightbox.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMovieLightbox() {
+    if (!movieLightbox || !movieLightboxVideo) return;
+    movieLightboxVideo.pause();
+    movieLightboxVideo.removeAttribute('src');
+    movieLightboxVideo.load();
+    movieLightbox.classList.add('hidden');
+    movieLightbox.classList.remove('flex');
+    document.body.style.overflow = '';
+  }
+
+  function movieGo(delta) {
+    movieIndex = (movieIndex + delta + movieThumbs.length) % movieThumbs.length;
+    showMovieLightbox();
+  }
+
+  movieThumbs.forEach((thumb, i) => {
+    thumb.addEventListener('click', () => openMovieLightbox(i));
+  });
+
+  document.getElementById('movie-lightbox-prev')?.addEventListener('click', () => movieGo(-1));
+  document.getElementById('movie-lightbox-next')?.addEventListener('click', () => movieGo(1));
+  document.getElementById('movie-lightbox-prev-mobile')?.addEventListener('click', () => movieGo(-1));
+  document.getElementById('movie-lightbox-next-mobile')?.addEventListener('click', () => movieGo(1));
+  document.getElementById('movie-lightbox-close')?.addEventListener('click', closeMovieLightbox);
+  movieLightbox?.addEventListener('click', (e) => {
+    if (e.target === movieLightbox) closeMovieLightbox();
+  });
+
+  // ===== ダイジェスト動画：サムネイルタップでライトボックス再生 =====
+  const digestThumb = document.getElementById('digest-thumb');
+  const digestLightbox = document.getElementById('digest-lightbox');
+  const digestLightboxVideo = document.getElementById('digest-lightbox-video');
+
+  function openDigestLightbox() {
+    if (!digestLightbox || !digestLightboxVideo) return;
+    digestLightboxVideo.src = '/tenrock-2026-highlights.mp4';
+    digestLightbox.classList.remove('hidden');
+    digestLightbox.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDigestLightbox() {
+    if (!digestLightbox || !digestLightboxVideo) return;
+    digestLightboxVideo.pause();
+    digestLightboxVideo.removeAttribute('src');
+    digestLightboxVideo.load();
+    digestLightbox.classList.add('hidden');
+    digestLightbox.classList.remove('flex');
+    document.body.style.overflow = '';
+  }
+
+  digestThumb?.addEventListener('click', openDigestLightbox);
+  document.getElementById('digest-lightbox-close')?.addEventListener('click', closeDigestLightbox);
+  digestLightbox?.addEventListener('click', (e) => {
+    if (e.target === digestLightbox) closeDigestLightbox();
+  });
+
+  document.addEventListener('keydown', e => {
+    if (movieLightbox && !movieLightbox.classList.contains('hidden')) {
+      if (e.key === 'Escape') closeMovieLightbox();
+      if (e.key === 'ArrowLeft') movieGo(-1);
+      if (e.key === 'ArrowRight') movieGo(1);
+    }
+    if (digestLightbox && !digestLightbox.classList.contains('hidden')) {
+      if (e.key === 'Escape') closeDigestLightbox();
+    }
+  });
 
   // ===== Illustration：ランダム表示+ライトボックス =====
   function shuffleArr(arr) {

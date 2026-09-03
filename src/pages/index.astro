@@ -157,29 +157,6 @@ const jsonLd = {
   <!-- ===== コンテンツ ===== -->
   <div class="bg-[#1a1814] px-4 md:px-16 lg:px-24 py-12 md:py-20 space-y-16 md:space-y-24">
 
-    <!-- 天ロックフェス ダイジェスト動画 -->
-    <div>
-      <button id="digest-thumb" class="group relative block w-2/3 mx-auto aspect-video overflow-hidden rounded-sm bg-[#1e1c18] cursor-pointer" aria-label="天ロックフェス ダイジェスト動画を再生">
-        <img
-          src="/tenrock-2026-highlights.jpg"
-          alt="天 ROCK FEST 2026 × RInne Tao Live Highlights"
-          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-        />
-        <div class="absolute inset-0 bg-black/10 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center">
-          <svg class="w-9 h-9 text-white opacity-90 group-hover:opacity-100 transition-opacity duration-300" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        </div>
-      </button>
-      <div class="mt-5 text-center">
-        <p class="font-mincho text-text-primary text-base md:text-lg font-light tracking-[0.15em] leading-relaxed">
-          【天 ROCK FEST 2026 × RInne Tao】<br />
-          <span class="text-[13px] md:text-sm tracking-[0.1em] text-text-muted">Live Highlights</span>
-        </p>
-        <p class="text-text-muted text-[13px] font-light leading-[2] mt-4">
-          <a href="https://www.youtube.com/watch?v=t5zAkYBM5Gc&t=7001s" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 decoration-text-faint/40 text-text-primary hover:text-text-primary/80 transition-colors duration-300">フルサイズのライブのご視聴はこちら。</a>
-        </p>
-      </div>
-    </div>
-
     <!-- NEWS -->
     <div id="news" class="scroll-mt-[72px] md:scroll-mt-[86px]">
       <h2 class="section-title">NEWS</h2>
@@ -379,14 +356,6 @@ const jsonLd = {
 </Layout>
 
 
-<!-- ダイジェスト動画 ライトボックス -->
-<div id="digest-lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/95 px-4 md:px-20 lg:px-24" role="dialog" aria-modal="true">
-  <button id="digest-lightbox-close" class="absolute top-4 right-5 text-white/70 hover:text-white text-2xl font-light z-10" aria-label="閉じる">×</button>
-  <div class="w-full max-w-4xl aspect-video" onclick="event.stopPropagation()">
-    <video id="digest-lightbox-video" src="" poster="/tenrock-2026-highlights.jpg" controls autoplay playsinline class="w-full h-full"></video>
-  </div>
-</div>
-
 <!-- Gallery ライトボックス -->
 <div id="gallery-lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90" role="dialog" aria-modal="true">
   <button id="glb-close" class="absolute top-4 right-5 text-white/70 hover:text-white text-2xl font-light z-20" aria-label="閉じる">×</button>
@@ -573,39 +542,6 @@ const jsonLd = {
     });
   }
   wireScrollArrows('music-single-row', 'music-single-prev', 'music-single-next');
-
-  // ===== ダイジェスト動画：サムネイルタップでライトボックス再生 =====
-  const digestThumb = document.getElementById('digest-thumb');
-  const digestLightbox = document.getElementById('digest-lightbox');
-  const digestLightboxVideo = document.getElementById('digest-lightbox-video') as HTMLVideoElement;
-
-  function openDigestLightbox() {
-    if (!digestLightbox || !digestLightboxVideo) return;
-    digestLightboxVideo.src = '/tenrock-2026-highlights.mp4';
-    digestLightbox.classList.remove('hidden');
-    digestLightbox.classList.add('flex');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeDigestLightbox() {
-    if (!digestLightbox || !digestLightboxVideo) return;
-    digestLightboxVideo.pause();
-    digestLightboxVideo.removeAttribute('src');
-    digestLightboxVideo.load();
-    digestLightbox.classList.add('hidden');
-    digestLightbox.classList.remove('flex');
-    document.body.style.overflow = '';
-  }
-
-  digestThumb?.addEventListener('click', openDigestLightbox);
-  document.getElementById('digest-lightbox-close')?.addEventListener('click', closeDigestLightbox);
-  digestLightbox?.addEventListener('click', (e) => {
-    if (e.target === digestLightbox) closeDigestLightbox();
-  });
-  document.addEventListener('keydown', e => {
-    if (!digestLightbox || digestLightbox.classList.contains('hidden')) return;
-    if (e.key === 'Escape') closeDigestLightbox();
-  });
 
   // ===== Music：サムネイルタップでプレーヤー起動 =====
   const musicThumbs = document.querySelectorAll<HTMLButtonElement>('.music-thumb');
