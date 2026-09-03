@@ -580,7 +580,6 @@ const jsonLd = {
 
   const videoWorks = shuffleGallery(galleryWorks.filter(w => w.type === 'video')).slice(0, VIDEO_COUNT);
   const illustWorks = shuffleGallery(galleryWorks.filter(w => illustCatGroup.includes(w.cat))).slice(0, ILLUST_COUNT);
-  const renderedWorks = [...videoWorks, ...illustWorks];
 
   const galleryVideoRow = document.getElementById('gallery-video-row');
   const galleryRow = document.getElementById('gallery-random-row');
@@ -605,13 +604,13 @@ const jsonLd = {
 
   videoWorks.forEach((w, i) => {
     const item = galleryItemMarkup(w);
-    item.addEventListener('click', () => openGalleryLightbox(i));
+    item.addEventListener('click', () => openGalleryLightbox(videoWorks, i));
     galleryVideoRow.appendChild(item);
   });
 
   illustWorks.forEach((w, i) => {
     const item = galleryItemMarkup(w);
-    item.addEventListener('click', () => openGalleryLightbox(videoWorks.length + i));
+    item.addEventListener('click', () => openGalleryLightbox(illustWorks, i));
     galleryRow.appendChild(item);
   });
 
@@ -640,10 +639,11 @@ const jsonLd = {
   const glbSwipeHint = document.getElementById('glb-swipe-hint');
   const glbTapHint = document.getElementById('glb-tap-hint');
   let glbIndex = 0;
+  let activeList = videoWorks;
 
   function workFor(idx) {
-    const n = renderedWorks.length;
-    return renderedWorks[((idx % n) + n) % n];
+    const n = activeList.length;
+    return activeList[((idx % n) + n) % n];
   }
 
   function srcFor(idx) {
@@ -679,7 +679,8 @@ const jsonLd = {
     resetGlbTrack(true);
   }
 
-  function openGalleryLightbox(index) {
+  function openGalleryLightbox(list, index) {
+    activeList = list;
     glbIndex = index;
     showGlb();
     glb.classList.remove('hidden');
