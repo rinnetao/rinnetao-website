@@ -1,66 +1,711 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { works, illustCatGroup } from '../../data/gallery-works';
+import { getCollection } from 'astro:content';
+import { works as galleryWorks, illustCatGroup } from '../../data/gallery-works';
 
-const videos = works.filter((w) => w.type === 'youtube' || w.type === 'video').slice(0, 4);
-const illustrations = works.filter((w) => illustCatGroup.includes(w.cat)).slice(0, 6);
-const music = [
-  ['ZANZO', 'https://i.scdn.co/image/ab67616d0000b2734f50f1a14a841e9225915ccc'],
-  ['TAO', 'https://i.scdn.co/image/ab67616d0000b2736d76e1041a05f1117e48fff2'],
-  ['深海', 'https://i.scdn.co/image/ab67616d0000b273f001d820a7b7e3980d64ad55'],
+const musicWorks = [
+  { title: 'ZANZO',            albumId: '4Pa3ZtTp0DNMRHecnPNX6M', type: 'Single', cover: 'https://i.scdn.co/image/ab67616d0000b2734f50f1a14a841e9225915ccc' },
+  { title: 'TAO',              albumId: '3kHWitbxjEn6GFShKa592G', type: 'Album',  cover: 'https://i.scdn.co/image/ab67616d0000b2736d76e1041a05f1117e48fff2' },
+  { title: '平凡',              albumId: '7tX4pw8rTislnTxYLZoua4', type: 'Single', cover: 'https://i.scdn.co/image/ab67616d0000b273d17c4275d348b44d6eff3c02' },
+  { title: '魔女なの花ちゃん', albumId: '2xzeTRvl5R1UZvlRsw0RFo', type: 'Single', cover: 'https://i.scdn.co/image/ab67616d0000b273ce25c3d122f4b5080fe80e78' },
+  { title: '狂宴',              albumId: '5u6BawfR7TPKeXduLqwO3f', type: 'Single', cover: 'https://i.scdn.co/image/ab67616d0000b273da587e7978e15ca82287b3a0' },
+  { title: 'Me No Know AI',    albumId: '3qdWJyWCBwrfUf0j7JHpKh', type: 'Single', cover: 'https://i.scdn.co/image/ab67616d0000b2733f866d7609f9da053dd42c61' },
+  { title: '羅針盤',            albumId: '1OJBV44Sw3zVTU4h9oxFgq', type: 'Single', cover: 'https://i.scdn.co/image/ab67616d0000b27301766aa8dbe78e7383897e2b' },
+  { title: '深海',              albumId: '7pulq3cniEtBBu1VbkD4bn', type: 'Single', cover: 'https://i.scdn.co/image/ab67616d0000b273f001d820a7b7e3980d64ad55' },
+  { title: 'PARADOX',          albumId: '0OjiuPjVXkbmKNUhGz6LXV', type: 'Single', cover: 'https://i.scdn.co/image/ab67616d0000b273166984343fc3f549e9d8b446' },
+  { title: 'Latch☆かんきん',    albumId: '7hLub3512tprb8NIhV37sF', type: 'Single', cover: 'https://i.scdn.co/image/ab67616d0000b27312565f13ecb0ad207a2876c9' },
+  { title: 'ANGEL',            albumId: '2mSTKDoge4u8q1THkiLRC8', type: 'Single', cover: 'https://i.scdn.co/image/ab67616d0000b27314bb7efc1b89978d6a3ff68c' },
 ];
+
+const shopItems = (await getCollection('shop')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// 表示順は自動でシャッフルしない。変更する場合はここを直接編集する
+const heroImages = [
+  { file: 'hero-13.webp' },
+  { file: 'hero-14.webp' },
+  { file: 'hero-6.webp' },
+  { file: 'hero-12.webp', href: '/news/parallax-agency' },
+  { file: 'hero-1.webp' },
+  { file: 'hero-2.webp' },
+  { file: 'hero-3.webp' },
+  { file: 'tenrock-2026-archive-cover.webp', href: '/tenrock-2026-archive' },
+  { file: 'hero-5.webp' },
+  { file: 'hero-7.webp' },
+  { file: 'hero-8.webp' },
+  { file: 'hero-9.webp' },
+];
+const heroSlideTotal = heroImages.length;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: '輪廻タヲ',
+  alternateName: 'Rinne Tao',
+  url: 'https://rinnetao.com',
+  image: 'https://rinnetao.com/icon.webp',
+  jobTitle: 'AI Contents Creator',
+  sameAs: [
+    'https://x.com/TaoRInne',
+    'https://www.youtube.com/@TaoRInne',
+    'https://open.spotify.com/intl-ja/artist/6cgNohFINOQDxktASQzmQy',
+    'https://music.apple.com/us/artist/rinne-tao/1863623820',
+    'https://www.instagram.com/taorinne/',
+    'https://www.tiktok.com/@rinnetao_ai',
+    'https://note.com/rinnetao',
+  ],
+};
 ---
 
-<Layout title="Rinne Tao | AI Contents Creator" description="Rinne Tao is an AI artist and content creator working across music, illustration and moving image.">
-  <main class="pt-24 pb-16 px-5 md:px-8">
-    <div class="max-w-5xl mx-auto space-y-28">
-      <section id="about" class="scroll-mt-24 pt-12 md:pt-20 grid md:grid-cols-[1fr_1.4fr] gap-10 items-start">
-        <div>
-          <p class="text-text-faint text-[10px] tracking-[0.4em] mb-4">AI CONTENTS CREATOR</p>
-          <h1 class="font-mincho text-text-primary text-4xl md:text-6xl font-light tracking-[0.12em]">Rinne Tao</h1>
-          <p class="text-text-muted text-sm tracking-[0.18em] mt-3">輪廻タヲ</p>
-        </div>
-        <div class="space-y-5 text-text-muted text-[14px] leading-[2.1] font-light">
-          <p>Rinne Tao is an independent creator who uses AI as part of an ongoing practice across music, illustration and video.</p>
-          <p>New work and experiments are shared almost every day through X and YouTube, while original music is released on major streaming services.</p>
-          <p class="text-text-faint text-[12px] tracking-[0.08em]">An artist-led archive of AI culture, sound and image.</p>
-        </div>
-      </section>
+<Layout title="Rinne Tao | AI Contents Creator" description="The official website of Rinne Tao, an AI artist working across music, illustration, video and web." jsonLd={jsonLd}>
 
-      <section>
-        <h2 class="section-title">Movie</h2>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {videos.map((w) => (
-            <a href={w.youtubeId ? `https://www.youtube.com/watch?v=${w.youtubeId}` : '/movie'} target={w.youtubeId ? '_blank' : undefined} rel="noopener" class="block aspect-video overflow-hidden rounded-sm bg-[#1e1c18]">
-              <img src={w.poster ?? `/gallery/${w.file}.webp`} alt={w.title ?? 'Rinne Tao movie'} loading="lazy" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
-            </a>
-          ))}
-        </div>
-        <a href="/movie" class="block text-right mt-4 text-text-faint text-[10px] tracking-[0.2em]">VIEW ALL →</a>
-      </section>
+  <!-- ===== オープニング（初回訪問時のみ） ===== -->
+  <div id="opening" class="fixed inset-0 z-[200] bg-black flex items-center justify-center cursor-pointer">
+    <p id="opening-text" class="absolute text-text-primary font-mincho text-sm md:text-base tracking-[0.3em] opacity-0 text-center px-6" style="transition: opacity 900ms ease;">Welcome to the world of Rinne Tao.</p>
+    <img id="opening-logo" src="/opening-logo.webp" alt="Rinne Tao" class="w-24 md:w-32 opacity-0" style="transition: opacity 900ms ease;" />
+  </div>
+  <script is:inline>
+    (function () {
+      var opening = document.getElementById('opening');
+      if (!opening) return;
 
-      <section id="music" class="scroll-mt-24">
-        <h2 class="section-title">Music</h2>
-        <div class="grid grid-cols-3 gap-4 max-w-xl mx-auto">
-          {music.map(([title, cover]) => <a href="https://open.spotify.com/intl-ja/artist/6cgNohFINOQDxktASQzmQy" target="_blank" rel="noopener" class="group"><img src={cover} alt={title} class="aspect-square w-full object-cover rounded-md group-hover:opacity-70 transition-opacity" /><p class="text-text-muted text-xs text-center mt-2">{title}</p></a>)}
-        </div>
-      </section>
+      // サイト内の他ページ（記事のCTA等）からの遷移では演出を出さない。
+      // 直接アクセス（検索・ブックマーク・URL直打ち）の時だけ発動する。
+      var cameFromSameSite = false;
+      if (document.referrer) {
+        try { cameFromSameSite = new URL(document.referrer).origin === location.origin; } catch (e) {}
+      }
 
-      <section>
-        <h2 class="section-title">Illustration</h2>
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
-          {illustrations.map((w) => <img src={`/gallery/${w.file}.webp`} alt="Rinne Tao illustration" loading="lazy" class="aspect-square object-cover rounded-sm" />)}
-        </div>
-        <a href="/gallery" class="block text-right mt-4 text-text-faint text-[10px] tracking-[0.2em]">VIEW ALL →</a>
-      </section>
+      if (localStorage.getItem('rt-intro-seen') || cameFromSameSite) {
+        opening.remove();
+        return;
+      }
+      var text = document.getElementById('opening-text');
+      var logo = document.getElementById('opening-logo');
+      document.body.style.overflow = 'hidden';
+      var done = false;
+      function finish() {
+        if (done) return;
+        done = true;
+        localStorage.setItem('rt-intro-seen', '1');
+        opening.style.transition = 'opacity 800ms ease';
+        opening.style.opacity = '0';
+        setTimeout(function () {
+          opening.remove();
+          document.body.style.overflow = '';
+        }, 800);
+      }
+      opening.addEventListener('click', finish);
+      requestAnimationFrame(function () { text.style.opacity = '1'; });
+      setTimeout(function () { text.style.opacity = '0'; }, 2200);
+      setTimeout(function () { logo.style.opacity = '1'; }, 2800);
+      setTimeout(finish, 6300);
+    })();
+  </script>
 
-      <section class="border-t border-white/[0.08] pt-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-        <div>
-          <p class="text-text-faint text-[10px] tracking-[0.3em] mb-3">COLLABORATION / COMMISSION</p>
-          <p class="text-text-primary font-mincho text-xl tracking-[0.12em]">Let's make something unusual.</p>
-        </div>
-        <a href="/en/contact" class="inline-block text-center px-6 py-3 bg-white text-[#1a1a1a] text-[11px] font-bold tracking-[0.2em] rounded-sm hover:bg-white/85 transition-all">CONTACT</a>
-      </section>
+  <!-- ===== HERO：スライドショーのみ ===== -->
+  <section class="pt-14 md:pt-24 md:mx-16 lg:mx-24">
+    <div id="hero-swipe-area" class="relative aspect-video overflow-hidden touch-pan-y">
+      <div id="hero-track" class="absolute inset-0 flex">
+        {heroImages.map(({ file, href }, i) => (
+          <div class="hero-slide w-full h-full shrink-0">
+            {href ? (
+              <a href={href} class="block w-full h-full">
+                <img
+                  src={`/${file}`}
+                  alt=""
+                  class="w-full h-full object-cover"
+                  loading={i === 0 ? 'eager' : 'lazy'}
+                />
+              </a>
+            ) : (
+              <img
+                src={`/${file}`}
+                alt=""
+                class="w-full h-full object-cover"
+                loading={i === 0 ? 'eager' : 'lazy'}
+              />
+            )}
+          </div>
+        ))}
+      </div>
+      <button id="hero-prev" class="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-black/50 flex items-center justify-center text-white/80 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="Previous"><svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button id="hero-next" class="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-black/50 flex items-center justify-center text-white/80 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="Next"><svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="2,2 8,8 2,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div id="hero-dots" class="absolute bottom-4 left-0 right-0 z-20 flex justify-center gap-2">
+        {Array.from({ length: heroSlideTotal }, (_, i) => i).map(i => (
+          <button data-hero-dot={i}
+            class:list={['hero-dot rounded-full h-px transition-all duration-500', i === 0 ? 'w-5 bg-white/60' : 'w-2 bg-white/20']}
+            aria-label={`スライド ${i+1}`}
+          ></button>
+        ))}
+      </div>
     </div>
-  </main>
+  </section>
+
+  <!-- ===== コンテンツ ===== -->
+  <div class="bg-[#1a1814] px-4 md:px-16 lg:px-24 py-12 md:py-20 space-y-16 md:space-y-24">
+
+    <!-- About -->
+    <div id="about" class="scroll-mt-[72px] md:scroll-mt-[86px] flex flex-col gap-5">
+      <h2 class="section-title">About</h2>
+      <div class="flex items-center gap-4">
+        <a href="https://x.com/TaoRInne" target="_blank" rel="noopener" class="hover:opacity-70 transition-opacity duration-300 shrink-0">
+          <img src="/icon.webp" alt="Rinne Tao" class="w-12 h-12 rounded-full object-cover" />
+        </a>
+        <div>
+          <p class="text-[9px] font-light tracking-[0.5em] text-text-muted/80 uppercase mb-1 font-mincho">AI Contents Creator</p>
+          <h1 class="font-mincho text-lg font-light tracking-[0.25em] text-text-primary">
+            Rinne Tao <span class="text-xs text-text-muted/80 tracking-widest">/ 輪廻タヲ</span>
+          </h1>
+        </div>
+      </div>
+      <div class="space-y-3 text-text-muted text-[13px] md:text-[15px] font-light leading-[2] font-gothic">
+        <p>Rinne Tao is an independent AI artist and content creator working across music, illustration, video and web. New works and experiments are shared almost every day through <a href="https://x.com/TaoRInne" target="_blank" rel="noopener" class="underline underline-offset-2 decoration-text-faint/40 hover:text-text-primary transition-colors duration-300">X (@TaoRInne)</a> and <a href="https://www.youtube.com/@TaoRInne" target="_blank" rel="noopener" class="underline underline-offset-2 decoration-text-faint/40 hover:text-text-primary transition-colors duration-300">YouTube</a>, while original music is released on major streaming services.</p><p>With a background in professional sound production, Tao treats AI as a creative medium rather than an automatic endpoint—shaping each work through direction, editing and finishing.</p>
+      </div>
+      <div class="flex flex-wrap gap-5 border-t border-white/[0.04] pt-4">
+        {[
+          { label: 'X',           href: 'https://x.com/TaoRInne',                                          domain: 'x.com' },
+          { label: 'YouTube',     href: 'https://www.youtube.com/@TaoRInne',                               domain: 'youtube.com' },
+          { label: 'Spotify',     href: 'https://open.spotify.com/intl-ja/artist/6cgNohFINOQDxktASQzmQy', domain: 'spotify.com' },
+          { label: 'Apple Music', href: 'https://music.apple.com/us/artist/rinne-tao/1863623820',          domain: 'music.apple.com' },
+          { label: 'Suno',        href: 'https://suno.com/@taorinne',                                      domain: 'suno.com' },
+          { label: 'TikTok',      href: 'https://www.tiktok.com/@rinnetao_ai',                             domain: 'tiktok.com' },
+        ].map(({ label, href, domain }) => (
+          <a href={href} target="_blank" rel="noopener"
+            class="hover:opacity-70 transition-opacity duration-300"
+            aria-label={label}>
+            <img
+              src={`https://www.google.com/s2/favicons?domain=${domain}&sz=64`}
+              alt={label}
+              class="w-7 h-7"
+            />
+          </a>
+        ))}
+      </div>
+      <div class="border-t border-white/[0.04] pt-4">
+        <p class="text-text-muted text-[13px] md:text-[15px] font-light leading-[2] font-gothic">
+          Commissions and collaborations are welcome across music, illustration, video and web projects. If Tao’s visual language or production approach feels right for your project, please get in touch.
+        </p>
+        <a href="/en/contact" class="block text-center mt-4 px-5 py-3 bg-white text-[#1a1a1a] text-[12px] font-sans-jp font-bold tracking-[0.15em] rounded-sm hover:bg-white/85 transition-all duration-300">
+          CONTACT / COMMISSIONS
+        </a>
+      </div>
+    </div>
+
+    <!-- Movie -->
+    <div>
+      <h2 class="section-title"><a href="/movie" class="hover:opacity-70 transition-opacity duration-300">Movie</a></h2>
+      <div class="relative">
+        <button id="gallery-video-row-prev" class="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/50 border border-white items-center justify-center text-white/70 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="Previous"><svg width="8" height="13" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div id="gallery-video-row" class="no-scrollbar grid grid-cols-2 gap-3 md:flex md:gap-5 md:overflow-x-auto md:snap-x md:snap-mandatory"></div>
+        <button id="gallery-video-row-next" class="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/50 border border-white items-center justify-center text-white/70 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="Next"><svg width="8" height="13" viewBox="0 0 10 16" fill="none"><polyline points="2,2 8,8 2,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+      <div class="flex justify-end mt-4">
+        <a href="/movie" class="gallery-caption-link text-[10px] tracking-[0.2em] font-light transition-colors duration-300 hover:text-text-muted">VIEW ALL →</a>
+      </div>
+    </div>
+
+    <!-- Illustration -->
+    <div>
+      <h2 class="section-title"><a href="/gallery" class="hover:opacity-70 transition-opacity duration-300">Illustration</a></h2>
+      <div class="relative">
+        <button id="gallery-row-prev" class="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/50 border border-white items-center justify-center text-white/70 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="Previous"><svg width="8" height="13" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div id="gallery-random-row" class="no-scrollbar grid grid-cols-2 gap-3 md:flex md:gap-5 md:overflow-x-auto md:snap-x md:snap-mandatory"></div>
+        <button id="gallery-row-next" class="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/50 border border-white items-center justify-center text-white/70 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="Next"><svg width="8" height="13" viewBox="0 0 10 16" fill="none"><polyline points="2,2 8,8 2,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+      <div class="flex justify-end mt-4">
+        <a href="/gallery" class="gallery-caption-link text-[10px] tracking-[0.2em] font-light transition-colors duration-300 hover:text-text-muted">VIEW ALL →</a>
+      </div>
+    </div>
+
+    <!-- Music -->
+    <div id="music" class="scroll-mt-[72px] md:scroll-mt-[86px]">
+      <h2 class="section-title">Music</h2>
+      <div class="flex items-center justify-center gap-5 pb-4 mb-5 border-b border-white/[0.04]">
+        <a href="https://open.spotify.com/intl-ja/artist/6cgNohFINOQDxktASQzmQy" target="_blank" rel="noopener" class="hover:opacity-70 transition-opacity duration-300" aria-label="Spotify">
+          <img src="https://www.google.com/s2/favicons?domain=spotify.com&sz=64" alt="Spotify" class="w-7 h-7" />
+        </a>
+        <a href="https://music.apple.com/us/artist/rinne-tao/1863623820" target="_blank" rel="noopener" class="hover:opacity-70 transition-opacity duration-300" aria-label="Apple Music">
+          <img src="https://www.google.com/s2/favicons?domain=music.apple.com&sz=64" alt="Apple Music" class="w-7 h-7" />
+        </a>
+        <p class="text-text-faint text-[13px] font-light tracking-[0.15em] font-gothic text-center">Available on major streaming platforms <br /> — Search for <span class="text-text-muted">“Rinne Tao”</span></p>
+      </div>
+      <div id="music-player-wrap" class="hidden mb-3">
+        <iframe id="music-player-iframe"
+          src=""
+          width="100%"
+          height="152"
+          frameborder="0"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          class="rounded-sm"
+        ></iframe>
+      </div>
+      {(['Album', 'Single'] as const).map(groupType => (
+        <div class="mb-6 last:mb-0">
+          <p class="text-text-faint text-[15px] tracking-[0.4em] uppercase font-mincho mb-3 text-center">{groupType}</p>
+          <div class="relative">
+            {groupType === 'Single' && (
+              <button id="music-single-prev" class="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/50 border border-white items-center justify-center text-white/70 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="Previous"><svg width="8" height="13" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            )}
+            <div id={groupType === 'Single' ? 'music-single-row' : undefined} class:list={[
+              groupType === 'Single'
+                ? 'flex gap-5 overflow-x-auto snap-x snap-mandatory no-scrollbar -mx-4 px-4 md:mx-0 md:px-0'
+                : 'flex flex-wrap justify-center gap-5',
+            ]}>
+              {musicWorks.filter(w => w.type === groupType).map(({ title, albumId, cover }) => (
+                <button data-album-id={albumId} data-title={title}
+                  class:list={[
+                    'music-thumb group relative aspect-square overflow-hidden rounded-md bg-[#1e1c18] cursor-pointer',
+                    groupType === 'Single'
+                      ? 'shrink-0 snap-start w-[42%] sm:w-[32%] md:w-[calc(25%-15px)]'
+                      : 'w-[calc(50%-10px)] md:w-[calc(25%-15px)]',
+                  ]}>
+                  <img src={cover} alt={title} loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                  <div class="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center">
+                    <svg class="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                  </div>
+                </button>
+              ))}
+            </div>
+            {groupType === 'Single' && (
+              <button id="music-single-next" class="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-black/50 border border-white items-center justify-center text-white/70 hover:bg-black/70 hover:text-white transition-all duration-300" aria-label="Next"><svg width="8" height="13" viewBox="0 0 10 16" fill="none"><polyline points="2,2 8,8 2,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+
+
+    <!-- Shop -->
+    <div id="shop" class="scroll-mt-[72px] md:scroll-mt-[86px]">
+      <h2 class="section-title">Shop</h2>
+      <div class="flex flex-wrap justify-center gap-5">
+        {shopItems.map(item => (
+          <a href={`/shop/${item.slug}`} class="group block w-[calc(50%-10px)] md:w-[calc(25%-15px)]">
+            <div class="relative aspect-square overflow-hidden rounded-md bg-[#1e1c18] mb-2">
+              <img
+                src={item.data.heroImage}
+                alt={item.data.title}
+                loading="lazy"
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              {item.data.status === 'soldout' && (
+                <div class="absolute inset-0 bg-black/60 flex items-center justify-center">
+                  <span class="text-text-primary text-[10px] tracking-[0.2em] border border-white/40 px-2 py-1">SOLD OUT</span>
+                </div>
+              )}
+            </div>
+            <p class="text-text-muted text-[12px] font-light leading-snug mb-0.5 text-center">{item.data.title}</p>
+            <p class="text-text-faint text-[11px] font-light text-center">{item.data.price}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <!-- 依頼 -->
+    <div>
+      <a href="/en/contact" class="block text-center px-5 py-3 bg-white text-[#1a1a1a] text-[12px] font-sans-jp font-bold tracking-[0.15em] rounded-sm hover:bg-white/85 transition-all duration-300">
+        CONTACT / COMMISSIONS
+      </a>
+    </div>
+
+  </div>
+
 </Layout>
+
+
+<!-- Gallery ライトボックス -->
+<div id="gallery-lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90" role="dialog" aria-modal="true">
+  <button id="glb-close" class="absolute top-4 right-5 text-white/70 hover:text-white text-2xl font-light z-20" aria-label="Close">×</button>
+  <div id="glb-swipe-hint" class="absolute top-[8%] left-1/2 -translate-x-1/2 bg-black/70 px-3 py-1.5 rounded-sm text-white/70 text-[12px] tracking-wider text-center whitespace-nowrap pointer-events-none">← Swipe →</div>
+  <button id="glb-prev" class="hidden md:flex absolute left-[16%] top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 border border-white/70 hover:bg-white/20 items-center justify-center text-white/70 hover:text-white transition-all" aria-label="Previous">
+    <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="8,2 2,8 8,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <button id="glb-next" class="hidden md:flex absolute right-[16%] top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 border border-white/70 hover:bg-white/20 items-center justify-center text-white/70 hover:text-white transition-all" aria-label="Next">
+    <svg width="10" height="16" viewBox="0 0 10 16" fill="none"><polyline points="2,2 8,8 2,14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <div id="glb-swipe-area" class="relative w-full h-full overflow-hidden touch-pan-y">
+    <div id="glb-track" class="w-full h-full flex">
+      <div class="w-full h-full shrink-0 flex items-center justify-center">
+        <img id="glb-img-prev" src="" alt="" class="max-h-[90vh] max-w-[90vw] object-contain select-none pointer-events-none" />
+      </div>
+      <div class="w-full h-full shrink-0 flex items-center justify-center">
+        <img id="glb-img" src="" alt="" class="max-h-[90vh] max-w-[90vw] object-contain select-none" />
+        <video id="glb-video" src="" playsinline controls class="hidden max-h-[90vh] max-w-[90vw] select-none"></video>
+      </div>
+      <div class="w-full h-full shrink-0 flex items-center justify-center">
+        <img id="glb-img-next" src="" alt="" class="max-h-[90vh] max-w-[90vw] object-contain select-none pointer-events-none" />
+      </div>
+    </div>
+  </div>
+  <div id="glb-tap-hint" class="absolute bottom-[8%] left-1/2 -translate-x-1/2 bg-black/70 px-3 py-1.5 rounded-sm text-white/70 text-[12px] tracking-wider text-center whitespace-nowrap pointer-events-none">Tap image to close</div>
+</div>
+
+<style>
+  .section-title {
+    font-family: 'Cormorant Garamond', 'Shippori Mincho', serif;
+    color: theme('colors.text.faint');
+    font-size: 24px;
+    font-weight: 400;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    position: relative;
+    margin-bottom: 32px;
+    text-shadow: none;
+    transition: color 1000ms ease, text-shadow 1000ms ease;
+  }
+  .section-title.is-visible {
+    color: theme('colors.text.primary');
+    text-shadow: 0 0 20px rgba(240, 236, 228, 0.45);
+  }
+  .section-title::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -16px;
+    transform: translateX(-50%) scaleX(0);
+    transform-origin: center;
+    width: 44px;
+    height: 3px;
+    border-radius: 3px;
+    background: theme('colors.text.primary');
+    transition: transform 700ms ease 250ms;
+  }
+  .section-title.is-visible::after {
+    transform: translateX(-50%) scaleX(1);
+  }
+  .gallery-caption-link {
+    color: theme('colors.text.faint');
+    text-shadow: none;
+    transition: color 1000ms ease, text-shadow 1000ms ease;
+  }
+  .gallery-caption-link.is-visible {
+    color: theme('colors.text.primary');
+    text-shadow: 0 0 10px rgba(240, 236, 228, 0.35);
+  }
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+</style>
+
+<script>
+  // ===== 見出しのスクロール出現演出 =====
+  const sectionTitles = document.querySelectorAll<HTMLElement>('.section-title, .gallery-caption-link');
+  const titleObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        titleObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.4, rootMargin: '0px 0px -10% 0px' });
+  sectionTitles.forEach(el => titleObserver.observe(el));
+
+  // ===== Hero スライドショー =====
+  const heroTrack = document.getElementById('hero-track') as HTMLElement;
+  const heroSlideCount = document.querySelectorAll('.hero-slide').length;
+  const heroDots = document.querySelectorAll<HTMLButtonElement>('.hero-dot');
+  let heroIndex = 0;
+  let heroTimer: ReturnType<typeof setInterval>;
+
+  function renderTrack(instant = false) {
+    heroTrack.style.transition = instant ? 'none' : 'transform 500ms ease-out';
+    heroTrack.style.transform = `translateX(-${heroIndex * 100}%)`;
+  }
+
+  function goTo(rawIndex: number) {
+    if (heroSlideCount === 0) return;
+    const prevIndex = heroIndex;
+    const newIndex = (rawIndex + heroSlideCount) % heroSlideCount;
+    const isWrap = (prevIndex === heroSlideCount - 1 && newIndex === 0) || (prevIndex === 0 && newIndex === heroSlideCount - 1);
+    heroDots[prevIndex]?.classList.remove('w-6', 'bg-text-muted/70');
+    heroDots[prevIndex]?.classList.add('w-2', 'bg-text-faint/50');
+    heroIndex = newIndex;
+    heroDots[heroIndex]?.classList.remove('w-2', 'bg-text-faint/50');
+    heroDots[heroIndex]?.classList.add('w-6', 'bg-text-muted/70');
+    renderTrack(isWrap);
+  }
+
+  function startTimer() {
+    heroTimer = setInterval(() => goTo(heroIndex + 1), 6000);
+  }
+
+  heroDots.forEach((dot, i) => {
+    dot.addEventListener('click', () => { clearInterval(heroTimer); goTo(i); startTimer(); });
+  });
+
+  document.getElementById('hero-prev')?.addEventListener('click', () => { clearInterval(heroTimer); goTo(heroIndex - 1); startTimer(); });
+  document.getElementById('hero-next')?.addEventListener('click', () => { clearInterval(heroTimer); goTo(heroIndex + 1); startTimer(); });
+
+  startTimer();
+
+  // ===== Hero スワイプ（指の動きに追従）=====
+  const heroSwipeArea = document.getElementById('hero-swipe-area');
+  let dragStartX = 0;
+  let dragStartY = 0;
+  let dragDeltaX = 0;
+  let isDragging = false;
+  let heroAreaWidth = 0;
+
+  heroSwipeArea?.addEventListener('touchstart', (e) => {
+    isDragging = true;
+    dragStartX = e.touches[0].clientX;
+    dragStartY = e.touches[0].clientY;
+    dragDeltaX = 0;
+    heroAreaWidth = heroSwipeArea.clientWidth;
+    clearInterval(heroTimer);
+    heroTrack.style.transition = 'none';
+  }, { passive: true });
+
+  heroSwipeArea?.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    const dx = e.touches[0].clientX - dragStartX;
+    const dy = e.touches[0].clientY - dragStartY;
+    if (Math.abs(dy) > Math.abs(dx)) return;
+    e.preventDefault();
+    const atStart = heroIndex === 0 && dx > 0;
+    const atEnd = heroIndex === heroSlideCount - 1 && dx < 0;
+    dragDeltaX = (atStart || atEnd) ? dx / 3 : dx;
+    heroTrack.style.transform = `translateX(calc(-${heroIndex * 100}% + ${dragDeltaX}px))`;
+  }, { passive: false });
+
+  heroSwipeArea?.addEventListener('touchend', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    const threshold = heroAreaWidth * 0.15;
+    if (Math.abs(dragDeltaX) > threshold) {
+      goTo(heroIndex + (dragDeltaX < 0 ? 1 : -1));
+    } else {
+      renderTrack();
+    }
+    startTimer();
+  }, { passive: true });
+
+  // ===== PC用：横スクロール行の矢印ボタン（フリックできないPCでも端まで辿り着けるように） =====
+  function wireScrollArrows(rowId: string, prevId: string, nextId: string) {
+    const row = document.getElementById(rowId);
+    const prevBtn = document.getElementById(prevId);
+    const nextBtn = document.getElementById(nextId);
+    if (!row) return;
+    prevBtn?.addEventListener('click', () => {
+      row.scrollBy({ left: -row.clientWidth * 0.8, behavior: 'smooth' });
+    });
+    nextBtn?.addEventListener('click', () => {
+      row.scrollBy({ left: row.clientWidth * 0.8, behavior: 'smooth' });
+    });
+  }
+  wireScrollArrows('music-single-row', 'music-single-prev', 'music-single-next');
+
+  // ===== Music：サムネイルタップでプレーヤー起動 =====
+  const musicThumbs = document.querySelectorAll<HTMLButtonElement>('.music-thumb');
+  const musicPlayerWrap = document.getElementById('music-player-wrap');
+  const musicPlayerIframe = document.getElementById('music-player-iframe') as HTMLIFrameElement;
+
+  musicThumbs.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const albumId = btn.dataset.albumId;
+      const title = btn.dataset.title ?? '';
+      if (!albumId || !musicPlayerWrap || !musicPlayerIframe) return;
+      musicPlayerIframe.src = `https://open.spotify.com/embed/album/${albumId}?utm_source=generator&theme=0&autoplay=1`;
+      musicPlayerIframe.title = title;
+      musicPlayerWrap.classList.remove('hidden');
+      musicPlayerWrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  });
+
+</script>
+
+<script define:vars={{ galleryWorks, illustCatGroup }}>
+  // ===== Gallery：ランダム表示+ライトボックス =====
+  function shuffleGallery(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  const isDesktopGallery = window.matchMedia('(min-width: 768px)').matches;
+  const ILLUST_COUNT = isDesktopGallery ? 6 : 4;
+  const VIDEO_COUNT = isDesktopGallery ? 6 : 4;
+
+  const videoWorks = shuffleGallery(galleryWorks.filter(w => w.type === 'video')).slice(0, VIDEO_COUNT);
+  const illustWorks = shuffleGallery(galleryWorks.filter(w => illustCatGroup.includes(w.cat))).slice(0, ILLUST_COUNT);
+
+  const galleryVideoRow = document.getElementById('gallery-video-row');
+  const galleryRow = document.getElementById('gallery-random-row');
+
+  function galleryItemMarkup(w) {
+    const btn = document.createElement('button');
+    btn.className = 'group relative aspect-square overflow-hidden rounded-md bg-[#1e1c18] cursor-pointer md:shrink-0 md:snap-start md:w-[calc(25%-15px)]';
+    const img = document.createElement('img');
+    img.src = w.poster ?? `/gallery/${w.file}.webp`;
+    img.alt = '';
+    img.loading = 'lazy';
+    img.className = 'w-full h-full object-cover transition-transform duration-500 group-hover:scale-105';
+    btn.appendChild(img);
+    if (w.type === 'video') {
+      const playIcon = document.createElement('div');
+      playIcon.className = 'absolute inset-0 flex items-center justify-center bg-black/10 group-hover:bg-black/30 transition-colors duration-300 pointer-events-none';
+      playIcon.innerHTML = '<svg class="w-9 h-9 text-white opacity-90" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+      btn.appendChild(playIcon);
+    }
+    return btn;
+  }
+
+  videoWorks.forEach((w, i) => {
+    const item = galleryItemMarkup(w);
+    item.addEventListener('click', () => openGalleryLightbox(videoWorks, i));
+    galleryVideoRow.appendChild(item);
+  });
+
+  illustWorks.forEach((w, i) => {
+    const item = galleryItemMarkup(w);
+    item.addEventListener('click', () => openGalleryLightbox(illustWorks, i));
+    galleryRow.appendChild(item);
+  });
+
+  // ===== PC用：横スクロール行の矢印ボタン =====
+  document.getElementById('gallery-video-row-prev')?.addEventListener('click', () => {
+    galleryVideoRow.scrollBy({ left: -galleryVideoRow.clientWidth * 0.8, behavior: 'smooth' });
+  });
+  document.getElementById('gallery-video-row-next')?.addEventListener('click', () => {
+    galleryVideoRow.scrollBy({ left: galleryVideoRow.clientWidth * 0.8, behavior: 'smooth' });
+  });
+  document.getElementById('gallery-row-prev')?.addEventListener('click', () => {
+    galleryRow.scrollBy({ left: -galleryRow.clientWidth * 0.8, behavior: 'smooth' });
+  });
+  document.getElementById('gallery-row-next')?.addEventListener('click', () => {
+    galleryRow.scrollBy({ left: galleryRow.clientWidth * 0.8, behavior: 'smooth' });
+  });
+
+  // ===== ライトボックス =====
+  const glb = document.getElementById('gallery-lightbox');
+  const glbSwipeArea = document.getElementById('glb-swipe-area');
+  const glbTrack = document.getElementById('glb-track');
+  const glbImg = document.getElementById('glb-img');
+  const glbVideo = document.getElementById('glb-video');
+  const glbImgPrev = document.getElementById('glb-img-prev');
+  const glbImgNext = document.getElementById('glb-img-next');
+  const glbSwipeHint = document.getElementById('glb-swipe-hint');
+  const glbTapHint = document.getElementById('glb-tap-hint');
+  let glbIndex = 0;
+  let activeList = videoWorks;
+
+  function workFor(idx) {
+    const n = activeList.length;
+    return activeList[((idx % n) + n) % n];
+  }
+
+  function srcFor(idx) {
+    const w = workFor(idx);
+    return w.poster ?? `/gallery/${w.file}.webp`;
+  }
+
+  function resetGlbTrack(instant) {
+    glbTrack.style.transition = instant ? 'none' : 'transform 250ms ease-out';
+    glbTrack.style.transform = 'translateX(-100%)';
+  }
+
+  function showGlb() {
+    const w = workFor(glbIndex);
+    const isVideo = w.type === 'video';
+    glbVideo.pause();
+    glbVideo.removeAttribute('src');
+    glbVideo.load();
+    if (isVideo) {
+      glbImg.classList.add('hidden');
+      glbVideo.classList.remove('hidden');
+      glbVideo.src = w.src ?? `/gallery/${w.file}.mp4`;
+      glbVideo.play();
+    } else {
+      glbVideo.classList.add('hidden');
+      glbImg.classList.remove('hidden');
+      glbImg.src = srcFor(glbIndex);
+    }
+    // 動画は独自のタップ操作(再生/シークバー)を持つため、画像用のタップ案内のみ隠す(スワイプ操作自体は動画でも有効)
+    glbTapHint.classList.toggle('hidden', isVideo);
+    glbImgPrev.src = srcFor(glbIndex - 1);
+    glbImgNext.src = srcFor(glbIndex + 1);
+    resetGlbTrack(true);
+  }
+
+  function openGalleryLightbox(list, index) {
+    activeList = list;
+    glbIndex = index;
+    showGlb();
+    glb.classList.remove('hidden');
+    glb.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeGalleryLightbox() {
+    glb.classList.add('hidden');
+    glb.classList.remove('flex');
+    document.body.style.overflow = '';
+    glbVideo.pause();
+    glbVideo.removeAttribute('src');
+    glbVideo.load();
+  }
+
+  function glbGo(delta) {
+    glbIndex += delta;
+    showGlb();
+  }
+
+  document.getElementById('glb-prev')?.addEventListener('click', () => glbGo(-1));
+  document.getElementById('glb-next')?.addEventListener('click', () => glbGo(1));
+  document.getElementById('glb-close')?.addEventListener('click', closeGalleryLightbox);
+  glb.addEventListener('click', e => { if (e.target === glb) closeGalleryLightbox(); });
+  glbImg.addEventListener('click', closeGalleryLightbox);
+  document.addEventListener('keydown', e => {
+    if (glb.classList.contains('hidden')) return;
+    if (e.key === 'Escape') closeGalleryLightbox();
+    if (e.key === 'ArrowLeft') glbGo(-1);
+    if (e.key === 'ArrowRight') glbGo(1);
+  });
+
+  // ===== スワイプ（指の動きに追従） =====
+  let glbDragging = false;
+  let glbDragStartX = 0;
+  let glbDragStartY = 0;
+  let glbDragDeltaX = 0;
+  let glbAreaWidth = 0;
+
+  glbSwipeArea.addEventListener('touchstart', e => {
+    glbDragging = true;
+    glbDragStartX = e.touches[0].clientX;
+    glbDragStartY = e.touches[0].clientY;
+    glbDragDeltaX = 0;
+    glbAreaWidth = glbSwipeArea.clientWidth;
+    glbTrack.style.transition = 'none';
+  }, { passive: true });
+
+  glbSwipeArea.addEventListener('touchmove', e => {
+    if (!glbDragging) return;
+    const dx = e.touches[0].clientX - glbDragStartX;
+    const dy = e.touches[0].clientY - glbDragStartY;
+    if (Math.abs(dy) > Math.abs(dx)) return;
+    glbDragDeltaX = dx;
+    glbTrack.style.transform = `translateX(calc(-100% + ${dx}px))`;
+  }, { passive: true });
+
+  glbSwipeArea.addEventListener('touchend', () => {
+    if (!glbDragging) return;
+    glbDragging = false;
+    const threshold = glbAreaWidth * 0.15;
+    if (Math.abs(glbDragDeltaX) > threshold) {
+      const dir = glbDragDeltaX < 0 ? 1 : -1;
+      glbTrack.style.transition = 'transform 250ms ease-out';
+      glbTrack.style.transform = `translateX(${dir < 0 ? '0%' : '-200%'})`;
+      setTimeout(() => glbGo(dir), 250);
+    } else {
+      resetGlbTrack(false);
+    }
+  }, { passive: true });
+</script>

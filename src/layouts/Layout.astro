@@ -85,6 +85,11 @@ const ogImageURL = new URL(ogImage, Astro.site);
 
         <!-- SNSアイコン＋ハンバーガー -->
         <div class="flex items-center gap-3 ml-3 lg:ml-4 shrink-0">
+          <div class="flex items-center gap-1 text-[10px] tracking-[0.12em]" aria-label="Language">
+            <a href="/" class:list={['px-1.5 py-1 transition-colors', !isEnglish ? 'text-text-primary' : 'text-text-faint hover:text-text-primary']}>JA</a>
+            <span class="text-white/15">/</span>
+            <a href="/en/" class:list={['px-1.5 py-1 transition-colors', isEnglish ? 'text-text-primary' : 'text-text-faint hover:text-text-primary']}>EN</a>
+          </div>
           <a href="https://x.com/TaoRInne" target="_blank" rel="noopener" aria-label="X" class="text-text-muted hover:text-text-primary transition-colors duration-300">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
           </a>
@@ -112,9 +117,9 @@ const ogImageURL = new URL(ogImage, Astro.site);
         {!isEnglish && <li><a href="/character" class="hover:text-text-primary transition-colors duration-300">CHARACTER</a></li>}
         <li><a href="/movie" class="hover:text-text-primary transition-colors duration-300">MOVIE</a></li>
         <li><a href="/gallery" class="hover:text-text-primary transition-colors duration-300">ILLUSTRATION</a></li>
-        <li><a href="/#music" class="hover:text-text-primary transition-colors duration-300">MUSIC</a></li>
-        <li><a href="/blog" class="hover:text-text-primary transition-colors duration-300">BLOG</a></li>
-        <li><a href="/shop" class="hover:text-text-primary transition-colors duration-300">SHOP</a></li>
+        <li><a href={isEnglish ? '/en/#music' : '/#music'} class="hover:text-text-primary transition-colors duration-300">MUSIC</a></li>
+        {!isEnglish && <li><a href="/blog" class="hover:text-text-primary transition-colors duration-300">BLOG</a></li>}
+        {!isEnglish && <li><a href="/shop" class="hover:text-text-primary transition-colors duration-300">SHOP</a></li>}
         <li><a href={isEnglish ? '/en/contact' : '/commission'} class="px-6 py-3 bg-white text-[#1a1a1a] text-[13px] font-sans-jp font-bold tracking-[0.15em] rounded-sm hover:bg-white/90 transition-all duration-300">{isEnglish ? 'CONTACT' : 'お仕事のご依頼はこちら'}</a></li>
       </ul>
     </div>
