@@ -18,12 +18,13 @@ const {
 } = Astro.props;
 
 const currentPath = Astro.url.pathname;
+const isEnglish = currentPath.startsWith('/en');
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImageURL = new URL(ogImage, Astro.site);
 ---
 
 <!doctype html>
-<html lang="ja">
+<html lang={isEnglish ? 'en' : 'ja'}>
   <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-T77H3X52WP"></script>
@@ -68,18 +69,18 @@ const ogImageURL = new URL(ogImage, Astro.site);
     <!-- ナビゲーション -->
     <nav class="fixed top-0 left-0 right-0 z-50 bg-[#0a0d0b]/80 backdrop-blur-sm">
       <div class="max-w-6xl mx-auto px-5 md:px-8 py-4 md:py-5 flex items-center justify-between">
-        <a href="/" class="shrink-0 whitespace-nowrap text-[11px] font-light tracking-[0.15em] text-text-muted hover:text-text-primary transition-colors duration-300">RINNE TAO'S WEB</a>
+        <a href={isEnglish ? '/en/' : '/'} class="shrink-0 whitespace-nowrap text-[11px] font-light tracking-[0.15em] text-text-muted hover:text-text-primary transition-colors duration-300">RINNE TAO'S WEB</a>
 
         <!-- デスクトップメニュー -->
         <ul class="hidden lg:flex items-center gap-4 xl:gap-6 shrink-0 whitespace-nowrap text-[11px] font-light tracking-[0.2em] text-text-muted">
-          <li><a href="/#about" class="hover:text-text-primary transition-colors duration-300">ABOUT</a></li>
-          <li><a href="/character" class:list={['hover:text-text-primary transition-colors duration-300', currentPath.startsWith('/character') && 'text-text-primary']}>CHARACTER</a></li>
-          <li><a href="/movie" class:list={['hover:text-text-primary transition-colors duration-300', currentPath.startsWith('/movie') && 'text-text-primary']}>MOVIE</a></li>
-          <li><a href="/gallery" class:list={['hover:text-text-primary transition-colors duration-300', currentPath.startsWith('/gallery') && 'text-text-primary']}>ILLUSTRATION</a></li>
-          <li><a href="/#music" class="hover:text-text-primary transition-colors duration-300">MUSIC</a></li>
-          <li><a href="/blog" class:list={['hover:text-text-primary transition-colors duration-300', currentPath.startsWith('/blog') && 'text-text-primary']}>BLOG</a></li>
-          <li><a href="/shop" class:list={['hover:text-text-primary transition-colors duration-300', currentPath.startsWith('/shop') && 'text-text-primary']}>SHOP</a></li>
-          <li><a href="/commission" class="inline-block whitespace-nowrap px-4 py-[5px] bg-white text-[#1a1a1a] text-[11px] font-sans-jp font-bold tracking-[0.15em] rounded-sm hover:bg-white/85 transition-all duration-300">お仕事のご依頼</a></li>
+          <li><a href={isEnglish ? '/en/#about' : '/#about'} class="hover:text-text-primary transition-colors duration-300">ABOUT</a></li>
+          {!isEnglish && <li><a href="/character" class:list={['hover:text-text-primary transition-colors duration-300', currentPath.startsWith('/character') && 'text-text-primary']}>CHARACTER</a></li>}
+          <li><a href={isEnglish ? '/movie' : '/movie'} class="hover:text-text-primary transition-colors duration-300">MOVIE</a></li>
+          <li><a href="/gallery" class="hover:text-text-primary transition-colors duration-300">ILLUSTRATION</a></li>
+          <li><a href={isEnglish ? '/en/#music' : '/#music'} class="hover:text-text-primary transition-colors duration-300">MUSIC</a></li>
+          {!isEnglish && <li><a href="/blog" class="hover:text-text-primary transition-colors duration-300">BLOG</a></li>}
+          {!isEnglish && <li><a href="/shop" class="hover:text-text-primary transition-colors duration-300">SHOP</a></li>}
+          <li><a href={isEnglish ? '/en/contact' : '/commission'} class="inline-block whitespace-nowrap px-4 py-[5px] bg-white text-[#1a1a1a] text-[11px] font-sans-jp font-bold tracking-[0.15em] rounded-sm hover:bg-white/85 transition-all duration-300">{isEnglish ? 'CONTACT' : 'お仕事のご依頼'}</a></li>
         </ul>
 
         <!-- SNSアイコン＋ハンバーガー -->
@@ -107,14 +108,14 @@ const ogImageURL = new URL(ogImage, Astro.site);
     <div id="mobile-menu" class="hidden lg:hidden fixed inset-0 bg-[#0d110e]/[.97] z-[60] flex flex-col items-center justify-center gap-10">
       <button id="menu-close" class="absolute top-4 right-5 text-text-muted text-2xl font-light">×</button>
       <ul class="flex flex-col items-center gap-10 text-[13px] font-light tracking-[0.4em] text-text-muted">
-        <li><a href="/#about" class="hover:text-text-primary transition-colors duration-300">ABOUT</a></li>
-        <li><a href="/character" class="hover:text-text-primary transition-colors duration-300">CHARACTER</a></li>
+        <li><a href={isEnglish ? '/en/#about' : '/#about'} class="hover:text-text-primary transition-colors duration-300">ABOUT</a></li>
+        {!isEnglish && <li><a href="/character" class="hover:text-text-primary transition-colors duration-300">CHARACTER</a></li>}
         <li><a href="/movie" class="hover:text-text-primary transition-colors duration-300">MOVIE</a></li>
         <li><a href="/gallery" class="hover:text-text-primary transition-colors duration-300">ILLUSTRATION</a></li>
         <li><a href="/#music" class="hover:text-text-primary transition-colors duration-300">MUSIC</a></li>
         <li><a href="/blog" class="hover:text-text-primary transition-colors duration-300">BLOG</a></li>
         <li><a href="/shop" class="hover:text-text-primary transition-colors duration-300">SHOP</a></li>
-        <li><a href="/commission" class="px-6 py-3 bg-white text-[#1a1a1a] text-[13px] font-sans-jp font-bold tracking-[0.15em] rounded-sm hover:bg-white/90 transition-all duration-300">お仕事のご依頼はこちら</a></li>
+        <li><a href={isEnglish ? '/en/contact' : '/commission'} class="px-6 py-3 bg-white text-[#1a1a1a] text-[13px] font-sans-jp font-bold tracking-[0.15em] rounded-sm hover:bg-white/90 transition-all duration-300">{isEnglish ? 'CONTACT' : 'お仕事のご依頼はこちら'}</a></li>
       </ul>
     </div>
 

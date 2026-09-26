@@ -1,0 +1,66 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { works, illustCatGroup } from '../../data/gallery-works';
+
+const videos = works.filter((w) => w.type === 'youtube' || w.type === 'video').slice(0, 4);
+const illustrations = works.filter((w) => illustCatGroup.includes(w.cat)).slice(0, 6);
+const music = [
+  ['ZANZO', 'https://i.scdn.co/image/ab67616d0000b2734f50f1a14a841e9225915ccc'],
+  ['TAO', 'https://i.scdn.co/image/ab67616d0000b2736d76e1041a05f1117e48fff2'],
+  ['深海', 'https://i.scdn.co/image/ab67616d0000b273f001d820a7b7e3980d64ad55'],
+];
+---
+
+<Layout title="Rinne Tao | AI Contents Creator" description="Rinne Tao is an AI artist and content creator working across music, illustration and moving image.">
+  <main class="pt-24 pb-16 px-5 md:px-8">
+    <div class="max-w-5xl mx-auto space-y-28">
+      <section id="about" class="scroll-mt-24 pt-12 md:pt-20 grid md:grid-cols-[1fr_1.4fr] gap-10 items-start">
+        <div>
+          <p class="text-text-faint text-[10px] tracking-[0.4em] mb-4">AI CONTENTS CREATOR</p>
+          <h1 class="font-mincho text-text-primary text-4xl md:text-6xl font-light tracking-[0.12em]">Rinne Tao</h1>
+          <p class="text-text-muted text-sm tracking-[0.18em] mt-3">輪廻タヲ</p>
+        </div>
+        <div class="space-y-5 text-text-muted text-[14px] leading-[2.1] font-light">
+          <p>Rinne Tao is an independent creator who uses AI as part of an ongoing practice across music, illustration and video.</p>
+          <p>New work and experiments are shared almost every day through X and YouTube, while original music is released on major streaming services.</p>
+          <p class="text-text-faint text-[12px] tracking-[0.08em]">An artist-led archive of AI culture, sound and image.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="section-title">Movie</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {videos.map((w) => (
+            <a href={w.youtubeId ? `https://www.youtube.com/watch?v=${w.youtubeId}` : '/movie'} target={w.youtubeId ? '_blank' : undefined} rel="noopener" class="block aspect-video overflow-hidden rounded-sm bg-[#1e1c18]">
+              <img src={w.poster ?? `/gallery/${w.file}.webp`} alt={w.title ?? 'Rinne Tao movie'} loading="lazy" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+            </a>
+          ))}
+        </div>
+        <a href="/movie" class="block text-right mt-4 text-text-faint text-[10px] tracking-[0.2em]">VIEW ALL →</a>
+      </section>
+
+      <section id="music" class="scroll-mt-24">
+        <h2 class="section-title">Music</h2>
+        <div class="grid grid-cols-3 gap-4 max-w-xl mx-auto">
+          {music.map(([title, cover]) => <a href="https://open.spotify.com/intl-ja/artist/6cgNohFINOQDxktASQzmQy" target="_blank" rel="noopener" class="group"><img src={cover} alt={title} class="aspect-square w-full object-cover rounded-md group-hover:opacity-70 transition-opacity" /><p class="text-text-muted text-xs text-center mt-2">{title}</p></a>)}
+        </div>
+      </section>
+
+      <section>
+        <h2 class="section-title">Illustration</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+          {illustrations.map((w) => <img src={`/gallery/${w.file}.webp`} alt="Rinne Tao illustration" loading="lazy" class="aspect-square object-cover rounded-sm" />)}
+        </div>
+        <a href="/gallery" class="block text-right mt-4 text-text-faint text-[10px] tracking-[0.2em]">VIEW ALL →</a>
+      </section>
+
+      <section class="border-t border-white/[0.08] pt-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div>
+          <p class="text-text-faint text-[10px] tracking-[0.3em] mb-3">COLLABORATION / COMMISSION</p>
+          <p class="text-text-primary font-mincho text-xl tracking-[0.12em]">Let's make something unusual.</p>
+        </div>
+        <a href="/en/contact" class="inline-block text-center px-6 py-3 bg-white text-[#1a1a1a] text-[11px] font-bold tracking-[0.2em] rounded-sm hover:bg-white/85 transition-all">CONTACT</a>
+      </section>
+    </div>
+  </main>
+</Layout>
