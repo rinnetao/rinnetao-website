@@ -1,6 +1,7 @@
 // YouTube掲載のMusic Video一覧（新しい順）。トップページのVideoセクションと
 // /gallery の Music Video カテゴリの両方から参照する単一の正本。
 export const youtubeVideos = [
+  { id: 'nUojPhwNf28', title: 'adapt / RInne Tao' },
   { id: 'VkuZSjjWIRE', title: 'ZANZO' },
   { id: 'ZnA6l2ZGLfM', title: '平凡' },
   { id: 'ujpMwPWFooQ', title: '魔女なの花ちゃん' },
