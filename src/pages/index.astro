@@ -26,10 +26,14 @@ const shopItems = (await getCollection('shop')).sort((a, b) => b.data.date.value
 
 const news = [
   { date: new Date('2026-07-05'), text: 'サイトを公開しました。' },
-  ...newsPosts.map(p => ({ date: p.data.date, text: p.data.newsText, href: `/news/${p.slug}` })),
+  ...newsPosts.map(p => ({ date: p.data.date, text: p.data.newsText, href: `/news/${p.slug}`, slug: p.slug })),
 ]
   .filter(n => n.date >= new Date('2026-08-01'))
-  .sort((a, b) => b.date.valueOf() - a.date.valueOf())
+  .sort((a, b) => {
+    if (a.slug === 'mawaru-hensu-youtube-live') return -1;
+    if (b.slug === 'mawaru-hensu-youtube-live') return 1;
+    return b.date.valueOf() - a.date.valueOf();
+  })
   .map(n => ({ ...n, date: formatDate(n.date) }));
 
 
