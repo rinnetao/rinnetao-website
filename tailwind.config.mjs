@@ -13,7 +13,7 @@ export default {
         accent: {
           red:   '#8b1a1a',     // 深い暗赤
           green: '#1f2d1a',     // 暗い抹茶緑
-          line:  '#2a2820',     // 区切り線
+          line:  '#d8d2c8',     // 区切り線（白に近い明るさで視認性を確保）
         },
         text: {
           primary:  '#f0ece4',  // 明るいオフホワイト
