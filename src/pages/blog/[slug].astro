@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import XShareButton from '../../components/XShareButton.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -27,6 +28,8 @@ function formatDate(d: Date) {
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
+const shareText = `${post.data.title}｜輪廻タヲ（@TaoRInne）\n\n${canonicalURL}`;
+const xShareURL = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -63,9 +66,13 @@ const jsonLd = {
         </p>
       </div>
 
+      <XShareButton href={xShareURL} position="banner" />
+
       <div class="blog-content text-text-muted text-[15px] font-light leading-[2]">
         <Content />
       </div>
+
+      <XShareButton href={xShareURL} position="end" />
 
       <div class="not-prose my-10 border border-accent-line px-6 py-8">
         <div class="flex items-center gap-4 mb-5">
@@ -180,6 +187,14 @@ const jsonLd = {
     if (!lightbox || lightbox.classList.contains('hidden')) return;
     if (e.key === 'Escape') closeYtLightbox();
   });
+
+  const content = document.querySelector('.blog-content');
+  const bannerShare = document.querySelector<HTMLElement>('[data-x-share-position="banner"]');
+  const bannerImage = content?.querySelector<HTMLImageElement>(':scope > p > img, :scope > img');
+  if (bannerShare && bannerImage) {
+    const imageContainer = bannerImage.closest('p') ?? bannerImage;
+    imageContainer.insertAdjacentElement('afterend', bannerShare);
+  }
 </script>
 
 <style>
