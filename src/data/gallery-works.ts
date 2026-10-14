@@ -27,6 +27,24 @@ const musicVideos = youtubeVideos.map(v => ({
 // 新しい順
 export const works = [
   ...musicVideos,
+  // 新作 (2026-10-14)：素材/画像_20261014
+  { file: 'char_155',     cat: 'char',      poster: '/gallery/char_155.png' },
+  { file: 'landscape_15', cat: 'landscape', poster: '/gallery/landscape_15.png' },
+  { file: 'char_154',     cat: 'char',      poster: '/gallery/char_154.png' },
+  { file: 'char_153',     cat: 'char',      poster: '/gallery/char_153.png' },
+  { file: 'char_152',     cat: 'char',      poster: '/gallery/char_152.png' },
+  { file: 'char_151',     cat: 'char',      poster: '/gallery/char_151.png' },
+  { file: 'char_150',     cat: 'char',      poster: '/gallery/char_150.png' },
+  { file: 'char_149',     cat: 'char',      poster: '/gallery/char_149.png' },
+  { file: 'landscape_14', cat: 'landscape', poster: '/gallery/landscape_14.png' },
+  { file: 'chaos_93',     cat: 'chaos',     poster: '/gallery/chaos_93.png' },
+  { file: 'char_148',     cat: 'char',      poster: '/gallery/char_148.png' },
+  { file: 'char_147',     cat: 'char',      poster: '/gallery/char_147.png' },
+  { file: 'char_146',     cat: 'char',      poster: '/gallery/char_146.png' },
+  { file: 'char_145',     cat: 'char',      poster: '/gallery/char_145.png' },
+  { file: 'char_144',     cat: 'char',      poster: '/gallery/char_144.png' },
+  { file: 'char_143',     cat: 'char',      poster: '/gallery/char_143.png' },
+  { file: 'char_142',     cat: 'char',      poster: '/gallery/char_142.png' },
   // 新作 (2026-09-03)
   { file: 'angel_99',     cat: 'angel' },
   { file: 'angel_98',     cat: 'angel' },
