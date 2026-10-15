@@ -43,7 +43,7 @@ const jsonLd = {
   ogType="article"
   jsonLd={jsonLd}
 >
-  <article class="pt-24 pb-16 px-5 md:px-8 min-h-screen">
+  <article class:list={['pt-24', 'pb-16', 'px-5', 'md:px-8', 'min-h-screen', { 'ai-music-voices-page': post.slug === 'ai-music-voices' }]}>
     <div class="max-w-2xl mx-auto">
 
       <div class="py-12 mb-8">
@@ -81,6 +81,9 @@ const jsonLd = {
   .news-content :global(p) {
     margin-bottom: 1.5rem;
   }
+  .news-content :global(.live-information) {
+    margin-bottom: 1.5rem;
+  }
   .news-content :global(a) {
     color: theme('colors.text.primary');
     text-decoration: underline;
@@ -114,5 +117,72 @@ const jsonLd = {
     border: 0;
     background: rgba(245, 245, 240, 0.28);
     margin: 3rem 0;
+  }
+
+  .ai-music-voices-page {
+    background: #f5c842;
+    color: #241d08;
+    font-family: 'Sawarabi Gothic', sans-serif;
+  }
+  .ai-music-voices-page :global(*) {
+    font-family: 'Sawarabi Gothic', sans-serif;
+  }
+  .ai-music-voices-page > .max-w-2xl > div:first-child :global(p),
+  .ai-music-voices-page > .max-w-2xl > div:first-child :global(h1) {
+    color: #241d08;
+  }
+  .ai-music-voices-page .news-content {
+    background: #fff;
+    color: #111;
+    padding: 1.5rem;
+  }
+  .ai-music-voices-page .news-content :global(p) {
+    margin-bottom: 0.5rem;
+  }
+  @media (min-width: 768px) {
+    .ai-music-voices-page .news-content {
+      padding: 2rem;
+    }
+  }
+  .ai-music-voices-page .news-content :global(h2),
+  .ai-music-voices-page .news-content :global(h3),
+  .ai-music-voices-page .news-content :global(strong),
+  .ai-music-voices-page .news-content :global(a),
+  .ai-music-voices-page .news-content :global(li),
+  .ai-music-voices-page .news-content :global(p) {
+    color: #241d08;
+  }
+  .ai-music-voices-page .news-content > :global(h2) {
+    border-bottom-color: rgba(36, 29, 8, 0.65);
+  }
+  .ai-music-voices-page .news-content > :global(h3) {
+    border-bottom-color: rgba(36, 29, 8, 0.4);
+  }
+  .ai-music-voices-page .news-content :global(hr) {
+    background: rgba(36, 29, 8, 0.3);
+  }
+  .ai-music-voices-page .news-content :global(.border-accent-line),
+  .ai-music-voices-page nav {
+    border-color: rgba(36, 29, 8, 0.45);
+  }
+  .ai-music-voices-page .news-content :global(input),
+  .ai-music-voices-page .news-content :global(textarea) {
+    background: #fff;
+    color: #111;
+    border-color: rgba(17, 17, 17, 0.45);
+  }
+  .ai-music-voices-page .news-content :global(label),
+  .ai-music-voices-page .news-content :global(label span),
+  .ai-music-voices-page .news-content :global(input::placeholder),
+  .ai-music-voices-page .news-content :global(textarea::placeholder) {
+    color: #333;
+  }
+  .ai-music-voices-page .news-content :global(form) {
+    background: #fff;
+    border-color: rgba(17, 17, 17, 0.45);
+  }
+  .ai-music-voices-page .news-content :global(button) {
+    background: #111;
+    color: #fff;
   }
 </style>
