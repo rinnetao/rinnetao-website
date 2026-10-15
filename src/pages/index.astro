@@ -26,9 +26,7 @@ const shopItems = (await getCollection('shop')).sort((a, b) => b.data.date.value
 
 const news = [
   { date: new Date('2026-07-05'), text: 'サイトを公開しました。' },
-  ...newsPosts
-    .filter(p => p.slug !== 'ai-music-voices')
-    .map(p => ({ date: p.data.date, text: p.data.newsText, href: `/news/${p.slug}`, slug: p.slug })),
+  ...newsPosts.map(p => ({ date: p.data.date, text: p.data.newsText, href: `/news/${p.slug}`, slug: p.slug })),
 ]
   .filter(n => n.date >= new Date('2026-08-01'))
   .sort((a, b) => {
@@ -164,19 +162,33 @@ const jsonLd = {
   <!-- ===== コンテンツ ===== -->
   <div class="bg-[#1a1814] px-4 md:px-16 lg:px-24 py-12 md:py-20 space-y-16 md:space-y-24">
 
-    <!-- 『廻る変数』ライブ告知 -->
-    <a
-      href="/news/mawaru-hensu-youtube-live/"
-      class="group mx-auto block w-[60%] overflow-hidden rounded-sm border border-white/[0.08] bg-black"
-      aria-label="synthetic drops × 輪廻タヲ『廻る変数』YouTubeライブ開催の記事を読む"
-    >
-      <img
-        src="/news/mawaru-hensu-thumbnail-20261008-final.png"
-        alt="synthetic drops × 輪廻タヲ『廻る変数』YouTubeライブ"
-        class="aspect-video w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.01]"
-        loading="eager"
-      />
-    </a>
+    <!-- ライブ告知 -->
+    <div class="mx-auto grid w-full grid-cols-2 gap-3 md:gap-5">
+      <a
+        href="/news/ai-music-voices/"
+        class="group block overflow-hidden rounded-sm border border-white/[0.08] bg-black"
+        aria-label="輪廻タヲ「AI MUSIC VOICES」ゲスト出演の記事を読む"
+      >
+        <img
+          src="/news/ai-music-voices-keyvisual.png"
+          alt="輪廻タヲ「AI MUSIC VOICES」ゲスト出演"
+          class="aspect-video w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.01]"
+          loading="eager"
+        />
+      </a>
+      <a
+        href="/news/mawaru-hensu-youtube-live/"
+        class="group block overflow-hidden rounded-sm border border-white/[0.08] bg-black"
+        aria-label="synthetic drops × 輪廻タヲ『廻る変数』YouTubeライブ開催の記事を読む"
+      >
+        <img
+          src="/news/mawaru-hensu-thumbnail-20261008-final.png"
+          alt="synthetic drops × 輪廻タヲ『廻る変数』YouTubeライブ"
+          class="aspect-video w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.01]"
+          loading="eager"
+        />
+      </a>
+    </div>
 
     <!-- NEWS -->
     <div id="news" class="scroll-mt-[72px] md:scroll-mt-[86px]">
