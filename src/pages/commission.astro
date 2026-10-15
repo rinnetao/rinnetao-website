@@ -181,6 +181,7 @@ const terms = [
         <form id="contact-form-el" class="space-y-4">
           <input type="hidden" name="access_key" value="b893875f-b41b-4bc0-926c-46c26cce4772" />
           <input type="hidden" name="subject" value="【輪廻タヲ】お問い合わせ" />
+          <input type="hidden" name="source" value="通常フォーム" />
           <input type="text" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" />
 
           <div>
@@ -240,6 +241,11 @@ const terms = [
       });
       const json = await res.json();
       if (!json.success) throw new Error(json.message || 'send failed');
+      await fetch('https://script.google.com/macros/s/AKfycbwnD6aKd_veeZEwYpiwFWctD0ITexndbtIlrnHJ70YrsOF5DO63CYR9vt1zrx312ECA/exec', {
+        method: 'POST',
+        mode: 'no-cors',
+        body: new URLSearchParams(new FormData(form) as unknown as Record<string, string>),
+      });
 
       form.reset();
       if (status) {
