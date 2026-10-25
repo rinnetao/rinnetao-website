@@ -4,16 +4,17 @@ import { movieCategories, movieCatGroup, works } from '../data/gallery-works';
 
 const videoWorks = works.filter(w => movieCatGroup.includes(w.cat));
 const movieCount = videoWorks.filter(w => w.cat === 'movie').length;
+const cinemaCount = videoWorks.filter(w => w.cat === 'cinema').length;
 const mvCount = videoWorks.filter(w => w.cat === 'mv').length;
 const charMovieCount = videoWorks.filter(w => w.cat === 'charmovie').length;
 ---
 
-<Layout title="MOVIE | 輪廻タヲ" description="輪廻タヲの映像作品ギャラリー。Music Video・Character Movieなどカテゴリ別に一覧・再生できます。" ogImage="/gallery-og.png">
+<Layout title="MOVIE | 輪廻タヲ" description="輪廻タヲの映像作品ギャラリー。Cinema・Music Video・Character Movieなどカテゴリ別に一覧・再生できます。" ogImage="/gallery-og.png">
   <div class="pt-24 pb-16 px-5 md:px-16 lg:px-24 min-h-screen">
 
     <div class="py-12 mb-8">
       <h1 class="font-mincho text-text-primary text-3xl font-light tracking-[0.3em]">Movie</h1>
-      <p class="text-text-faint text-[11px] tracking-[0.15em] font-light mt-4">Movie {movieCount} / Music Video {mvCount} / Character Movie {charMovieCount}</p>
+      <p class="text-text-faint text-[11px] tracking-[0.15em] font-light mt-4">Movie {movieCount} / Cinema {cinemaCount} / Music Video {mvCount} / Character Movie {charMovieCount}</p>
     </div>
 
     <!-- カテゴリフィルター -->
@@ -103,6 +104,7 @@ const charMovieCount = videoWorks.filter(w => w.cat === 'charmovie').length;
     div.dataset.cat = w.cat;
     div.dataset.src = posterSrc;
     div.dataset.file = w.file;
+    div.dataset.title = w.title ?? w.file;
     if (isYoutube) {
       div.dataset.type = 'youtube';
       div.dataset.youtubeId = w.youtubeId;
@@ -113,7 +115,7 @@ const charMovieCount = videoWorks.filter(w => w.cat === 'charmovie').length;
 
     const img = document.createElement('img');
     img.src = posterSrc;
-    img.alt = '';
+    img.alt = w.title ?? '';
     img.loading = 'lazy';
     img.className = 'w-full block transition-transform duration-700 group-hover:scale-[1.03] md:w-full md:h-full md:object-cover';
 
@@ -230,7 +232,7 @@ const charMovieCount = videoWorks.filter(w => w.cat === 'charmovie').length;
       lbVideo.src = el.dataset.videoSrc;
       lbVideo.play();
     }
-    lbFilename.textContent = el.dataset.file ?? '';
+    lbFilename.textContent = el.dataset.title ?? '';
     lbImgPrev.src = neighborSrc(-1);
     lbImgNext.src = neighborSrc(1);
     resetTrack(true);

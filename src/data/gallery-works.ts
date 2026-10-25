@@ -8,10 +8,11 @@ export const illustCatGroup = ['char', 'angel', 'chaos', 'landscape', 'jitsusya'
 export const movieCategories = [
   { id: 'all',       label: 'All' },
   { id: 'movie',     label: 'Movie' },
+  { id: 'cinema',    label: 'Cinema' },
   { id: 'mv',        label: 'Music Video' },
   { id: 'charmovie', label: 'Character Movie' },
 ];
-export const movieCatGroup = ['movie', 'mv', 'charmovie'];
+export const movieCatGroup = ['movie', 'cinema', 'mv', 'charmovie'];
 
 import { youtubeVideos } from './youtube-videos';
 
@@ -26,6 +27,10 @@ const musicVideos = youtubeVideos.map(v => ({
 
 // 新しい順
 export const works = [
+  // 廻哀村公式の「映像資料」と同じ公開ファイルを参照する。
+  { file: 'eaimura-trailer', cat: 'cinema', type: 'video', title: '『廻哀村』予告映像', src: 'https://eaimura.rinnetao.com/assets/eaimura-trailer-0930-web.mp4', poster: 'https://eaimura.rinnetao.com/assets/eaimura-trailer-0930-poster.jpg' },
+  { file: 'eaimura-30sec-cm', cat: 'cinema', type: 'video', title: '『廻哀村』30秒CM', src: 'https://eaimura.rinnetao.com/assets/eaimura-30sec-cm-web.mp4', poster: 'https://eaimura.rinnetao.com/assets/eaimura-30sec-cm-poster.jpg' },
+  { file: 'tokina-bus', cat: 'cinema', type: 'video', title: '時名｜廻哀村へ向かうバス', src: 'https://eaimura.rinnetao.com/assets/tokina-bus-web.mp4', poster: 'https://eaimura.rinnetao.com/assets/tokina-bus-poster.jpg' },
   ...musicVideos,
   // 新作 (2026-10-14)：素材/画像_20261014
   { file: 'char_155',     cat: 'char',      poster: '/gallery/char_155.png' },
