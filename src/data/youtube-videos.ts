@@ -1,6 +1,9 @@
 // YouTube掲載のMusic Video一覧（新しい順）。トップページのVideoセクションと
-// /gallery の Music Video カテゴリの両方から参照する単一の正本。
+// /movie の Music Video カテゴリの両方から参照する単一の正本。
 export const youtubeVideos = [
+  { id: 'XBpInBEXqDU', title: 'Your Favorite / RInne Tao' },
+  { id: '5FGxchwy7_I', title: 'fragments of memories ─ Rinne Tao Remix ─' },
+  { id: 'ZO0uw6FSDg4', title: '影縫 / RInne Tao' },
   { id: 'nUojPhwNf28', title: 'adapt / RInne Tao' },
   { id: 'VkuZSjjWIRE', title: 'ZANZO' },
   { id: 'ZnA6l2ZGLfM', title: '平凡' },
