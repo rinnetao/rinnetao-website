@@ -1,5 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import OptimizedImage from '../../components/OptimizedImage.astro';
+import { imageSource } from '../../utils/image-source';
 import XShareButton from '../../components/XShareButton.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 
@@ -38,9 +40,9 @@ const jsonLd = {
   description: post.data.description,
   datePublished: post.data.date.toISOString(),
   dateModified: (post.data.updatedDate ?? post.data.date).toISOString(),
-  author: { '@type': 'Person', name: '輪廻タヲ' },
+  author: { '@type': 'Person', '@id': 'https://rinnetao.com/#creator', name: '輪廻タヲ', url: 'https://rinnetao.com/#about', sameAs: ['https://x.com/TaoRInne'] },
   mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalURL },
-  ...(post.data.ogImage ? { image: new URL(post.data.ogImage, Astro.site).toString() } : {}),
+  ...(post.data.ogImage ? { image: new URL(imageSource(post.data.ogImage), Astro.site).toString() } : {}),
 };
 ---
 
@@ -104,7 +106,7 @@ const jsonLd = {
             {relatedPosts.map(rp => (
               <a href={`/blog/${rp.slug}`} class="flex items-center gap-4 border-b border-accent-line py-4 hover:opacity-80 transition-opacity duration-300">
                 {rp.data.ogImage && (
-                  <img src={rp.data.ogImage} alt={rp.data.title} loading="lazy" class="w-16 h-16 md:w-20 md:h-20 object-cover shrink-0" />
+                  <OptimizedImage sizes="(min-width: 768px) 80px, 64px" src={rp.data.ogImage} alt={rp.data.title} loading="lazy" class="w-16 h-16 md:w-20 md:h-20 object-cover shrink-0" />
                 )}
                 <div class="min-w-0">
                   <p class="text-text-faint text-[10px] tracking-[0.2em] font-mono mb-1">{formatDate(rp.data.date)}</p>

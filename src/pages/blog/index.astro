@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import OptimizedImage from '../../components/OptimizedImage.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog')).sort(
@@ -29,8 +30,9 @@ function formatDate(d: Date) {
               class="flex items-center gap-4 border-b border-accent-line py-6 px-2 -mx-2 hover:bg-white/[0.02] transition-colors duration-300"
             >
               {post.data.ogImage && (
-                <img
+                <OptimizedImage
                   src={post.data.ogImage}
+                  sizes="(min-width: 768px) 80px, 64px"
                   alt={post.data.title}
                   loading="lazy"
                   class="w-16 h-16 md:w-20 md:h-20 object-cover shrink-0"

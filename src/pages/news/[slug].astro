@@ -1,5 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import OptimizedImage from '../../components/OptimizedImage.astro';
+import { imageSource } from '../../utils/image-source';
 import { getCollection, type CollectionEntry } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -30,9 +32,9 @@ const jsonLd = {
   description: post.data.description,
   datePublished: post.data.date.toISOString(),
   dateModified: (post.data.updatedDate ?? post.data.date).toISOString(),
-  author: { '@type': 'Person', name: '輪廻タヲ' },
+  author: { '@type': 'Person', '@id': 'https://rinnetao.com/#creator', name: '輪廻タヲ', url: 'https://rinnetao.com/#about', sameAs: ['https://x.com/TaoRInne'] },
   mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalURL },
-  ...(post.data.ogImage ? { image: new URL(post.data.ogImage, Astro.site).toString() } : {}),
+  ...(post.data.ogImage ? { image: new URL(imageSource(post.data.ogImage), Astro.site).toString() } : {}),
 };
 ---
 
@@ -56,11 +58,11 @@ const jsonLd = {
       {post.data.ogImage && (
         post.data.imageLink ? (
           <a href={post.data.imageLink} target="_blank" rel="noopener noreferrer" class="block mb-10 bg-black rounded-sm">
-            <img src={post.data.ogImage} alt={post.data.title} class="w-full aspect-video object-contain rounded-sm" />
+            <OptimizedImage sizes="(min-width: 768px) 672px, calc(100vw - 40px)" src={post.data.ogImage} alt={post.data.title} class="w-full aspect-video object-contain rounded-sm" />
           </a>
         ) : (
           <div class="mb-10 bg-black rounded-sm">
-            <img src={post.data.ogImage} alt={post.data.title} class="w-full aspect-video object-contain rounded-sm" />
+            <OptimizedImage sizes="(min-width: 768px) 672px, calc(100vw - 40px)" src={post.data.ogImage} alt={post.data.title} class="w-full aspect-video object-contain rounded-sm" />
           </div>
         )
       )}

@@ -1,0 +1,549 @@
+{
+  "/banner-1002.png": {
+    "src": "/banner-1002.webp",
+    "width": 2736,
+    "height": 1536,
+    "variants": [
+      {
+        "src": "/banner-1002-640.webp",
+        "width": 640
+      },
+      {
+        "src": "/banner-1002-1280.webp",
+        "width": 1280
+      },
+      {
+        "src": "/banner-1002-1920.webp",
+        "width": 1920
+      },
+      {
+        "src": "/banner-1002.webp",
+        "width": 2736
+      }
+    ]
+  },
+  "/blog/codex-chatgpt-migration-cover.png": {
+    "src": "/blog/codex-chatgpt-migration-cover.webp",
+    "width": 1672,
+    "height": 941,
+    "variants": [
+      {
+        "src": "/blog/codex-chatgpt-migration-cover-640.webp",
+        "width": 640
+      },
+      {
+        "src": "/blog/codex-chatgpt-migration-cover-1280.webp",
+        "width": 1280
+      },
+      {
+        "src": "/blog/codex-chatgpt-migration-cover.webp",
+        "width": 1672
+      }
+    ]
+  },
+  "/blog/codex-chatgpt-migration-illustration.png": {
+    "src": "/blog/codex-chatgpt-migration-illustration.webp",
+    "width": 1672,
+    "height": 941,
+    "variants": [
+      {
+        "src": "/blog/codex-chatgpt-migration-illustration-640.webp",
+        "width": 640
+      },
+      {
+        "src": "/blog/codex-chatgpt-migration-illustration-1280.webp",
+        "width": 1280
+      },
+      {
+        "src": "/blog/codex-chatgpt-migration-illustration.webp",
+        "width": 1672
+      }
+    ]
+  },
+  "/blog/midjourney-thinking-mode-review-comparison.png": {
+    "src": "/blog/midjourney-thinking-mode-review-comparison.webp",
+    "width": 1672,
+    "height": 941,
+    "variants": [
+      {
+        "src": "/blog/midjourney-thinking-mode-review-comparison-640.webp",
+        "width": 640
+      },
+      {
+        "src": "/blog/midjourney-thinking-mode-review-comparison-1280.webp",
+        "width": 1280
+      },
+      {
+        "src": "/blog/midjourney-thinking-mode-review-comparison.webp",
+        "width": 1672
+      }
+    ]
+  },
+  "/blog/midjourney-thinking-mode-review-cover.png": {
+    "src": "/blog/midjourney-thinking-mode-review-cover.webp",
+    "width": 1672,
+    "height": 941,
+    "variants": [
+      {
+        "src": "/blog/midjourney-thinking-mode-review-cover-640.webp",
+        "width": 640
+      },
+      {
+        "src": "/blog/midjourney-thinking-mode-review-cover-1280.webp",
+        "width": 1280
+      },
+      {
+        "src": "/blog/midjourney-thinking-mode-review-cover.webp",
+        "width": 1672
+      }
+    ]
+  },
+  "/gallery/chaos_93.png": {
+    "src": "/gallery/chaos_93.webp",
+    "width": 2944,
+    "height": 1648,
+    "variants": [
+      {
+        "src": "/gallery/chaos_93-640.webp",
+        "width": 640
+      },
+      {
+        "src": "/gallery/chaos_93-1280.webp",
+        "width": 1280
+      },
+      {
+        "src": "/gallery/chaos_93-1920.webp",
+        "width": 1920
+      },
+      {
+        "src": "/gallery/chaos_93.webp",
+        "width": 2944
+      }
+    ]
+  },
+  "/gallery/char_142.png": {
+    "src": "/gallery/char_142.webp",
+    "width": 2688,
+    "height": 1520,
+    "variants": [
+      {
+        "src": "/gallery/char_142-640.webp",
+        "width": 640
+      },
+      {
+        "src": "/gallery/char_142-1280.webp",
+        "width": 1280
+      },
+      {
+        "src": "/gallery/char_142-1920.webp",
+        "width": 1920
+      },
+      {
+        "src": "/gallery/char_142.webp",
+        "width": 2688
+      }
+    ]
+  },
+  "/gallery/char_143.png": {
+    "src": "/gallery/char_143.webp",
+    "width": 2560,
+    "height": 1440,
+    "variants": [
+      {
+        "src": "/gallery/char_143-640.webp",
+        "width": 640
+      },
+      {
+        "src": "/gallery/char_143-1280.webp",
+        "width": 1280
+      },
+      {
+        "src": "/gallery/char_143-1920.webp",
+        "width": 1920
+      },
+      {
+        "src": "/gallery/char_143.webp",
+        "width": 2560
+      }
+    ]
+  },
+  "/gallery/char_144.png": {
+    "src": "/gallery/char_144.webp",
+    "width": 2736,
+    "height": 1536,
+    "variants": [
+      {
+        "src": "/gallery/char_144-640.webp",
+        "width": 640
+      },
+      {
+        "src": "/gallery/char_144-1280.webp",
+        "width": 1280
+      },
+      {
+        "src": "/gallery/char_144-1920.webp",
+        "width": 1920
+      },
+      {
+        "src": "/gallery/char_144.webp",
+        "width": 2736
+      }
+    ]
+  },
+  "/gallery/char_145.png": {
+    "src": "/gallery/char_145.webp",
+    "width": 2560,
+    "height": 1440,
+    "variants": [
+      {
+        "src": "/gallery/char_145-640.webp",
+        "width": 640
+      },
+      {
+        "src": "/gallery/char_145-1280.webp",
+        "width": 1280
+      },
+      {
+        "src": "/gallery/char_145-1920.webp",
+        "width": 1920
+      },
+      {
+        "src": "/gallery/char_145.webp",
+        "width": 2560
+      }
+    ]
+  },
+  "/gallery/char_146.png": {
+    "src": "/gallery/char_146.webp",
+    "width": 2560,
+    "height": 1440,
+    "variants": [
+      {
+        "src": "/gallery/char_146-640.webp",
+        "width": 640
+      },
+      {
+        "src": "/gallery/char_146-1280.webp",
+        "width": 1280
+      },
+      {
+        "src": "/gallery/char_146-1920.webp",
+        "width": 1920
+      },
+      {
+        "src": "/gallery/char_146.webp",
+        "width": 2560
+      }
+    ]
+  },
+  "/gallery/char_147.png": {
+    "src": "/gallery/char_147.webp",
+    "width": 2560,
+    "height": 1440,
+    "variants": [
+      {
+        "src": "/gallery/char_147-640.webp",
+        "width": 640
+      },
+      {
+        "src": "/gallery/char_147-1280.webp",
+        "width": 1280
+      },
+      {
+        "src": "/gallery/char_147-1920.webp",
+        "width": 1920
+      },
+      {
+        "src": "/gallery/char_147.webp",
+        "width": 2560
+      }
+    ]
+  },
+  "/gallery/char_148.png": {
+    "src": "/gallery/char_148.webp",
+    "width": 2560,
+    "height": 1440,
+    "variants": [
+      {
+        "src": "/gallery/char_148-640.webp",
+        "width": 640
+      },
+      {
+        "src": "/gallery/char_148-1280.webp",
+        "width": 1280
+      },
+      {
+        "src": "/gallery/char_148-1920.webp",
+        "width": 1920
+      },
+      {
+        "src": "/gallery/char_148.webp",
+        "width": 2560
+      }
+    ]
+  },
+  "/gallery/char_149.png": {
+    "src": "/gallery/char_149.webp",
+    "width": 2560,
+    "height": 1440,
+    "variants": [
+      {
+        "src": "/gallery/char_149-640.webp",
+        "width": 640
+      },
+      {
+        "src": "/gallery/char_149-1280.webp",
+        "width": 1280
+      },
+      {
+        "src": "/gallery/char_149-1920.webp",
+        "width": 1920
+      },
+      {
+        "src": "/gallery/char_149.webp",
+        "width": 2560
+      }
+    ]
+  },
+  "/gallery/char_150.png": {
+    "src": "/gallery/char_150.webp",
+    "width": 2688,
+    "height": 1520,
+    "variants": [
+      {
+        "src": "/gallery/char_150-640.webp",
+        "width": 640
+      },
+      {
+        "src": "/gallery/char_150-1280.webp",
+        "width": 1280
+      },
+      {
+        "src": "/gallery/char_150-1920.webp",
+        "width": 1920
+      },
+      {
+        "src": "/gallery/char_150.webp",
+        "width": 2688
+      }
+    ]
+  },
+  "/gallery/char_151.png": {
+    "src": "/gallery/char_151.webp",
+    "width": 2688,
+    "height": 1520,
+    "variants": [
+      {
+        "src": "/gallery/char_151-640.webp",
+        "width": 640
+      },
+      {
+        "src": "/gallery/char_151-1280.webp",
+        "width": 1280
+      },
+      {
+        "src": "/gallery/char_151-1920.webp",
+        "width": 1920
+      },
+      {
+        "src": "/gallery/char_151.webp",
+        "width": 2688
+      }
+    ]
+  },
+  "/gallery/char_152.png": {
+    "src": "/gallery/char_152.webp",
+    "width": 2688,
+    "height": 1520,
+    "variants": [
+      {
+        "src": "/gallery/char_152-640.webp",
+        "width": 640
+      },
+      {
+        "src": "/gallery/char_152-1280.webp",
+        "width": 1280
+      },
+      {
+        "src": "/gallery/char_152-1920.webp",
+        "width": 1920
+      },
+      {
+        "src": "/gallery/char_152.webp",
+        "width": 2688
+      }
+    ]
+  },
+  "/gallery/char_153.png": {
+    "src": "/gallery/char_153.webp",
+    "width": 2688,
+    "height": 1520,
+    "variants": [
+      {
+        "src": "/gallery/char_153-640.webp",
+        "width": 640
+      },
+      {
+        "src": "/gallery/char_153-1280.webp",
+        "width": 1280
+      },
+      {
+        "src": "/gallery/char_153-1920.webp",
+        "width": 1920
+      },
+      {
+        "src": "/gallery/char_153.webp",
+        "width": 2688
+      }
+    ]
+  },
+  "/gallery/char_154.png": {
+    "src": "/gallery/char_154.webp",
+    "width": 2688,
+    "height": 1520,
+    "variants": [
+      {
+        "src": "/gallery/char_154-640.webp",
+        "width": 640
+      },
+      {
+        "src": "/gallery/char_154-1280.webp",
+        "width": 1280
+      },
+      {
+        "src": "/gallery/char_154-1920.webp",
+        "width": 1920
+      },
+      {
+        "src": "/gallery/char_154.webp",
+        "width": 2688
+      }
+    ]
+  },
+  "/gallery/char_155.png": {
+    "src": "/gallery/char_155.webp",
+    "width": 1648,
+    "height": 2944,
+    "variants": [
+      {
+        "src": "/gallery/char_155-640.webp",
+        "width": 640
+      },
+      {
+        "src": "/gallery/char_155-1280.webp",
+        "width": 1280
+      },
+      {
+        "src": "/gallery/char_155.webp",
+        "width": 1648
+      }
+    ]
+  },
+  "/gallery/landscape_14.png": {
+    "src": "/gallery/landscape_14.webp",
+    "width": 2944,
+    "height": 1648,
+    "variants": [
+      {
+        "src": "/gallery/landscape_14-640.webp",
+        "width": 640
+      },
+      {
+        "src": "/gallery/landscape_14-1280.webp",
+        "width": 1280
+      },
+      {
+        "src": "/gallery/landscape_14-1920.webp",
+        "width": 1920
+      },
+      {
+        "src": "/gallery/landscape_14.webp",
+        "width": 2944
+      }
+    ]
+  },
+  "/gallery/landscape_15.png": {
+    "src": "/gallery/landscape_15.webp",
+    "width": 2944,
+    "height": 1648,
+    "variants": [
+      {
+        "src": "/gallery/landscape_15-640.webp",
+        "width": 640
+      },
+      {
+        "src": "/gallery/landscape_15-1280.webp",
+        "width": 1280
+      },
+      {
+        "src": "/gallery/landscape_15-1920.webp",
+        "width": 1920
+      },
+      {
+        "src": "/gallery/landscape_15.webp",
+        "width": 2944
+      }
+    ]
+  },
+  "/news/ai-music-voices-keyvisual.png": {
+    "src": "/news/ai-music-voices-keyvisual.webp",
+    "width": 1672,
+    "height": 941,
+    "variants": [
+      {
+        "src": "/news/ai-music-voices-keyvisual-640.webp",
+        "width": 640
+      },
+      {
+        "src": "/news/ai-music-voices-keyvisual-1280.webp",
+        "width": 1280
+      },
+      {
+        "src": "/news/ai-music-voices-keyvisual.webp",
+        "width": 1672
+      }
+    ]
+  },
+  "/news/ai-music-voices/tao-rinne.png": {
+    "src": "/news/ai-music-voices/tao-rinne.webp",
+    "width": 1728,
+    "height": 2304,
+    "variants": [
+      {
+        "src": "/news/ai-music-voices/tao-rinne-640.webp",
+        "width": 640
+      },
+      {
+        "src": "/news/ai-music-voices/tao-rinne-1280.webp",
+        "width": 1280
+      },
+      {
+        "src": "/news/ai-music-voices/tao-rinne.webp",
+        "width": 1728
+      }
+    ]
+  },
+  "/news/mawaru-hensu-thumbnail-20261008-final.png": {
+    "src": "/news/mawaru-hensu-thumbnail-20261008-final.webp",
+    "width": 2736,
+    "height": 1536,
+    "variants": [
+      {
+        "src": "/news/mawaru-hensu-thumbnail-20261008-final-640.webp",
+        "width": 640
+      },
+      {
+        "src": "/news/mawaru-hensu-thumbnail-20261008-final-1280.webp",
+        "width": 1280
+      },
+      {
+        "src": "/news/mawaru-hensu-thumbnail-20261008-final-1920.webp",
+        "width": 1920
+      },
+      {
+        "src": "/news/mawaru-hensu-thumbnail-20261008-final.webp",
+        "width": 2736
+      }
+    ]
+  }
+}

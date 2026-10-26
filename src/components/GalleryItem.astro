@@ -1,0 +1,42 @@
+---
+import OptimizedImage from './OptimizedImage.astro';
+interface Props {
+  work: {
+    file: string;
+    cat: string;
+    type?: string;
+    youtubeId?: string;
+    title?: string;
+    poster?: string;
+    src?: string;
+  };
+  video?: boolean;
+}
+const { work: w, video = false } = Astro.props;
+const youtube = w.type === 'youtube';
+const poster = youtube ? `https://img.youtube.com/vi/${w.youtubeId}/hqdefault.jpg` : (w.poster ?? `/gallery/${w.file}.webp`);
+const media = youtube ? `https://www.youtube.com/watch?v=${w.youtubeId}` : video ? (w.src ?? `/gallery/${w.file}.mp4`) : poster;
+const label = w.title ?? w.file;
+---
+
+<a
+  href={media}
+  class="gallery-item block break-inside-avoid overflow-hidden group cursor-pointer relative md:aspect-square md:rounded-md md:bg-[#1e1c18]"
+  data-cat={w.cat}
+  data-src={poster}
+  data-file={w.file}
+  data-title={label}
+  data-type={video ? (youtube ? 'youtube' : 'video') : undefined}
+  data-youtube-id={youtube ? w.youtubeId : undefined}
+  data-video-src={video && !youtube ? media : undefined}
+  aria-label={video ? `${label}を再生` : `${label}を拡大`}
+>
+  <OptimizedImage sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw" src={poster} alt={label} loading="lazy" class="w-full block transition-transform duration-700 group-hover:scale-[1.03] md:w-full md:h-full md:object-cover" />
+  {video ? (
+    <span class="absolute inset-0 flex items-center justify-center bg-black/10 group-hover:bg-black/30 transition-colors duration-300 pointer-events-none" aria-hidden="true">
+      <svg class="w-9 h-9 text-white opacity-90" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
+    </span>
+  ) : (
+    <span class="absolute bottom-0 left-0 right-0 px-2 py-1 bg-black/60 text-white/70 text-[10px] font-mono tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">{w.file}</span>
+  )}
+</a>

@@ -1,0 +1,17 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { responsiveImages } from '../utils/image-source';
+
+type Props = HTMLAttributes<'img'> & { src: string };
+const { src, sizes = '100vw', ...attributes } = Astro.props;
+const image = responsiveImages[src];
+---
+
+<img
+  src={image?.src ?? src}
+  srcset={image?.variants.map(v => `${v.src} ${v.width}w`).join(', ')}
+  sizes={image ? sizes : undefined}
+  width={image?.width}
+  height={image?.height}
+  {...attributes}
+/>

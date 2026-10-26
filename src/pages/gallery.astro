@@ -1,5 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import GalleryItem from '../components/GalleryItem.astro';
+import { responsiveImages } from '../utils/image-source';
 import { illustCatGroup, works } from '../data/gallery-works';
 
 const illustWorks = works.filter(w => illustCatGroup.includes(w.cat));
@@ -20,7 +22,9 @@ const illustWorks = works.filter(w => illustCatGroup.includes(w.cat));
     </div>
 
     <!-- ギャラリー -->
-    <div id="gallery-grid" class="columns-2 gap-1 space-y-1 md:columns-none md:grid md:grid-cols-3 md:gap-3 md:space-y-0 lg:grid-cols-4"></div>
+    <div id="gallery-grid" class="columns-2 gap-1 space-y-1 md:columns-none md:grid md:grid-cols-3 md:gap-3 md:space-y-0 lg:grid-cols-4">
+      {illustWorks.slice(0, 48).map(work => <GalleryItem work={work} />)}
+    </div>
 
     <!-- 無限スクロール sentinel -->
     <div id="sentinel" class="h-16"></div>
@@ -55,7 +59,7 @@ const illustWorks = works.filter(w => illustCatGroup.includes(w.cat));
   <div id="lb-filename" class="absolute bottom-[5%] left-1/2 -translate-x-1/2 bg-black/70 px-2 py-1 rounded-sm text-white/40 text-[10px] font-mono tracking-wider"></div>
 </div>
 
-<script define:vars={{ works: illustWorks }}>
+<script define:vars={{ works: illustWorks, responsiveImages }}>
   const BATCH = 48;
   const grid = document.getElementById('gallery-grid');
   const sentinel = document.getElementById('sentinel');
@@ -76,15 +80,24 @@ const illustWorks = works.filter(w => illustCatGroup.includes(w.cat));
   // ===== アイテム生成 =====
   function makeItem(w) {
     const posterSrc = w.poster ?? `/gallery/${w.file}.webp`;
-    const div = document.createElement('div');
-    div.className = 'gallery-item break-inside-avoid overflow-hidden group cursor-pointer relative md:aspect-square md:rounded-md md:bg-[#1e1c18]';
+    const div = document.createElement('a');
+    div.className = 'gallery-item block break-inside-avoid overflow-hidden group cursor-pointer relative md:aspect-square md:rounded-md md:bg-[#1e1c18]';
+    div.href = posterSrc;
+    div.setAttribute('aria-label', `${w.file}を拡大`);
     div.dataset.cat = w.cat;
     div.dataset.src = posterSrc;
     div.dataset.file = w.file;
 
     const img = document.createElement('img');
     img.src = posterSrc;
-    img.alt = '';
+    const image = responsiveImages[posterSrc];
+    if (image) {
+      img.srcset = image.variants.map(v => `${v.src} ${v.width}w`).join(', ');
+      img.sizes = '(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw';
+      img.width = image.width;
+      img.height = image.height;
+    }
+    img.alt = w.file;
     img.loading = 'lazy';
     img.className = 'w-full block transition-transform duration-700 group-hover:scale-[1.03] md:w-full md:h-full md:object-cover';
     div.appendChild(img);
@@ -94,7 +107,11 @@ const illustWorks = works.filter(w => illustCatGroup.includes(w.cat));
     label.textContent = w.file;
     div.appendChild(label);
 
-    div.addEventListener('click', () => openLightbox(div));
+    div.addEventListener('click', event => {
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      openLightbox(div);
+    });
     return div;
   }
 
@@ -128,6 +145,7 @@ const illustWorks = works.filter(w => illustCatGroup.includes(w.cat));
     });
     // 既にobserve中のターゲットへの再observe()は仕様上ノーオペレーションで発火しない。
     // 並び替えのたびに毎回「新規observe」扱いにして初回発火を保証する。
+    loadMore();
     io.unobserve(sentinel);
     io.observe(sentinel);
   }
