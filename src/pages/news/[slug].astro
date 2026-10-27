@@ -67,7 +67,7 @@ const jsonLd = {
         )
       )}
 
-      <div class="news-content text-text-muted text-[15px] font-light leading-[2] whitespace-pre-line">
+      <div class:list={['news-content text-text-muted text-[15px] font-light leading-[2]', post.slug === 'year-end-2026-appearances' ? 'whitespace-normal' : 'whitespace-pre-line']}>
         <Content />
       </div>
 
