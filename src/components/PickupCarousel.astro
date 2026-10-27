@@ -1,0 +1,180 @@
+---
+import OptimizedImage from './OptimizedImage.astro';
+
+const banners = [
+  { title: '2026年末 出演情報まとめ', href: '/news/year-end-2026-appearances/', image: '/news/year-end-2026/appearances-cover.webp', height: 895 },
+  { title: '映像作品『廻哀村（えあいむら）』公式サイト', href: 'https://eaimura.rinnetao.com/', image: '/eaimura-official-banner.webp', height: 895, external: true },
+  { title: '天ロック案内所 2026 COUNTDOWN Edition', href: 'https://tenrock-2026cd.rinnetao.com/', image: '/tenrock-guide-banner.webp', height: 895, external: true },
+  { title: 'AI MUSIC LIVE「○ × △ □」', href: '/news/ai-music-live-2027/', image: '/news/ai-music-live-2027/teaser.webp', height: 900 },
+];
+// 2枚表示の両端にも隣の画像を見せるため、末尾1枚と先頭2枚を複製する。
+const displayBanners = [banners[banners.length - 1], ...banners, banners[0], banners[1]];
+---
+
+<section id="pickup-carousel" class="mx-auto w-full max-w-[960px] scroll-mt-24" role="region" aria-roledescription="カルーセル" aria-label="注目のニュース・関連サイト" data-current="1">
+  <div data-banner-viewport class="overflow-hidden" style="touch-action: pan-y pinch-zoom">
+    <div data-banner-track class="banner-track flex transition-transform duration-500 ease-out motion-reduce:transition-none">
+      {displayBanners.map((banner, i) => (
+        <div data-banner-slide class:list={['banner-slide shrink-0 overflow-hidden rounded-sm border border-white/[0.08] bg-black', { 'is-current': i === 1 || i === 2 }]} role="group" aria-roledescription="スライド" aria-label={`${(i + banners.length - 1) % banners.length + 1} / ${banners.length}：${banner.title}`} aria-hidden={i !== 1 && i !== 2} inert={i !== 1 && i !== 2}>
+          <a href={banner.href} target={banner.external ? '_blank' : undefined} rel={banner.external ? 'noopener noreferrer' : undefined} class="block" aria-label={banner.title}>
+            <OptimizedImage src={banner.image} width="1600" height={banner.height} alt={banner.title} class="aspect-[1600/895] w-full object-contain" loading={i === 1 || i === 2 ? 'eager' : 'lazy'} draggable="false" />
+          </a>
+        </div>
+      ))}
+    </div>
+  </div>
+  <div class="mt-3 flex items-center justify-center gap-1 md:gap-3 text-text-muted">
+    <button type="button" data-banner-prev class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/15 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2" aria-label="前のバナー">←</button>
+    <div class="flex items-center" aria-label="バナーを選ぶ">
+      {banners.map((banner, i) => (
+        <button type="button" data-banner-dot={i} class="flex h-10 w-8 items-center justify-center" aria-label={`バナー${i + 1}：${banner.title}`} aria-current={i === 0 ? 'true' : 'false'}>
+          <span class:list={['h-px transition-all duration-300', i === 0 ? 'w-5 bg-text-primary' : 'w-2 bg-text-faint']}></span>
+        </button>
+      ))}
+    </div>
+    <button type="button" data-banner-next class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/15 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2" aria-label="次のバナー">→</button>
+    <span data-banner-counter class="ml-1 text-[11px] tabular-nums" aria-live="off">1 / {banners.length}</span>
+    <button type="button" data-banner-pause class="ml-1 min-h-10 px-2 text-[11px] hover:text-text-primary" aria-label="バナーの自動切り替えを一時停止">一時停止</button>
+  </div>
+</section>
+
+<style>
+  [data-banner-viewport] {
+    --banner-width: 42%;
+    --banner-inset: 8%;
+    --banner-gap: 16px;
+  }
+  .banner-track {
+    gap: var(--banner-gap);
+    transform: translateX(calc(var(--banner-inset) - var(--banner-width) - 1.5 * var(--banner-gap)));
+  }
+  .banner-slide {
+    flex-basis: var(--banner-width);
+    opacity: 0.45;
+    transform: scale(0.94);
+    transition: opacity 500ms, transform 500ms;
+  }
+  .banner-slide.is-current { opacity: 1; transform: scale(1); }
+  @media (max-width: 639px) {
+    [data-banner-viewport] { --banner-gap: 8px; }
+    .banner-slide { transform: scale(0.98); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .banner-slide { transition: none; }
+  }
+</style>
+
+<script>
+  const carousel = document.getElementById('pickup-carousel');
+  if (carousel) {
+    const track = carousel.querySelector<HTMLElement>('[data-banner-track]')!;
+    const viewport = carousel.querySelector<HTMLElement>('[data-banner-viewport]')!;
+    const slides = [...carousel.querySelectorAll<HTMLElement>('[data-banner-slide]')];
+    const dots = [...carousel.querySelectorAll<HTMLButtonElement>('[data-banner-dot]')];
+    const pause = carousel.querySelector<HTMLButtonElement>('[data-banner-pause]')!;
+    const counter = carousel.querySelector<HTMLElement>('[data-banner-counter]')!;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let index = 0;
+    let paused = reducedMotion.matches;
+    let hovered = false;
+    let inView = false;
+    let touching = false;
+    let startX = 0;
+    let startY = 0;
+    let swiped = false;
+    let pointerId: number | null = null;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+
+    function stopTimer() { clearTimeout(timer); }
+    function schedule() {
+      stopTimer();
+      if (!paused && !hovered && !touching && inView && !document.hidden && !carousel!.contains(document.activeElement)) {
+        timer = setTimeout(() => show(index + 1), 5000);
+      }
+    }
+    function show(next: number) {
+      const count = dots.length;
+      const target = (next + count) % count;
+      const wrapping = Math.abs(target - index) === count - 1;
+      // 境界では他の3枚を横切らず、最初／最後の画像へ戻す。
+      track.style.transition = wrapping || reducedMotion.matches ? 'none' : '';
+      index = target;
+      track.style.transform = `translateX(calc(var(--banner-inset) - var(--banner-gap) / 2 - ${index + 1} * (var(--banner-width) + var(--banner-gap))))`;
+      slides.forEach((slide, i) => {
+        const visible = i === index + 1 || i === index + 2;
+        slide.inert = !visible;
+        slide.setAttribute('aria-hidden', String(!visible));
+        slide.classList.toggle('is-current', visible);
+      });
+      dots.forEach((dot, i) => {
+        dot.setAttribute('aria-current', String(i === index));
+        const marker = dot.firstElementChild!;
+        marker.classList.toggle('w-5', i === index);
+        marker.classList.toggle('bg-text-primary', i === index);
+        marker.classList.toggle('w-2', i !== index);
+        marker.classList.toggle('bg-text-faint', i !== index);
+      });
+      counter.textContent = `${index + 1} / ${count}`;
+      carousel!.dataset.current = String(index + 1);
+      schedule();
+    }
+    function updatePause() {
+      pause.textContent = paused ? '自動再生' : '一時停止';
+      pause.setAttribute('aria-label', paused ? 'バナーの自動切り替えを開始' : 'バナーの自動切り替えを一時停止');
+      schedule();
+    }
+    carousel.querySelector('[data-banner-prev]')?.addEventListener('click', () => show(index - 1));
+    carousel.querySelector('[data-banner-next]')?.addEventListener('click', () => show(index + 1));
+    dots.forEach((dot, i) => dot.addEventListener('click', () => show(i)));
+    pause.addEventListener('click', () => { paused = !paused; updatePause(); });
+    carousel.addEventListener('keydown', (event) => {
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      event.preventDefault();
+      show(index + (event.key === 'ArrowRight' ? 1 : -1));
+    });
+    carousel.addEventListener('pointerenter', (event) => { if (event.pointerType === 'mouse') { hovered = true; stopTimer(); } });
+    carousel.addEventListener('pointerleave', (event) => { if (event.pointerType === 'mouse') { hovered = false; schedule(); } });
+    carousel.addEventListener('focusin', stopTimer);
+    carousel.addEventListener('focusout', (event) => {
+      if (!carousel.contains(event.relatedTarget as Node | null)) requestAnimationFrame(schedule);
+    });
+    viewport.addEventListener('dragstart', (event) => event.preventDefault());
+    viewport.addEventListener('pointerdown', (event) => {
+      if (!event.isPrimary || event.button !== 0) return;
+      pointerId = event.pointerId;
+      startX = event.clientX;
+      startY = event.clientY;
+      touching = true;
+      swiped = false;
+      stopTimer();
+    });
+    viewport.addEventListener('pointermove', (event) => {
+      if (!touching || event.pointerId !== pointerId) return;
+      const dx = event.clientX - startX;
+      const dy = event.clientY - startY;
+      if (Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy)) {
+        swiped = true;
+        viewport.setPointerCapture(event.pointerId);
+        event.preventDefault();
+      }
+    });
+    viewport.addEventListener('pointerup', (event) => {
+      if (event.pointerId !== pointerId) return;
+      const dx = event.clientX - startX;
+      const dy = event.clientY - startY;
+      pointerId = null;
+      touching = false;
+      if (swiped && Math.abs(dx) > Math.max(40, viewport.clientWidth * 0.12) && Math.abs(dx) > Math.abs(dy)) show(index + (dx < 0 ? 1 : -1));
+      else schedule();
+    });
+    viewport.addEventListener('pointerleave', () => { if (!swiped) { touching = false; pointerId = null; schedule(); } });
+    viewport.addEventListener('pointercancel', () => { touching = false; pointerId = null; swiped = false; schedule(); });
+    viewport.addEventListener('click', (event) => {
+      if (swiped) { event.preventDefault(); event.stopPropagation(); swiped = false; }
+    }, true);
+    document.addEventListener('visibilitychange', schedule);
+    reducedMotion.addEventListener('change', () => { if (reducedMotion.matches) { paused = true; updatePause(); } });
+    new IntersectionObserver(([entry]) => { inView = entry.isIntersecting; schedule(); }, { threshold: 0.25 }).observe(carousel);
+    updatePause();
+  }
+</script>

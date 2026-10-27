@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import OptimizedImage from '../components/OptimizedImage.astro';
+import PickupCarousel from '../components/PickupCarousel.astro';
 import { getCollection } from 'astro:content';
 import { works as galleryWorks, illustCatGroup } from '../data/gallery-works';
 
@@ -164,23 +165,8 @@ const jsonLd = {
   <!-- ===== コンテンツ ===== -->
   <div class="bg-[#1a1814] px-4 md:px-16 lg:px-24 py-12 md:py-20 space-y-16 md:space-y-24">
 
-    <!-- ライブ告知 -->
-    <div class="mx-auto w-full md:w-[60%]">
-      <a
-        href="/news/year-end-2026-appearances/"
-        class="group block overflow-hidden rounded-sm border border-white/[0.08] bg-black"
-        aria-label="2026年末 出演情報まとめの記事を読む"
-      >
-        <OptimizedImage
-          src="/news/year-end-2026/appearances-cover.webp"
-          width="1600"
-          height="895"
-          alt="2026 年末出演情報 輪廻タヲ 12.29–12.31"
-          class="w-full h-auto transition-transform duration-700 ease-out group-hover:scale-[1.01]"
-          loading="eager"
-        />
-      </a>
-    </div>
+    <!-- ピックアップ -->
+    <PickupCarousel />
 
     <!-- NEWS -->
     <div id="news" class="scroll-mt-[72px] md:scroll-mt-[86px]">
