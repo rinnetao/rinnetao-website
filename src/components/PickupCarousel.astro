@@ -43,10 +43,11 @@ const displayBanners = [banners[banners.length - 1], ...banners, banners[0], ban
     --banner-width: 42%;
     --banner-inset: 8%;
     --banner-gap: 16px;
+    --banner-center-gap: calc(var(--banner-gap) / 2);
   }
   .banner-track {
     gap: var(--banner-gap);
-    transform: translateX(calc(var(--banner-inset) - var(--banner-width) - 1.5 * var(--banner-gap)));
+    transform: translateX(calc(var(--banner-inset) - var(--banner-center-gap) - var(--banner-width) - var(--banner-gap)));
   }
   .banner-slide {
     flex-basis: var(--banner-width);
@@ -54,9 +55,10 @@ const displayBanners = [banners[banners.length - 1], ...banners, banners[0], ban
     transform: scale(0.94);
     transition: opacity 500ms, transform 500ms;
   }
+  .banner-slide img { user-select: none; -webkit-user-drag: none; }
   .banner-slide.is-current { opacity: 1; transform: scale(1); }
   @media (max-width: 639px) {
-    [data-banner-viewport] { --banner-gap: 8px; }
+    [data-banner-viewport] { --banner-width: 86%; --banner-inset: 7%; --banner-gap: 8px; --banner-center-gap: 0px; }
     .banner-slide { transform: scale(0.98); }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -74,6 +76,7 @@ const displayBanners = [banners[banners.length - 1], ...banners, banners[0], ban
     const pause = carousel.querySelector<HTMLButtonElement>('[data-banner-pause]')!;
     const counter = carousel.querySelector<HTMLElement>('[data-banner-counter]')!;
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const compact = window.matchMedia('(max-width: 639px)');
     let index = 0;
     let paused = reducedMotion.matches;
     let hovered = false;
@@ -81,6 +84,8 @@ const displayBanners = [banners[banners.length - 1], ...banners, banners[0], ban
     let touching = false;
     let startX = 0;
     let startY = 0;
+    let startTime = 0;
+    let gestureAxis: 'x' | 'y' | null = null;
     let swiped = false;
     let pointerId: number | null = null;
     let timer: ReturnType<typeof setTimeout> | undefined;
@@ -92,6 +97,9 @@ const displayBanners = [banners[banners.length - 1], ...banners, banners[0], ban
         timer = setTimeout(() => show(index + 1), 5000);
       }
     }
+    function positionTransform() {
+      return `translateX(calc(var(--banner-inset) - var(--banner-center-gap) - ${index + 1} * (var(--banner-width) + var(--banner-gap))))`;
+    }
     function show(next: number) {
       const count = dots.length;
       const target = (next + count) % count;
@@ -99,9 +107,9 @@ const displayBanners = [banners[banners.length - 1], ...banners, banners[0], ban
       // 境界では他の3枚を横切らず、最初／最後の画像へ戻す。
       track.style.transition = wrapping || reducedMotion.matches ? 'none' : '';
       index = target;
-      track.style.transform = `translateX(calc(var(--banner-inset) - var(--banner-gap) / 2 - ${index + 1} * (var(--banner-width) + var(--banner-gap))))`;
+      track.style.transform = positionTransform();
       slides.forEach((slide, i) => {
-        const visible = i === index + 1 || i === index + 2;
+        const visible = i === index + 1 || (!compact.matches && i === index + 2);
         slide.inert = !visible;
         slide.setAttribute('aria-hidden', String(!visible));
         slide.classList.toggle('is-current', visible);
@@ -138,43 +146,95 @@ const displayBanners = [banners[banners.length - 1], ...banners, banners[0], ban
     carousel.addEventListener('focusout', (event) => {
       if (!carousel.contains(event.relatedTarget as Node | null)) requestAnimationFrame(schedule);
     });
-    viewport.addEventListener('dragstart', (event) => event.preventDefault());
-    viewport.addEventListener('pointerdown', (event) => {
-      if (!event.isPrimary || event.button !== 0) return;
-      pointerId = event.pointerId;
-      startX = event.clientX;
-      startY = event.clientY;
+    function beginGesture(x: number, y: number) {
+      startX = x;
+      startY = y;
+      startTime = performance.now();
+      gestureAxis = null;
       touching = true;
       swiped = false;
       stopTimer();
+    }
+    function moveGesture(x: number, y: number) {
+      if (!touching) return false;
+      const dx = x - startX;
+      const dy = y - startY;
+      if (!gestureAxis && Math.max(Math.abs(dx), Math.abs(dy)) >= 8) {
+        gestureAxis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+      }
+      if (gestureAxis !== 'x') return false;
+      swiped = true;
+      track.style.transition = 'none';
+      track.style.transform = `${positionTransform()} translateX(${dx}px)`;
+      return true;
+    }
+    function endGesture(x: number, y: number) {
+      if (!touching) return;
+      moveGesture(x, y);
+      const dx = x - startX;
+      const elapsed = Math.max(1, performance.now() - startTime);
+      const distance = Math.abs(dx);
+      const threshold = Math.min(48, Math.max(24, viewport.clientWidth * 0.08));
+      const flick = distance >= 12 && elapsed <= 350 && distance / elapsed >= 0.35;
+      const advance = gestureAxis === 'x' && (distance >= threshold || flick);
+      touching = false;
+      show(index + (advance ? (dx < 0 ? 1 : -1) : 0));
+    }
+    function cancelGesture() {
+      touching = false;
+      pointerId = null;
+      swiped = false;
+      show(index);
+    }
+    // タッチはTouch Eventsで扱い、マウス用Pointer Eventsと重複実行しない。
+    viewport.addEventListener('touchstart', (event) => {
+      if (event.touches.length !== 1) { cancelGesture(); return; }
+      const touch = event.touches[0];
+      beginGesture(touch.clientX, touch.clientY);
+    }, { passive: true });
+    viewport.addEventListener('touchmove', (event) => {
+      if (event.touches.length !== 1) { cancelGesture(); return; }
+      const touch = event.touches[0];
+      if (moveGesture(touch.clientX, touch.clientY) && event.cancelable) event.preventDefault();
+    }, { passive: false });
+    viewport.addEventListener('touchend', (event) => {
+      if (event.touches.length || !event.changedTouches.length) return;
+      const touch = event.changedTouches[0];
+      endGesture(touch.clientX, touch.clientY);
+    }, { passive: true });
+    viewport.addEventListener('touchcancel', cancelGesture);
+    viewport.addEventListener('dragstart', (event) => event.preventDefault());
+    viewport.addEventListener('pointerdown', (event) => {
+      if (event.pointerType === 'touch' || !event.isPrimary || event.button !== 0) return;
+      pointerId = event.pointerId;
+      beginGesture(event.clientX, event.clientY);
     });
     viewport.addEventListener('pointermove', (event) => {
-      if (!touching || event.pointerId !== pointerId) return;
-      const dx = event.clientX - startX;
-      const dy = event.clientY - startY;
-      if (Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy)) {
-        swiped = true;
+      if (event.pointerType === 'touch' || event.pointerId !== pointerId) return;
+      if (moveGesture(event.clientX, event.clientY)) {
         viewport.setPointerCapture(event.pointerId);
         event.preventDefault();
       }
     });
     viewport.addEventListener('pointerup', (event) => {
-      if (event.pointerId !== pointerId) return;
-      const dx = event.clientX - startX;
-      const dy = event.clientY - startY;
+      if (event.pointerType === 'touch' || event.pointerId !== pointerId) return;
       pointerId = null;
-      touching = false;
-      if (swiped && Math.abs(dx) > Math.max(40, viewport.clientWidth * 0.12) && Math.abs(dx) > Math.abs(dy)) show(index + (dx < 0 ? 1 : -1));
-      else schedule();
+      endGesture(event.clientX, event.clientY);
     });
-    viewport.addEventListener('pointerleave', () => { if (!swiped) { touching = false; pointerId = null; schedule(); } });
-    viewport.addEventListener('pointercancel', () => { touching = false; pointerId = null; swiped = false; schedule(); });
+    viewport.addEventListener('pointerleave', (event) => {
+      if (event.pointerType !== 'touch' && pointerId !== null && !swiped) cancelGesture();
+    });
+    viewport.addEventListener('pointercancel', (event) => {
+      if (event.pointerType !== 'touch' && event.pointerId === pointerId) cancelGesture();
+    });
     viewport.addEventListener('click', (event) => {
       if (swiped) { event.preventDefault(); event.stopPropagation(); swiped = false; }
     }, true);
     document.addEventListener('visibilitychange', schedule);
+    compact.addEventListener('change', () => show(index));
     reducedMotion.addEventListener('change', () => { if (reducedMotion.matches) { paused = true; updatePause(); } });
     new IntersectionObserver(([entry]) => { inView = entry.isIntersecting; schedule(); }, { threshold: 0.25 }).observe(carousel);
+    show(index);
     updatePause();
   }
 </script>
