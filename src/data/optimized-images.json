@@ -545,5 +545,47 @@
         "width": 2736
       }
     ]
+  },
+  "/tao-radio-banner.webp": {
+    "src": "/tao-radio-banner.webp",
+    "width": 2688,
+    "height": 1520,
+    "variants": [
+      {
+        "src": "/tao-radio-banner-640.webp",
+        "width": 640
+      },
+      {
+        "src": "/tao-radio-banner-1280.webp",
+        "width": 1280
+      },
+      {
+        "src": "/tao-radio-banner-1920.webp",
+        "width": 1920
+      },
+      {
+        "src": "/tao-radio-banner.webp",
+        "width": 2688
+      }
+    ]
+  },
+  "/news/tao-radio/first-guest.webp": {
+    "src": "/news/tao-radio/first-guest.webp",
+    "width": 1672,
+    "height": 941,
+    "variants": [
+      {
+        "src": "/news/tao-radio/first-guest-640.webp",
+        "width": 640
+      },
+      {
+        "src": "/news/tao-radio/first-guest-1280.webp",
+        "width": 1280
+      },
+      {
+        "src": "/news/tao-radio/first-guest.webp",
+        "width": 1672
+      }
+    ]
   }
 }

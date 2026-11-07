@@ -45,7 +45,7 @@ const jsonLd = {
   ogType="article"
   jsonLd={jsonLd}
 >
-  <article class:list={['pt-24', 'pb-16', 'px-5', 'md:px-8', 'min-h-screen', { 'ai-music-voices-page': post.slug === 'ai-music-voices' }]}>
+  <article class:list={['pt-24', 'pb-16', 'px-5', 'md:px-8', 'min-h-screen', { 'ai-music-voices-page': post.slug === 'ai-music-voices', 'tao-radio-page': post.slug === 'tao-radio' }]}>
     <div class="max-w-2xl mx-auto">
 
       <div class="py-12 mb-8">
@@ -67,7 +67,7 @@ const jsonLd = {
         )
       )}
 
-      <div class:list={['news-content text-text-muted text-[15px] font-light leading-[2]', post.slug === 'year-end-2026-appearances' ? 'whitespace-normal' : 'whitespace-pre-line']}>
+      <div class:list={['news-content text-text-muted text-[15px] font-light leading-[2]', ['year-end-2026-appearances', 'tao-radio'].includes(post.slug) ? 'whitespace-normal' : 'whitespace-pre-line']}>
         <Content />
       </div>
 
@@ -192,4 +192,25 @@ const jsonLd = {
     background: #111;
     color: #fff;
   }
+
+  .tao-radio-page { background: #fff4e8; color: #18130f; font-family: 'Sawarabi Gothic', sans-serif; }
+  .tao-radio-page :global(*) { font-family: 'Sawarabi Gothic', sans-serif; }
+  .tao-radio-page :global(h1) { color: #18130f; }
+  .tao-radio-page > .max-w-2xl > div:first-child :global(p),
+  .tao-radio-page > .max-w-2xl > div:last-child :global(a) { color: #615248; }
+  .tao-radio-page .news-content { padding: 1.5rem; background: #fffdf9; color: #18130f; border-top: 5px solid #ed0054; }
+  .tao-radio-page .news-content :global(a),
+  .tao-radio-page .news-content :global(h2),
+  .tao-radio-page .news-content :global(h3) { color: #18130f; }
+  .tao-radio-page .news-content > :global(h2) { font-weight: 700; border-color: #ed0054; letter-spacing: 0.04em; }
+  .tao-radio-page .news-content :global(.border-accent-line) { border-color: #c5b5a7; }
+  .tao-radio-page .news-content :global(a.radio-watch-link) { background: #18130f; color: #fffdf9; }
+  .tao-radio-page .news-content :global(a.radio-watch-link) { display: block; padding: 0.85rem 1rem; text-align: center; text-decoration: none; font-size: 0.9rem; font-weight: 700; line-height: 1.7; }
+  .tao-radio-page .news-content :global(a.radio-watch-link:hover) { background: #393029; }
+  .tao-radio-page .news-content :global(.radio-note) { margin-top: 0.75rem; font-size: 0.8rem; color: #615248; }
+  .tao-radio-page .news-content :global(hr.performer-divider) { width: 50%; margin: 2rem auto; background: #c5b5a7; }
+  .tao-radio-page .news-content :global(:focus-visible) { outline: 2px solid #b60040; outline-offset: 4px; }
+  .tao-radio-page > .max-w-2xl > div:last-child { border-color: #c5b5a7; }
+  @media (min-width: 768px) { .tao-radio-page .news-content { padding: 2rem; } }
+  @media (max-width: 420px) { .tao-radio-page .news-content { padding: 1.125rem; } }
 </style>
