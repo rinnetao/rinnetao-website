@@ -606,5 +606,24 @@
         "width": 1672
       }
     ]
+  },
+  "/news/tao-radio/821r-broadcast.webp": {
+    "src": "/news/tao-radio/821r-broadcast.webp",
+    "width": 1672,
+    "height": 941,
+    "variants": [
+      {
+        "src": "/news/tao-radio/821r-broadcast-640.webp",
+        "width": 640
+      },
+      {
+        "src": "/news/tao-radio/821r-broadcast-1280.webp",
+        "width": 1280
+      },
+      {
+        "src": "/news/tao-radio/821r-broadcast.webp",
+        "width": 1672
+      }
+    ]
   }
 }
